@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OUHSD Communications &amp; Marketing Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:ital,wght@0,400;0,500;0,600;1,600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* ---- Material color roles, mapped from OUHSD brand ---- */
+    --md-primary:#E20031;            --md-on-primary:#ffffff;
+    --md-primary-container:#FCE0E6;  --md-on-primary-container:#88001D;
+    --md-secondary:#0033A1;          --md-on-secondary:#ffffff;
+    --md-secondary-container:#E0E7F4;--md-on-secondary-container:#001F61;
+    --md-surface:#ffffff;            --md-on-surface:#1b2430;
+    --md-surface-variant:#F4F4F5;    --md-on-surface-variant:#5b6472;
+    --md-background:#FAFAFA;
+    --md-outline:#C7C9CE;
+    --md-outline-variant:#E2E6EC;
+
+    /* Shape — sharper, still rounded */
+    --shape-xs:3px; --shape-sm:5px; --shape-md:7px; --shape-lg:9px; --shape-xl:12px;
+    --shape-btn:7px; --shape-chip:6px;
+
+    /* Elevation */
+    --el-1:0 1px 2px rgba(0,0,0,.30), 0 1px 3px 1px rgba(0,0,0,.15);
+    --el-2:0 1px 2px rgba(0,0,0,.30), 0 2px 6px 2px rgba(0,0,0,.15);
+
+    --red:var(--md-primary); --blue:var(--md-secondary);
+    --ink:var(--md-on-surface); --muted:var(--md-on-surface-variant);
+    --paper:var(--md-surface); --paper-alt:var(--md-background);
+    --line:var(--md-outline-variant); --radius:var(--shape-lg);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:'Open Sans',sans-serif;color:var(--ink);background:var(--paper);line-height:1.6;}
+  h1,h2,h3{font-family:'Montserrat',sans-serif;font-weight:700;margin:0 0 .4em 0;letter-spacing:-0.01em;}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 28px;}
+
+  header.hero{background:linear-gradient(120deg, var(--red) 0%, #7a1361 45%, var(--blue) 100%);color:#fff;padding:64px 0 48px;}
+  .hero .eyebrow{font-family:'Montserrat';font-weight:700;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;opacity:.85;margin-bottom:12px;}
+  .hero h1{font-size:36px;color:#fff;margin-bottom:8px;max-width:760px;}
+  .hero p{font-size:15.5px;max-width:640px;opacity:.92;margin:0;}
+
+  main{padding:0 0 90px;}
+  section{padding:48px 0;}
+  section.mission{padding-bottom:8px;}
+  .section-kicker{
+    font-family:'Montserrat';font-weight:700;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--red);margin-bottom:10px;
+  }
+  section h2{font-size:24px;max-width:640px;}
+  section > p.lead{font-size:14.5px;color:var(--muted);max-width:680px;margin:0 0 8px 0;}
+  .mission p{font-size:15px;max-width:760px;margin:0 0 16px 0;}
+  .mission p:last-child{margin-bottom:0;}
+  .mission p strong{color:var(--ink);}
+
+  /* ---------- Coverage grid ---------- */
+  .cov-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:28px;}
+  @media(max-width:900px){.cov-grid{grid-template-columns:1fr 1fr;}}
+  @media(max-width:620px){.cov-grid{grid-template-columns:1fr;}}
+  .cov-card{
+    border:1px solid var(--line);border-radius:var(--radius);background:#fff;padding:22px;
+    box-shadow:var(--el-1);
+  }
+  .cov-card .status{
+    display:inline-flex;align-items:center;gap:5px;font-family:'Montserrat';font-weight:700;font-size:10.5px;
+    letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:var(--shape-chip);margin-bottom:14px;
+  }
+  .cov-card .status.live{background:#e7f6ee;color:#1a8a4c;}
+  .cov-card .status.soon{background:var(--md-surface-variant);color:var(--muted);}
+  .cov-card h3{font-size:15.5px;margin-bottom:6px;}
+  .cov-card p{font-size:13px;color:var(--muted);margin:0;}
+
+  /* ---------- Jump-in cards ---------- */
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:28px;}
+  @media(max-width:700px){.grid{grid-template-columns:1fr;}}
+  .card{
+    position:relative;overflow:hidden;border:1px solid var(--line);border-radius:var(--radius);background:#fff;padding:30px;
+    text-decoration:none;color:var(--ink);display:block;box-shadow:var(--el-1);transition:box-shadow .15s ease, transform .15s ease;
+  }
+  .card:hover{box-shadow:var(--el-2);transform:translateY(-2px);}
+  .card::after{content:'';position:absolute;inset:0;background:currentColor;opacity:0;transition:opacity .12s ease;pointer-events:none;}
+  .card:hover::after{opacity:.04;}
+  .card .tag{
+    display:inline-block;font-family:'Montserrat';font-weight:700;font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+    padding:5px 11px;border-radius:var(--shape-chip);margin-bottom:16px;
+  }
+  .card.a .tag{background:var(--md-primary-container);color:var(--md-on-primary-container);}
+  .card.b .tag{background:var(--md-secondary-container);color:var(--md-on-secondary-container);}
+  .card h3{font-size:20px;margin-bottom:8px;}
+  .card p{font-size:14px;color:var(--muted);margin:0 0 18px 0;}
+  .card .go{font-family:'Montserrat';font-weight:700;font-size:13.5px;color:var(--ink);}
+  .card.a .go{color:var(--red);}
+  .card.b .go{color:var(--blue);}
+
+  /* ---------- Support band ---------- */
+  .support-band{
+    border:1px solid var(--line);border-radius:var(--radius);background:var(--paper-alt);padding:30px 32px;margin-top:28px;
+  }
+  .support-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;}
+  @media(max-width:920px){.support-grid{grid-template-columns:1fr 1fr;}}
+  @media(max-width:560px){.support-grid{grid-template-columns:1fr;}}
+  .support-item{font-size:13px;color:var(--ink);line-height:1.55;}
+  .support-item strong{display:block;font-family:'Montserrat';font-weight:700;font-size:13.5px;color:var(--blue);margin-bottom:4px;}
+
+  footer{padding:30px 0;background:var(--paper-alt);border-top:1px solid var(--line);}
+  footer p{font-size:12.5px;color:var(--muted);margin:0;}
+  footer p + p{margin-top:4px;}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Oxnard Union High School District — Communications &amp; Marketing</div>
+    <h1>Communications &amp; Marketing Hub</h1>
+    <p>The district's central resource for staying on-brand and on-message — logos, colors, tools, and standards for anyone creating materials for OUHSD or a school site.</p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="mission">
+    <div class="section-kicker">Why this exists</div>
+    <h2>One place, instead of a dozen old files</h2>
+    <p>This hub exists so that anyone creating something public-facing for the district — a flyer, an email, a school site page, a social post — can find the current logo, the right colors, and the correct rules in one place, instead of reusing an old template, guessing, or waiting on a request to the communications team.</p>
+    <p>It's built specifically for the people doing this work at the site level: <strong>webmasters, social media reps, front office staff, and anyone else producing public-facing content</strong>. That includes school site web pages — this is where to pull the current logo files, colors, and content standards so every school builds from the same foundation instead of drifting from it.</p>
+    <p>This hub will grow over time. What's below reflects what's available today and what's coming next as more resources are built and rolled out.</p>
+  </section>
+
+  <section class="coverage">
+    <div class="section-kicker">What this hub covers</div>
+    <h2>Six areas, built out over time</h2>
+    <p class="lead">Some of these are ready to use today; others are actively being built. This list will keep expanding as new needs come up.</p>
+    <div class="cov-grid">
+      <div class="cov-card">
+        <span class="status live">Available</span>
+        <h3>Brand &amp; Visual Identity</h3>
+        <p>Logos, clear space, color palette, typography, the tagline, and how to keep AI tools from reinventing the logo.</p>
+      </div>
+      <div class="cov-card">
+        <span class="status live">Available</span>
+        <h3>Tools &amp; Generators</h3>
+        <p>Self-serve tools that do the formatting for you — starting with the email signature generator, with more planned.</p>
+      </div>
+      <div class="cov-card">
+        <span class="status soon">Coming soon</span>
+        <h3>School Site Branding</h3>
+        <p>Dedicated branding pages for each OUHSD school, consistent with the district identity above.</p>
+      </div>
+      <div class="cov-card">
+        <span class="status soon">Coming soon</span>
+        <h3>Website Content &amp; Structure</h3>
+        <p>Standards and how-tos for organizing, writing, and building consistent site pages across school sites.</p>
+      </div>
+      <div class="cov-card">
+        <span class="status soon">Coming soon</span>
+        <h3>Social Media Guidelines</h3>
+        <p>Voice, tone, posting standards, and ready-made templates for site-level social accounts.</p>
+      </div>
+      <div class="cov-card">
+        <span class="status soon">Coming soon</span>
+        <h3>Templates &amp; Downloads</h3>
+        <p>Flyers, letterhead, presentation decks, and other ready-to-use, pre-branded files.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="jump-in">
+    <div class="section-kicker">Start here</div>
+    <h2>Available now</h2>
+    <div class="grid">
+      <a class="card a" href="brand-guidelines.html">
+        <span class="tag">Guidelines</span>
+        <h3>Brand Guidelines</h3>
+        <p>Logo variations and usage, clear space, color palette, typography, the tagline, and how to prompt AI tools without breaking the logo.</p>
+        <span class="go">View the guidelines →</span>
+      </a>
+      <a class="card b" href="email-signature-generator.html">
+        <span class="tag">Tool</span>
+        <h3>Email Signature Generator</h3>
+        <p>Staff enter their name, title, and department, optionally add a photo, and copy a ready-to-paste Gmail signature.</p>
+        <span class="go">Open the generator →</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="support" style="padding-top:0;">
+    <div class="section-kicker">How this helps your site</div>
+    <h2>Built to support sites and staff directly</h2>
+    <div class="support-band">
+      <div class="support-grid">
+        <div class="support-item"><strong>Stay on-brand without guesswork</strong>Pull the right logo, color, and font every time instead of eyeballing it or reusing an old file.</div>
+        <div class="support-item"><strong>Save time</strong>Self-serve tools and templates mean routine requests don't have to wait on the communications team.</div>
+        <div class="support-item"><strong>One source of truth</strong>When something changes — a color, a department list, a rule — it updates here instead of living in scattered docs.</div>
+        <div class="support-item"><strong>Consistent site pages</strong>Shared content and structure standards mean every school's website reads as clearly OUHSD, no matter who's maintaining it.</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Oxnard Union High School District — Communications &amp; Marketing Hub.</p>
+    <p>Questions, requests, or something not covered here? Contact the district communications team.</p>
+  </div>
+</footer>
+
+</body>
+</html>
