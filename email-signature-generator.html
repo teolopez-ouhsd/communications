@@ -125,7 +125,7 @@
     border:1px solid var(--line);border-radius:var(--radius);background:var(--paper-alt);
     padding:22px 26px;margin-bottom:32px;
   }
-  .why-band h3{font-family:'Montserrat';font-weight:700;font-size:13.5px;color:var(--ink);margin:0 0 14px 0;}
+  .why-band h2{font-family:'Montserrat';font-weight:700;font-size:24px;color:var(--ink);margin:0 0 14px 0;letter-spacing:-0.01em;}
   .why-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
   @media(max-width:920px){.why-grid{grid-template-columns:repeat(2,1fr);}}
   @media(max-width:520px){.why-grid{grid-template-columns:1fr;}}
@@ -150,7 +150,7 @@
 <main class="wrap">
 
   <div class="why-band">
-    <h3>Why use this instead of a picture as your signature?</h3>
+    <h2>Why use this instead of a graphic image as your signature?</h2>
     <div class="why-grid">
       <div class="why-item"><strong>It's responsive</strong>Resizes cleanly on any screen — a signature image just gets awkwardly scaled or clipped.</div>
       <div class="why-item"><strong>Info is copyable</strong>Your name, phone, and email are real text, so people can select and copy them — not possible from a flat image.</div>
@@ -351,13 +351,19 @@ function buildSignatureHTML(){
       ${title ? `<p style="margin:0;padding:0;font-family:Arial,sans-serif;font-size:13px;color:#000000;line-height:1.5;">${title}</p>` : ''}
       ${deptLine ? `<p style="margin:0;padding:0;font-family:Arial,sans-serif;font-size:13px;color:#000000;line-height:1.5;">${deptLine}</p>` : ''}`;
 
-  const followBlock = `
-      <p style="margin:8px 0 0 0;padding:0;font-family:Arial,sans-serif;font-size:13px;line-height:1.5;">
-        <strong style="font-family:Arial,sans-serif;">Follow Us:</strong>&nbsp;
+  const followRow = `
+  <tr>
+    <td style="padding:8px 5px 0 0;vertical-align:top;width:80px;text-align:center;">
+      <p style="margin:0;padding:0;font-family:Arial,sans-serif;font-size:13px;color:#000000;line-height:1.5;">Follow Us:</p>
+    </td>
+    <td style="padding:8px 0 0 0;vertical-align:top;">
+      <p style="margin:0;padding:0;font-family:Arial,sans-serif;font-size:13px;line-height:1.5;">
         <a href="https://www.instagram.com/oxnardunion/" style="color:#1155cc;text-decoration:underline;">Instagram</a>&nbsp;&nbsp;
         <a href="https://facebook.com/oxnardunion" style="color:#1155cc;text-decoration:underline;">Facebook</a>&nbsp;&nbsp;
         <a href="https://youtube.com/oxnardunion" style="color:#1155cc;text-decoration:underline;">YouTube</a>
-      </p>`;
+      </p>
+    </td>
+  </tr>`;
 
   if(photoDataUrl){
     // Photo uploaded: original 3-row layout (photo over logo, both in the left column).
@@ -397,6 +403,7 @@ function buildSignatureHTML(){
   </tr>
 </table>`;
   }
+  // (No-photo layout below now uses followRow to keep "Follow Us:" under the logo column too.)
 
   // No photo: logo moves up so its top aligns with the top of the name.
   return `
@@ -412,9 +419,9 @@ function buildSignatureHTML(){
       ${emailLine}
       <p style="margin:0;padding:0;font-family:Arial,sans-serif;font-size:13px;line-height:1.5;"><a href="https://www.oxnardunion.org" style="color:#1155cc;text-decoration:underline;">www.oxnardunion.org</a></p>
       <p style="margin:0;padding:0;font-family:Arial,sans-serif;font-size:13px;color:#000000;line-height:1.5;">1800 Solar Dr. Oxnard, CA 93030</p>
-      ${followBlock}
     </td>
   </tr>
+  ${followRow}
 </table>`;
 }
 

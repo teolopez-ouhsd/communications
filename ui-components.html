@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OUHSD — UI Components &amp; Style Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:ital,wght@0,400;0,500;0,600;1,600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* ---- OUHSD brand tones mapped to Material color roles ---- */
+    --md-primary:#E20031;            --md-on-primary:#ffffff;
+    --md-primary-container:#FCE0E6;  --md-on-primary-container:#88001D;
+    --md-secondary:#0033A1;          --md-on-secondary:#ffffff;
+    --md-secondary-container:#E0E7F4;--md-on-secondary-container:#001F61;
+    --md-surface:#ffffff;            --md-on-surface:#1b2430;
+    --md-surface-variant:#F4F4F5;    --md-on-surface-variant:#5b6472;
+    --md-background:#FAFAFA;
+    --md-outline:#C7C9CE;
+    --md-outline-variant:#E2E6EC;
+
+    /* Material shape scale — sharper, still rounded */
+    --shape-xs:3px; --shape-sm:5px; --shape-md:7px; --shape-lg:9px; --shape-xl:12px; --shape-full:999px;
+    --shape-btn:7px; --shape-chip:6px;
+
+    /* Material elevation (approximate M3 shadow tiers) */
+    --el-1:0 1px 2px rgba(0,0,0,.30), 0 1px 3px 1px rgba(0,0,0,.15);
+    --el-2:0 1px 2px rgba(0,0,0,.30), 0 2px 6px 2px rgba(0,0,0,.15);
+    --el-3:0 1px 3px rgba(0,0,0,.30), 0 4px 8px 3px rgba(0,0,0,.15);
+    --el-4:0 2px 3px rgba(0,0,0,.30), 0 6px 10px 4px rgba(0,0,0,.15);
+    --el-5:0 4px 4px rgba(0,0,0,.30), 0 8px 12px 6px rgba(0,0,0,.15);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:'Open Sans',sans-serif;color:var(--md-on-surface);background:var(--md-background);line-height:1.55;}
+  h1,h2,h3,h4,h5,h6{font-family:'Montserrat',sans-serif;font-weight:700;margin:0;letter-spacing:-0.01em;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 28px;}
+  a{color:inherit;}
+  code{font-family:monospace;background:var(--md-surface-variant);padding:1px 5px;border-radius:var(--shape-xs);font-size:.92em;}
+
+  /* ---------- Top app bar ---------- */
+  .appbar{
+    position:sticky;top:0;z-index:20;background:var(--md-surface);box-shadow:var(--el-1);
+  }
+  .appbar-inner{
+    max-width:1080px;margin:0 auto;padding:0 28px;height:64px;display:flex;align-items:center;gap:14px;
+  }
+  .appbar-mark{width:30px;height:30px;border-radius:var(--shape-sm);background:var(--md-primary);display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Montserrat';font-weight:800;font-size:14px;flex-shrink:0;}
+  .appbar-title{font-family:'Montserrat';font-weight:700;font-size:17px;}
+  .appbar-sub{font-size:12px;color:var(--md-on-surface-variant);margin-left:auto;font-family:'Montserrat';font-weight:600;letter-spacing:.04em;text-transform:uppercase;}
+
+  /* ---------- Jump-to subnav ---------- */
+  .subnav{position:sticky;top:64px;z-index:19;background:rgba(250,250,250,.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--md-outline-variant);}
+  .subnav-inner{
+    max-width:1080px;margin:0 auto;padding:10px 28px;display:flex;gap:6px;overflow-x:auto;
+    scrollbar-width:none;
+  }
+  .subnav-inner::-webkit-scrollbar{display:none;}
+  .subnav a{
+    flex-shrink:0;font-family:'Montserrat';font-weight:600;font-size:12px;color:var(--md-on-surface-variant);
+    padding:6px 12px;border-radius:var(--shape-full);text-decoration:none;white-space:nowrap;transition:background .12s ease,color .12s ease;
+  }
+  .subnav a:hover{background:var(--md-surface-variant);color:var(--md-on-surface);}
+  .subnav .grp{flex-shrink:0;width:1px;background:var(--md-outline-variant);margin:4px 6px;}
+
+  /* ---------- Hero ---------- */
+  .hero{padding:56px 0 8px;}
+  .hero .eyebrow{font-family:'Montserrat';font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--md-primary);margin-bottom:12px;}
+  .hero h1{font-size:32px;margin-bottom:14px;max-width:760px;}
+  .hero p{font-size:15px;max-width:680px;color:var(--md-on-surface-variant);margin:0;}
+
+  main{padding:8px 0 90px;}
+  section{padding:46px 0;border-top:1px solid var(--md-outline-variant);scroll-margin-top:120px;}
+  section:first-of-type{border-top:none;}
+  .section-kicker{font-family:'Montserrat';font-weight:700;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--md-on-surface-variant);margin-bottom:8px;}
+  section h2{font-size:22px;margin-bottom:8px;}
+  section > p.desc{font-size:14px;color:var(--md-on-surface-variant);max-width:680px;margin:0 0 28px 0;}
+
+  /* ---------- Color roles ---------- */
+  .role-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;}
+  .role-card{border-radius:var(--shape-md);overflow:hidden;border:1px solid var(--md-outline-variant);}
+  .role-swatch{height:76px;display:flex;align-items:flex-end;padding:10px 12px;}
+  .role-swatch span{font-family:'Montserrat';font-weight:700;font-size:11px;}
+  .role-meta{background:var(--md-surface);padding:10px 12px;}
+  .role-meta .name{font-family:'Montserrat';font-weight:700;font-size:12.5px;}
+  .role-meta .hex{font-size:11.5px;color:var(--md-on-surface-variant);font-family:monospace;}
+
+  /* ---------- Typography scale ---------- */
+  .type-row{display:flex;align-items:baseline;gap:22px;padding:14px 0;border-bottom:1px solid var(--md-outline-variant);}
+  .type-row:last-child{border-bottom:none;}
+  .type-label{width:150px;flex-shrink:0;font-family:'Montserrat';font-weight:700;font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--md-on-surface-variant);}
+  .type-sample-display{font-family:'Montserrat';font-weight:800;font-size:40px;letter-spacing:-0.01em;}
+  .type-sample-headline{font-family:'Montserrat';font-weight:700;font-size:28px;}
+  .type-sample-title{font-family:'Montserrat';font-weight:700;font-size:19px;}
+  .type-sample-body{font-family:'Open Sans';font-weight:400;font-size:15px;}
+  .type-sample-label{font-family:'Open Sans';font-weight:600;font-size:12.5px;letter-spacing:.02em;text-transform:uppercase;}
+
+  /* ---------- Headings (real h1–h6, semantic sizes) ---------- */
+  .heading-row{display:flex;align-items:baseline;gap:22px;padding:16px 0;border-bottom:1px solid var(--md-outline-variant);}
+  .heading-row:last-child{border-bottom:none;}
+  .h-tag{
+    width:44px;flex-shrink:0;font-family:monospace;font-weight:700;font-size:11px;color:var(--md-on-surface-variant);
+    background:var(--md-surface-variant);border-radius:var(--shape-xs);padding:3px 0;text-align:center;
+  }
+  .h-sample{margin:0;}
+  h1.h-sample{font-size:36px;}
+  h2.h-sample{font-size:28px;}
+  h3.h-sample{font-size:22px;}
+  h4.h-sample{font-size:18px;}
+  h5.h-sample{font-size:15px;}
+  h6.h-sample{font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--md-on-surface-variant);}
+
+  /* ---------- Lists ---------- */
+  .list-row{display:grid;grid-template-columns:1fr 1fr;gap:32px;}
+  @media(max-width:700px){.list-row{grid-template-columns:1fr;}}
+  .list-block h4{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--md-on-surface-variant);margin-bottom:14px;}
+  .m-ul,.m-ol{margin:0;padding-left:22px;font-size:14.5px;line-height:1.7;}
+  .m-ul li,.m-ol li{padding-left:4px;margin-bottom:8px;}
+  .m-ul li::marker{color:var(--md-primary);font-size:1.1em;}
+  .m-ol li::marker{color:var(--md-secondary);font-weight:700;font-family:'Montserrat';}
+  .m-ul .m-ul, .m-ol .m-ol{margin-top:8px;}
+  .m-ul .m-ul li::marker{color:var(--md-on-surface-variant);font-size:1em;}
+
+  /* ---------- Tables ---------- */
+  .table-wrap{border:1px solid var(--md-outline-variant);border-radius:var(--shape-md);overflow:hidden;box-shadow:var(--el-1);}
+  table.m-table{width:100%;border-collapse:collapse;font-size:13.5px;}
+  table.m-table thead th{
+    background:var(--md-primary);color:#fff;text-align:left;font-family:'Montserrat';font-weight:700;
+    font-size:12px;letter-spacing:.04em;text-transform:uppercase;padding:12px 16px;
+  }
+  table.m-table tbody td{padding:12px 16px;border-top:1px solid var(--md-outline-variant);color:var(--md-on-surface);}
+  table.m-table tbody tr:nth-child(even){background:var(--md-surface-variant);}
+  table.m-table tbody tr:hover{background:var(--md-secondary-container);}
+  table.m-table td.muted{color:var(--md-on-surface-variant);font-family:monospace;font-size:12.5px;}
+
+  /* ---------- Quotes ---------- */
+  .blockquote{
+    border-left:4px solid var(--md-secondary);background:var(--md-surface-variant);border-radius:0 var(--shape-md) var(--shape-md) 0;
+    padding:18px 22px;font-size:15.5px;font-style:italic;color:var(--md-on-surface);margin:0 0 26px 0;
+  }
+  .blockquote .bq-cite{display:block;margin-top:10px;font-family:'Montserrat';font-style:normal;font-weight:700;font-size:12.5px;color:var(--md-on-surface-variant);}
+  .blockquote .bq-cite::before{content:"— ";}
+  .pull-quote{
+    position:relative;max-width:640px;margin:0 auto;padding:8px 20px 4px;text-align:center;
+  }
+  .pull-quote .mark{font-family:'Montserrat';font-weight:800;font-size:52px;line-height:1;color:var(--md-primary-container);display:block;margin-bottom:-14px;}
+  .pull-quote p{font-family:'Montserrat';font-weight:700;font-size:26px;line-height:1.3;color:var(--md-on-surface);margin:0;letter-spacing:-0.01em;}
+  .pull-quote cite{display:block;font-style:normal;font-family:'Open Sans';font-weight:600;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--md-on-surface-variant);margin-top:16px;}
+
+  /* ---------- Elevation ---------- */
+  .elev-row{display:flex;gap:22px;flex-wrap:wrap;}
+  .elev-tile{
+    width:150px;height:110px;border-radius:var(--shape-md);background:var(--md-surface);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+    font-family:'Montserrat';font-weight:700;font-size:12.5px;color:var(--md-on-surface-variant);
+  }
+  .elev-tile span{color:var(--md-on-surface);font-size:15px;}
+  .elev-0{box-shadow:none;border:1px solid var(--md-outline-variant);}
+  .elev-1{box-shadow:var(--el-1);}
+  .elev-2{box-shadow:var(--el-2);}
+  .elev-3{box-shadow:var(--el-3);}
+  .elev-4{box-shadow:var(--el-4);}
+
+  /* ---------- Buttons ---------- */
+  .btn-row{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+  .m-btn{
+    position:relative;overflow:hidden;border:none;cursor:pointer;font-family:'Montserrat';font-weight:600;font-size:14px;
+    padding:10px 24px;border-radius:var(--shape-btn);display:inline-flex;align-items:center;gap:8px;
+    transition:box-shadow .15s ease;
+  }
+  .m-btn:focus-visible{outline:2px solid var(--md-secondary);outline-offset:2px;}
+  .m-btn .state-layer{position:absolute;inset:0;background:currentColor;opacity:0;transition:opacity .12s ease;}
+  .m-btn:hover .state-layer{opacity:.08;}
+  .m-btn:active .state-layer{opacity:.12;}
+  .m-filled{background:var(--md-primary);color:var(--md-on-primary);}
+  .m-filled:hover{box-shadow:var(--el-1);}
+  .m-tonal{background:var(--md-secondary-container);color:var(--md-on-secondary-container);}
+  .m-outlined{background:transparent;color:var(--md-primary);border:1px solid var(--md-outline);}
+  .m-text{background:transparent;color:var(--md-primary);padding:10px 14px;}
+  .cta-link-btn{margin-left:-14px;transition:margin-left .28s cubic-bezier(.2,.8,.2,1);}
+  .cta-link-btn:hover, .cta-link-btn:focus-visible{margin-left:0;}
+  .m-fab{
+    width:56px;height:56px;padding:0;border-radius:var(--shape-lg);background:var(--md-primary-container);
+    color:var(--md-on-primary-container);box-shadow:var(--el-3);font-size:22px;justify-content:center;
+  }
+  .ripple{position:absolute;border-radius:50%;background:currentColor;opacity:.35;transform:scale(0);animation:ripple .55s ease-out;pointer-events:none;}
+  @keyframes ripple{to{transform:scale(2.6);opacity:0;}}
+
+  /* ---------- Text fields ---------- */
+  .field-row{display:flex;gap:20px;flex-wrap:wrap;}
+  .m-field{position:relative;width:260px;}
+  .m-field input, .m-field select{
+    width:100%;font-family:'Open Sans';font-size:15px;padding:20px 14px 8px;border-radius:var(--shape-xs) var(--shape-xs) 0 0;
+    border:none;border-bottom:1px solid var(--md-outline);background:var(--md-surface-variant);color:var(--md-on-surface);outline:none;
+    appearance:none;
+  }
+  .m-field input:focus, .m-field select:focus{border-bottom:2px solid var(--md-primary);padding-bottom:7px;}
+  .m-field label{
+    position:absolute;left:14px;top:14px;font-size:15px;color:var(--md-on-surface-variant);
+    transition:all .12s ease;pointer-events:none;font-family:'Open Sans';
+  }
+  .m-field input:focus + label, .m-field input:not(:placeholder-shown) + label,
+  .m-field select:focus ~ label, .m-field.filled select ~ label{
+    top:7px;font-size:11px;font-weight:600;color:var(--md-primary);
+  }
+  .m-field.outlined input{
+    background:transparent;border:1px solid var(--md-outline);border-radius:var(--shape-xs);padding:16px 14px;
+  }
+  .m-field.outlined input:focus{border:2px solid var(--md-primary);padding:15px 13px;}
+  .m-field.outlined label{background:var(--md-background);padding:0 4px;}
+
+  /* ---------- Cards ---------- */
+  .m-card-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;}
+  .m-card{
+    background:var(--md-surface);border-radius:var(--shape-lg);padding:22px;border:1px solid var(--md-outline-variant);
+    transition:box-shadow .15s ease, transform .15s ease;cursor:pointer;position:relative;overflow:hidden;
+  }
+  .m-card:hover{box-shadow:var(--el-2);transform:translateY(-2px);}
+  .m-card .tag{
+    display:inline-flex;align-items:center;font-family:'Montserrat';font-weight:700;font-size:11px;letter-spacing:.04em;
+    text-transform:uppercase;padding:4px 10px;border-radius:var(--shape-chip);margin-bottom:14px;
+  }
+  .m-card.a .tag{background:var(--md-primary-container);color:var(--md-on-primary-container);}
+  .m-card.b .tag{background:var(--md-secondary-container);color:var(--md-on-secondary-container);}
+  .m-card h3{font-size:17px;margin-bottom:6px;}
+  .m-card p{font-size:13.5px;color:var(--md-on-surface-variant);margin:0;}
+
+  /* Filled cards — solid brand color, for the one thing that should stand out on a page */
+  .m-card.primary,.m-card.secondary{border-color:transparent;color:#fff;}
+  .m-card.primary{background:var(--md-primary);}
+  .m-card.secondary{background:var(--md-secondary);}
+  .m-card.primary .tag,.m-card.secondary .tag{background:rgba(255,255,255,.22);color:#fff;}
+  .m-card.primary h3,.m-card.secondary h3{color:#fff;}
+  .m-card.primary p,.m-card.secondary p{color:rgba(255,255,255,.88);}
+
+  /* ---------- Chips ---------- */
+  .chip-row{display:flex;gap:10px;flex-wrap:wrap;}
+  .m-chip{
+    position:relative;overflow:hidden;font-family:'Open Sans';font-weight:600;font-size:13px;padding:8px 16px;border-radius:var(--shape-chip);
+    border:1px solid var(--md-outline);background:var(--md-surface);color:var(--md-on-surface);cursor:pointer;
+    display:inline-flex;align-items:center;gap:6px;transition:background .12s ease;
+  }
+  .m-chip:hover{background:var(--md-surface-variant);}
+  .m-chip.selected{background:var(--md-secondary-container);color:var(--md-on-secondary-container);border-color:transparent;}
+
+  /* Filled chips — solid brand color, for a chip that needs to stand out (vs. the neutral filter chips above) */
+  .m-chip.primary,.m-chip.secondary{border-color:transparent;color:#fff;}
+  .m-chip.primary{background:var(--md-primary);}
+  .m-chip.primary:hover{background:#b8001f;}
+  .m-chip.secondary{background:var(--md-secondary);}
+  .m-chip.secondary:hover{background:#00277d;}
+
+  /* ---------- Tabs ---------- */
+  .m-tabs{display:flex;gap:4px;border-bottom:1px solid var(--md-outline-variant);}
+  .m-tab{
+    font-family:'Montserrat';font-weight:600;font-size:13.5px;padding:14px 20px;color:var(--md-on-surface-variant);
+    border-bottom:2.5px solid transparent;cursor:pointer;
+  }
+  .m-tab.active{color:var(--md-primary);border-bottom-color:var(--md-primary);}
+  .m-tab-panel{display:none;padding:22px 2px;font-size:14px;color:var(--md-on-surface-variant);}
+  .m-tab-panel.active{display:block;}
+  .m-tab-panel strong{font-family:'Montserrat';color:var(--md-on-surface);}
+
+  /* ---------- Accordion ---------- */
+  .m-accordion{border-top:1px solid var(--md-outline-variant);}
+  .m-accordion-item{border-bottom:1px solid var(--md-outline-variant);}
+  .m-accordion-head{
+    display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 4px;cursor:pointer;
+    font-family:'Montserrat';font-weight:700;font-size:14.5px;color:var(--md-on-surface);
+  }
+  .m-accordion-head .chevron{
+    flex-shrink:0;width:22px;height:22px;border-radius:var(--shape-xs);background:var(--md-surface-variant);
+    display:flex;align-items:center;justify-content:center;transition:transform .2s ease;color:var(--md-on-surface-variant);font-size:11px;
+  }
+  .m-accordion-item.open .chevron{transform:rotate(180deg);background:var(--md-secondary-container);color:var(--md-on-secondary-container);}
+  .m-accordion-body{max-height:0;overflow:hidden;transition:max-height .22s ease;}
+  .m-accordion-body-inner{padding:0 4px 20px;font-size:13.8px;color:var(--md-on-surface-variant);line-height:1.6;}
+
+  /* ---------- Call to action ---------- */
+  .cta-band{
+    background:var(--md-primary);color:#fff;border-radius:var(--shape-xl);padding:34px 38px;
+    display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:20px;
+  }
+  .cta-band h3{color:#fff;font-size:20px;margin-bottom:6px;}
+  .cta-band p{margin:0;font-size:13.8px;opacity:.92;max-width:440px;}
+  .cta-band .m-btn{background:#fff;color:var(--md-primary);flex-shrink:0;}
+  .cta-card-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;}
+  .cta-card{
+    border:1.5px solid var(--md-outline);border-radius:var(--shape-lg);padding:26px;
+    display:flex;flex-direction:column;align-items:flex-start;gap:10px;
+  }
+  .cta-card .icon{
+    width:40px;height:40px;border-radius:var(--shape-sm);background:var(--md-secondary-container);
+    color:var(--md-on-secondary-container);display:flex;align-items:center;justify-content:center;
+    font-family:'Montserrat';font-weight:800;font-size:16px;margin-bottom:4px;
+  }
+  .cta-card h3{font-size:16px;}
+  .cta-card p{font-size:13.5px;color:var(--md-on-surface-variant);margin:0 0 8px 0;}
+
+  .closing-note{
+    background:var(--md-secondary-container);color:var(--md-on-secondary-container);border-radius:var(--shape-lg);
+    padding:24px 28px;font-size:14px;
+  }
+  .closing-note strong{font-family:'Montserrat';}
+
+  footer{padding:30px 0;background:var(--md-surface);border-top:1px solid var(--md-outline-variant);}
+  footer p{font-size:12.5px;color:var(--md-on-surface-variant);margin:0;}
+</style>
+</head>
+<body>
+
+<div class="appbar">
+  <div class="appbar-inner">
+    <div class="appbar-mark">OU</div>
+    <div class="appbar-title">UI Components &amp; Style Guide</div>
+    <div class="appbar-sub">OUHSD Communications &amp; Marketing</div>
+  </div>
+</div>
+
+<nav class="subnav">
+  <div class="subnav-inner">
+    <a href="#color">Color</a>
+    <a href="#type">Type scale</a>
+    <a href="#headings">Headings</a>
+    <a href="#elevation">Elevation</a>
+    <div class="grp"></div>
+    <a href="#lists">Lists</a>
+    <a href="#tables">Tables</a>
+    <a href="#quotes">Quotes</a>
+    <div class="grp"></div>
+    <a href="#buttons">Buttons</a>
+    <a href="#fields">Text fields</a>
+    <a href="#cards">Cards &amp; chips</a>
+    <a href="#tabs">Tabs</a>
+    <a href="#accordion">Accordion</a>
+    <a href="#cta">Call to action</a>
+  </div>
+</nav>
+
+<header class="hero wrap">
+  <div class="eyebrow">Design System Reference</div>
+  <h1>The building blocks behind every OUHSD page</h1>
+  <p>Color roles, type scale, and every element a page actually uses — headings, lists, tables, quotes, buttons, fields, cards, chips, tabs, and accordions — styled as one consistent system so anything new built for the district looks like it belongs. Everything interactive below is real — click a button, focus a field, open an accordion.</p>
+</header>
+
+<main class="wrap">
+
+  <section id="color">
+    <div class="section-kicker">Foundation</div>
+    <h2>Color roles</h2>
+    <p class="desc">Material assigns every color a job — not just "red" and "blue," but Primary, Primary Container, and their "on" (text/icon) pairs — so contrast is correct everywhere automatically.</p>
+    <div class="role-grid">
+      <div class="role-card"><div class="role-swatch" style="background:var(--md-primary);"><span style="color:#fff;">Primary</span></div><div class="role-meta"><div class="name">Primary</div><div class="hex">#E20031</div></div></div>
+      <div class="role-card"><div class="role-swatch" style="background:var(--md-primary-container);"><span style="color:var(--md-on-primary-container);">Primary Container</span></div><div class="role-meta"><div class="name">Primary Container</div><div class="hex">#FCE0E6</div></div></div>
+      <div class="role-card"><div class="role-swatch" style="background:var(--md-secondary);"><span style="color:var(--md-on-secondary);">Secondary</span></div><div class="role-meta"><div class="name">Secondary</div><div class="hex">#0033A1</div></div></div>
+      <div class="role-card"><div class="role-swatch" style="background:var(--md-secondary-container);"><span style="color:var(--md-on-secondary-container);">Secondary Container</span></div><div class="role-meta"><div class="name">Secondary Container</div><div class="hex">#E0E7F4</div></div></div>
+      <div class="role-card"><div class="role-swatch" style="background:var(--md-surface-variant);"><span style="color:var(--md-on-surface-variant);">Surface Variant</span></div><div class="role-meta"><div class="name">Surface Variant</div><div class="hex">#F4F4F5</div></div></div>
+      <div class="role-card"><div class="role-swatch" style="background:var(--md-surface);border-bottom:1px solid var(--md-outline-variant);"><span style="color:var(--md-on-surface);">Surface</span></div><div class="role-meta"><div class="name">Surface</div><div class="hex">#FFFFFF</div></div></div>
+    </div>
+  </section>
+
+  <section id="type">
+    <div class="section-kicker">Foundation</div>
+    <h2>Type scale</h2>
+    <p class="desc">A fixed ladder of sizes instead of picking font-sizes ad hoc — Montserrat carries Display/Headline/Title, Open Sans carries Body/Label, same pairing as today's brand guide.</p>
+    <div class="type-row"><div class="type-label">Display</div><div class="type-sample-display">Oxnard Union</div></div>
+    <div class="type-row"><div class="type-label">Headline</div><div class="type-sample-headline">Email Signature Generator</div></div>
+    <div class="type-row"><div class="type-label">Title</div><div class="type-sample-title">Your info</div></div>
+    <div class="type-row"><div class="type-label">Body</div><div class="type-sample-body">Fill in your info, add your photo, and copy a ready-to-paste signature.</div></div>
+    <div class="type-row"><div class="type-label">Label</div><div class="type-sample-label">Full Name</div></div>
+  </section>
+
+  <section id="headings">
+    <div class="section-kicker">Foundation</div>
+    <h2>Headings</h2>
+    <p class="desc">The same type scale, applied to real <code>&lt;h1&gt;</code>–<code>&lt;h6&gt;</code> tags in page content — so a Word doc pasted into a CMS or a long guidelines page nests correctly instead of everything defaulting to the same size.</p>
+    <div class="heading-row"><div class="h-tag">H1</div><h1 class="h-sample">Communications &amp; Marketing Hub</h1></div>
+    <div class="heading-row"><div class="h-tag">H2</div><h2 class="h-sample">Six areas, built out over time</h2></div>
+    <div class="heading-row"><div class="h-tag">H3</div><h3 class="h-sample">Why use this instead of a graphic image?</h3></div>
+    <div class="heading-row"><div class="h-tag">H4</div><h4 class="h-sample">Add it to Gmail</h4></div>
+    <div class="heading-row"><div class="h-tag">H5</div><h5 class="h-sample">If the photo doesn't show up after pasting</h5></div>
+    <div class="heading-row"><div class="h-tag">H6</div><h6 class="h-sample">Last updated August 2026</h6></div>
+  </section>
+
+  <section id="elevation">
+    <div class="section-kicker">Foundation</div>
+    <h2>Elevation</h2>
+    <p class="desc">Instead of a flat 1px border everywhere, surfaces sit at different heights — cards lift on hover, dialogs sit above pages, FABs float above everything.</p>
+    <div class="elev-row">
+      <div class="elev-tile elev-0">Level 0<span>Flat</span></div>
+      <div class="elev-tile elev-1">Level 1<span>Card</span></div>
+      <div class="elev-tile elev-2">Level 2<span>Hover</span></div>
+      <div class="elev-tile elev-3">Level 3<span>Menu</span></div>
+      <div class="elev-tile elev-4">Level 4<span>Dialog</span></div>
+    </div>
+  </section>
+
+  <section id="lists">
+    <div class="section-kicker">Content</div>
+    <h2>Lists</h2>
+    <p class="desc">Native <code>&lt;ul&gt;</code>/<code>&lt;ol&gt;</code> markup, just with brand-colored markers instead of default black bullets and numbers — keeps them accessible and copy/paste-friendly.</p>
+    <div class="list-row">
+      <div class="list-block">
+        <h4>Unordered</h4>
+        <ul class="m-ul">
+          <li>Brand &amp; Visual Identity</li>
+          <li>Tools &amp; Generators</li>
+          <li>School Site Branding
+            <ul class="m-ul">
+              <li>Logo lockups per site</li>
+              <li>Approved site color accents</li>
+            </ul>
+          </li>
+          <li>Website Content &amp; Structure</li>
+        </ul>
+      </div>
+      <div class="list-block">
+        <h4>Ordered</h4>
+        <ol class="m-ol">
+          <li>Fill in your name, title, and department.</li>
+          <li>Upload a photo (optional) — it's cropped to a circle automatically.</li>
+          <li>Click <strong>Copy signature</strong>.</li>
+          <li>Paste it into Gmail's signature settings and save.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section id="tables">
+    <div class="section-kicker">Content</div>
+    <h2>Tables</h2>
+    <p class="desc">A filled header row, zebra striping, and a hover highlight — for anything tabular, like a department directory or a comparison chart.</p>
+    <div class="table-wrap">
+      <table class="m-table">
+        <thead>
+          <tr><th>Department</th><th>Division</th><th>Sample contact</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Human Resources</td><td>Human Resources</td><td class="muted">(805) 555-0114</td></tr>
+          <tr><td>Fiscal Services &amp; Payroll</td><td>Business Services</td><td class="muted">(805) 555-0128</td></tr>
+          <tr><td>Instructional Support Services</td><td>Educational Services</td><td class="muted">(805) 555-0142</td></tr>
+          <tr><td>Transportation</td><td>Business Services</td><td class="muted">(805) 555-0157</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="quotes">
+    <div class="section-kicker">Content</div>
+    <h2>Quotes &amp; pull quotes</h2>
+    <p class="desc">A standard blockquote for citing a source inline with body text, and a pull quote for lifting a line out to stand alone — the kind of treatment a newsletter or long-form page would use.</p>
+    <blockquote class="blockquote">
+      Consistency in our materials builds trust with every family we serve — a flyer, an email, and a school site should all feel like they came from the same district.
+      <span class="bq-cite">OUHSD Communications &amp; Marketing</span>
+    </blockquote>
+    <div class="pull-quote">
+      <span class="mark">"</span>
+      <p>One place, instead of a dozen old files.</p>
+      <cite>— From the Communications Hub mission statement</cite>
+    </div>
+  </section>
+
+  <section id="buttons">
+    <div class="section-kicker">Components</div>
+    <h2>Buttons</h2>
+    <p class="desc">Five weights for five levels of emphasis — click any of them, the ripple is real. Filled is the loudest action on a screen; text is the quietest.</p>
+    <div class="btn-row">
+      <button class="m-btn m-filled">Filled<span class="state-layer"></span></button>
+      <button class="m-btn m-tonal">Tonal<span class="state-layer"></span></button>
+      <button class="m-btn m-outlined">Outlined<span class="state-layer"></span></button>
+      <button class="m-btn m-text">Text button<span class="state-layer"></span></button>
+      <button class="m-btn m-fab" aria-label="Add">＋<span class="state-layer"></span></button>
+    </div>
+  </section>
+
+  <section id="fields">
+    <div class="section-kicker">Components</div>
+    <h2>Text fields</h2>
+    <p class="desc">Labels float up when a field is focused or filled, instead of disappearing like a plain placeholder — so people can always see what they're looking at.</p>
+    <div class="field-row">
+      <div class="m-field">
+        <input type="text" id="mfName" placeholder=" ">
+        <label for="mfName">Full name</label>
+      </div>
+      <div class="m-field outlined">
+        <input type="email" id="mfEmail" placeholder=" ">
+        <label for="mfEmail">Email</label>
+      </div>
+      <div class="m-field filled">
+        <select id="mfDept">
+          <option value="" selected>Select a department…</option>
+          <option>Learning Support Services</option>
+          <option>Fiscal Services &amp; Payroll</option>
+        </select>
+        <label for="mfDept">Department</label>
+      </div>
+    </div>
+  </section>
+
+  <section id="cards">
+    <div class="section-kicker">Components</div>
+    <h2>Cards &amp; chips</h2>
+    <p class="desc">Cards use container-tone tags instead of bare brand colors — softer, and it keeps the loud primary red reserved for real actions. Chips work well for filters, tags, or "Ask a question" style prompts. Below that, the filled versions in solid red and blue are the "stand out" option — reach for those only when something genuinely needs to win the most attention on a page.</p>
+    <div class="m-card-row" style="margin-bottom:20px;">
+      <div class="m-card a">
+        <span class="tag">Guidelines</span>
+        <h3>Brand Guidelines</h3>
+        <p>Logo usage, color, type, and the tagline — one reference for every district material.</p>
+      </div>
+      <div class="m-card b">
+        <span class="tag">Tool</span>
+        <h3>Email Signature Generator</h3>
+        <p>Build a ready-to-paste Gmail signature with your name, title, and photo.</p>
+      </div>
+    </div>
+    <div class="m-card-row" style="margin-bottom:26px;">
+      <div class="m-card primary">
+        <span class="tag">Featured</span>
+        <h3>Filled card — Primary</h3>
+        <p>Solid brand red, for the one action on a page that should get noticed first — a hero CTA or a featured item.</p>
+      </div>
+      <div class="m-card secondary">
+        <span class="tag">Alternate</span>
+        <h3>Filled card — Secondary</h3>
+        <p>Solid brand blue, for a second option that needs its own emphasis without competing with the primary one.</p>
+      </div>
+    </div>
+    <div class="chip-row">
+      <div class="m-chip selected">All</div>
+      <div class="m-chip">Business Services</div>
+      <div class="m-chip">Educational Services</div>
+      <div class="m-chip">Human Resources</div>
+      <div class="m-chip">Office of the Superintendent</div>
+      <div class="m-chip primary">Primary</div>
+      <div class="m-chip secondary">Secondary</div>
+    </div>
+  </section>
+
+  <section id="tabs">
+    <div class="section-kicker">Components</div>
+    <h2>Tabs</h2>
+    <p class="desc">A tab bar could replace the current top-nav links, or sit inside a page (e.g. switching between school sites once those pages exist). Click a tab — the panel below actually switches.</p>
+    <div class="m-tabs">
+      <div class="m-tab active" data-panel="tab-guidelines">Brand Guidelines</div>
+      <div class="m-tab" data-panel="tab-signature">Email Signature</div>
+      <div class="m-tab" data-panel="tab-sites">School Sites</div>
+    </div>
+    <div class="m-tab-panel active" id="tab-guidelines"><strong>Brand Guidelines</strong> — logos, clear space, color, type, tagline, and AI-prompting guidance in one reference.</div>
+    <div class="m-tab-panel" id="tab-signature"><strong>Email Signature Generator</strong> — staff build a ready-to-paste Gmail signature with name, title, department, and an optional photo.</div>
+    <div class="m-tab-panel" id="tab-sites"><strong>School Sites</strong> — placeholder for site-specific branding pages, coming next.</div>
+  </section>
+
+  <section id="accordion">
+    <div class="section-kicker">Components</div>
+    <h2>Accordion</h2>
+    <p class="desc">Good for FAQs or a long usage-rules list where most people only need one answer — collapsed by default so the page doesn't feel overwhelming. Click a question.</p>
+    <div class="m-accordion">
+      <div class="m-accordion-item open">
+        <div class="m-accordion-head"><span>Can I use the logo with the tagline on a flyer?</span><span class="chevron">▾</span></div>
+        <div class="m-accordion-body">
+          <div class="m-accordion-body-inner">Only if the piece is short-lived (an event, an award, a single campaign). The tagline changes over time with district goals, so anything meant to last — policy documents, signage, letterhead — should use the logo without it.</div>
+        </div>
+      </div>
+      <div class="m-accordion-item">
+        <div class="m-accordion-head"><span>What file do I use for a dark background?</span><span class="chevron">▾</span></div>
+        <div class="m-accordion-body">
+          <div class="m-accordion-body-inner">Use the reversed white logo file from the library, not the full-color version with a box behind it. Full color is built for light backgrounds only.</div>
+        </div>
+      </div>
+      <div class="m-accordion-item">
+        <div class="m-accordion-head"><span>Can I recolor the logo to match a flyer?</span><span class="chevron">▾</span></div>
+        <div class="m-accordion-body">
+          <div class="m-accordion-body-inner">No — only the approved full-color and all-white versions are ever used. Never apply a different brand's colors, a gradient, or a one-off hue.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="cta">
+    <div class="section-kicker">Components</div>
+    <h2>Call to action</h2>
+    <p class="desc">Two weights: a bold full-color band for the single most important action on a page, and quieter cards for a few actions side by side.</p>
+    <div class="cta-band">
+      <div>
+        <h3>Need a signature for your Gmail account?</h3>
+        <p>Build one in under a minute — your name, title, department, and photo, ready to paste.</p>
+      </div>
+      <a class="m-btn" href="email-signature-generator.html">Open the generator<span class="state-layer"></span></a>
+    </div>
+    <div class="cta-card-row">
+      <div class="cta-card">
+        <div class="icon">B</div>
+        <h3>Read the brand guide</h3>
+        <p>Logos, color, type, and tagline rules before you design anything new.</p>
+        <a class="m-btn m-text cta-link-btn" href="brand-guidelines.html">View guidelines →<span class="state-layer"></span></a>
+      </div>
+      <div class="cta-card">
+        <div class="icon">?</div>
+        <h3>Ask a branding question</h3>
+        <p>Type a real scenario — parent emails, signage, vehicles — and get matched guidance.</p>
+        <a class="m-btn m-text cta-link-btn" href="brand-guidelines.html#ask">Ask now →<span class="state-layer"></span></a>
+      </div>
+    </div>
+  </section>
+
+  <section id="note" style="border-top:none;padding-top:0;">
+    <div class="closing-note">
+      <strong>Building something new for OUHSD?</strong> Start from these components instead of one-off styling — the brand guidelines page, the email signature generator, and this hub's landing page are all built on the same color roles, type scale, and button/field/card/chip patterns shown above.
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap"><p>Oxnard Union High School District — UI Components &amp; Style Guide.</p></div>
+</footer>
+
+<script>
+  document.querySelectorAll('.m-btn, .m-card, .m-chip').forEach(el=>{
+    el.addEventListener('click', function(e){
+      const rect = this.getBoundingClientRect();
+      const ripple = document.createElement('span');
+      const size = Math.max(rect.width, rect.height);
+      ripple.className = 'ripple';
+      ripple.style.width = ripple.style.height = size + 'px';
+      ripple.style.left = (e.clientX - rect.left - size/2) + 'px';
+      ripple.style.top = (e.clientY - rect.top - size/2) + 'px';
+      this.style.position = this.style.position || 'relative';
+      this.appendChild(ripple);
+      setTimeout(()=>ripple.remove(), 600);
+    });
+  });
+  document.querySelectorAll('.m-chip').forEach(chip=>{
+    chip.addEventListener('click', function(){
+      document.querySelectorAll('.m-chip').forEach(c=>c.classList.remove('selected'));
+      this.classList.add('selected');
+    });
+  });
+  document.querySelectorAll('.m-tab').forEach(tab=>{
+    tab.addEventListener('click', function(){
+      const scope = this.closest('.m-tabs').parentElement;
+      scope.querySelectorAll('.m-tab').forEach(t=>t.classList.remove('active'));
+      this.classList.add('active');
+      const target = this.getAttribute('data-panel');
+      if(target){
+        scope.querySelectorAll('.m-tab-panel').forEach(p=>p.classList.remove('active'));
+        const panel = scope.querySelector('#' + target);
+        if(panel) panel.classList.add('active');
+      }
+    });
+  });
+
+  // ---- Accordion ----
+  function setAccordionHeight(item, open){
+    const body = item.querySelector('.m-accordion-body');
+    if(open){
+      item.classList.add('open');
+      body.style.maxHeight = body.scrollHeight + 'px';
+    }else{
+      item.classList.remove('open');
+      body.style.maxHeight = '0px';
+    }
+  }
+  document.querySelectorAll('.m-accordion-item').forEach(item=>{
+    setAccordionHeight(item, item.classList.contains('open'));
+    item.querySelector('.m-accordion-head').addEventListener('click', ()=>{
+      const willOpen = !item.classList.contains('open');
+      setAccordionHeight(item, willOpen);
+    });
+  });
+  window.addEventListener('resize', ()=>{
+    document.querySelectorAll('.m-accordion-item.open').forEach(item=> setAccordionHeight(item, true));
+  });
+</script>
+</body>
+</html>
