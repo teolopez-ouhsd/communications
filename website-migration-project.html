@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OUHSD — Website Redesign &amp; Migration Project</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:ital,wght@0,400;0,500;0,600;1,600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --md-primary:#E20031;            --md-on-primary:#ffffff;
+    --md-primary-container:#FCE0E6;  --md-on-primary-container:#88001D;
+    --md-secondary:#0033A1;          --md-on-secondary:#ffffff;
+    --md-secondary-container:#E0E7F4;--md-on-secondary-container:#001F61;
+    --md-surface:#ffffff;            --md-on-surface:#1b2430;
+    --md-surface-variant:#F4F4F5;    --md-on-surface-variant:#5b6472;
+    --md-background:#FAFAFA;
+    --md-outline:#C7C9CE;
+    --md-outline-variant:#E2E6EC;
+
+    --shape-xs:3px; --shape-sm:5px; --shape-md:7px; --shape-lg:9px; --shape-xl:12px;
+    --shape-btn:7px; --shape-chip:6px; --shape-full:999px;
+
+    --el-1:0 1px 2px rgba(0,0,0,.30), 0 1px 3px 1px rgba(0,0,0,.15);
+    --el-2:0 1px 2px rgba(0,0,0,.30), 0 2px 6px 2px rgba(0,0,0,.15);
+
+    --red:var(--md-primary); --blue:var(--md-secondary);
+    --ink:var(--md-on-surface); --muted:var(--md-on-surface-variant);
+    --paper:var(--md-surface); --paper-alt:var(--md-background);
+    --line:var(--md-outline-variant); --radius:var(--shape-lg);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:'Open Sans',sans-serif;color:var(--ink);background:var(--paper);line-height:1.6;}
+  h1,h2,h3{font-family:'Montserrat',sans-serif;font-weight:700;margin:0 0 .4em 0;letter-spacing:-0.01em;}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 32px;}
+  a{color:inherit;}
+
+  /* ---------- Top app bar + subnav ---------- */
+  .appbar{position:sticky;top:0;z-index:20;background:var(--paper);box-shadow:var(--el-1);}
+  .appbar-inner{max-width:1200px;margin:0 auto;padding:0 32px;height:60px;display:flex;align-items:center;gap:14px;}
+  .appbar-mark{width:28px;height:28px;border-radius:var(--shape-sm);background:var(--red);display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Montserrat';font-weight:800;font-size:13px;flex-shrink:0;}
+  .appbar-title{font-family:'Montserrat';font-weight:700;font-size:15.5px;}
+  .appbar-back{margin-left:auto;font-family:'Montserrat';font-weight:600;font-size:12.5px;color:var(--muted);text-decoration:none;}
+  .appbar-back:hover{color:var(--ink);text-decoration:underline;}
+
+  .subnav{position:sticky;top:60px;z-index:19;background:rgba(250,250,250,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);}
+  .subnav-inner{max-width:1200px;margin:0 auto;padding:10px 32px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;}
+  .subnav-inner::-webkit-scrollbar{display:none;}
+  .subnav a{flex-shrink:0;font-family:'Montserrat';font-weight:600;font-size:12px;color:var(--muted);padding:6px 12px;border-radius:var(--shape-full);text-decoration:none;white-space:nowrap;transition:background .12s ease,color .12s ease;}
+  .subnav a:hover{background:var(--md-surface-variant);color:var(--ink);}
+
+  header.hero{background:linear-gradient(120deg, var(--red) 0%, #7a1361 45%, var(--blue) 100%);color:#fff;padding:44px 0 34px;margin-bottom:10px;}
+  .hero .eyebrow{font-family:'Montserrat';font-weight:700;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;opacity:.85;margin-bottom:12px;}
+  .hero h1{font-size:34px;color:#fff;margin-bottom:10px;max-width:760px;}
+  .hero p{font-size:15.5px;max-width:700px;opacity:.92;margin:0;}
+
+  main{padding:0 0 90px;}
+  section{padding:44px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  .section-kicker{font-family:'Montserrat';font-weight:700;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--red);margin-bottom:10px;}
+  section h2{font-size:25px;max-width:700px;}
+  section > p.lead{font-size:15px;color:var(--muted);max-width:780px;margin:0 0 8px 0;}
+  section p{font-size:15px;max-width:800px;margin:0 0 16px 0;}
+  section p:last-of-type{margin-bottom:0;}
+
+  /* ---------- Reusable info band / grid ---------- */
+  .info-band{border:1px solid var(--line);border-radius:var(--radius);background:var(--paper-alt);padding:24px 28px;margin-top:24px;}
+  .info-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px 28px;}
+  @media(max-width:760px){.info-grid{grid-template-columns:1fr;}}
+  .info-item{font-size:13.5px;color:var(--ink);line-height:1.55;}
+  .info-item strong{display:block;font-family:'Montserrat';font-weight:700;font-size:14px;color:var(--blue);margin-bottom:4px;}
+
+  /* ---------- Accessibility fine print ---------- */
+  .fine-print{border:1.5px dashed var(--line);border-radius:var(--radius);padding:16px 20px;margin-top:26px;font-size:12.5px;color:var(--muted);}
+  .fine-print a{color:var(--red);font-weight:600;text-decoration:none;}
+  .fine-print a:hover{text-decoration:underline;}
+
+  /* ---------- CTA row ---------- */
+  .cta-row{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-top:22px;}
+  .btn{position:relative;overflow:hidden;font-family:'Montserrat';font-weight:600;font-size:13.5px;border:none;display:inline-flex;align-items:center;gap:8px;padding:13px 24px;border-radius:var(--shape-btn);cursor:pointer;text-decoration:none;transition:box-shadow .15s ease;}
+  .btn::after{content:'';position:absolute;inset:0;background:currentColor;opacity:0;transition:opacity .12s ease;}
+  .btn:hover::after{opacity:.10;}
+  .btn:hover{box-shadow:var(--el-1);}
+  .btn-fill{background:var(--red);color:#fff;}
+  .btn-blue{background:var(--blue);color:#fff;}
+  .cta-note{font-size:13px;color:var(--muted);}
+  .ripple{position:absolute;border-radius:50%;background:currentColor;opacity:.30;transform:scale(0);animation:ripple .5s ease-out;pointer-events:none;}
+  @keyframes ripple{to{transform:scale(2.8);opacity:0;}}
+
+  footer{padding:30px 0;background:var(--paper-alt);border-top:1px solid var(--line);}
+  footer p{font-size:12.5px;color:var(--muted);margin:0;}
+  footer p + p{margin-top:4px;}
+  footer a{color:var(--red);font-weight:600;text-decoration:none;}
+  footer a:hover{text-decoration:underline;}
+</style>
+</head>
+<body>
+
+<div class="appbar">
+  <div class="appbar-inner">
+    <div class="appbar-mark">OU</div>
+    <div class="appbar-title">Website Redesign &amp; Migration</div>
+    <a class="appbar-back" href="index.html">← Communications Hub</a>
+  </div>
+</div>
+
+<nav class="subnav">
+  <div class="subnav-inner">
+    <a href="#overview">Overview</a>
+    <a href="#why-wix">Why Wix</a>
+    <a href="#goals">Goals</a>
+    <a href="#accessibility">Accessibility &amp; DOJ</a>
+    <a href="#timeline">Timeline</a>
+    <a href="#survey">Survey</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Web &amp; Multimedia Coordinator — District Website Project</div>
+    <h1>Redesigning &amp; migrating the OUHSD website</h1>
+    <p>Everything about the move from FinalSite to Wix in one place — why we're doing it, what we're trying to accomplish, our accessibility commitments, the full build-out timeline, and how to share your feedback.</p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section id="overview">
+    <div class="section-kicker">Overview</div>
+    <h2>One project, one place to follow it</h2>
+    <p>OUHSD is redesigning and migrating oxnardunion.org, along with every school site, from our current platform, FinalSite, to Wix. It's the biggest change to the district's web presence in years — new navigation, a design pulled from the same brand system used across this hub, and full compliance with new federal web accessibility requirements.</p>
+    <p>This page is the one-stop shop for the project: why we picked Wix, what we're trying to accomplish, what accessibility compliance requires of us, the full build-out timeline, and a direct link to the surveys shaping the redesign. Bookmark it — it'll stay current as the project moves forward.</p>
+  </section>
+
+  <section id="why-wix">
+    <div class="section-kicker">The platform</div>
+    <h2>Why we're moving from FinalSite to Wix</h2>
+    <p>After reviewing our current platform against where the site needs to be, the district chose Wix as the new home for oxnardunion.org and every school site.</p>
+    <div class="info-band">
+      <div class="info-grid">
+        <div class="info-item"><strong>Accessibility built in</strong>Wix's editor and templates are built around modern accessibility standards, giving us a stronger starting point for meeting WCAG 2.1 AA.</div>
+        <div class="info-item"><strong>Easier for our own staff to maintain</strong>A modern, visual editor means site owners across departments and schools can update content directly, without waiting on a developer for every change.</div>
+        <div class="info-item"><strong>One consistent design system</strong>Pages built in Wix draw from the same colors, type, and components used across this hub, so every page reads as clearly OUHSD.</div>
+        <div class="info-item"><strong>Built for mobile</strong>Most visitors reach our sites from a phone. Wix's responsive tools make that a first-class experience instead of an afterthought.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="goals">
+    <div class="section-kicker">What we're solving for</div>
+    <h2>Key goals for the redesign</h2>
+    <p>The migration isn't a like-for-like move — it's a chance to fix what hasn't been working and set the site up for what's ahead.</p>
+    <div class="info-band">
+      <div class="info-grid">
+        <div class="info-item"><strong>Meet DOJ accessibility requirements</strong>Bring every page up to the WCAG 2.1 AA standard required under the DOJ's Title II rule.</div>
+        <div class="info-item"><strong>Make information easier to find</strong>Fix the navigation and search issues our own students, parents, and staff told us about directly.</div>
+        <div class="info-item"><strong>One brand, every school</strong>Every school site shares the same professional, on-brand look and feel.</div>
+        <div class="info-item"><strong>Built for how people actually visit</strong>A fully responsive, mobile-first experience on every page.</div>
+        <div class="info-item"><strong>Sustainable to maintain</strong>A content structure simple enough that pages stay current, not stale.</div>
+        <div class="info-item"><strong>Multilingual from day one</strong>Spanish-language access built in from the start, not bolted on later.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="accessibility">
+    <div class="section-kicker">Compliance</div>
+    <h2>Accessibility &amp; DOJ compliance</h2>
+    <p>The U.S. Department of Justice finalized a rule in 2024 requiring state and local government entities — including public school districts — to make their websites and mobile apps meet the <strong>WCAG 2.1 Level AA</strong> accessibility standard. A school district isn't automatically placed in the "special district government" category; instead, an independent school district's deadline is based on the population of the area it serves.</p>
+    <p>Districts serving an area of 50,000 or more people must comply by <strong>April 26, 2027</strong> (extended by one year from the original 2026 date under DOJ's April 2026 interim final rule); districts serving fewer than 50,000 have until April 26, 2028. OUHSD serves Oxnard, Camarillo, and Port Hueneme — well above that threshold — which puts our deadline at <strong>April 26, 2027</strong>.</p>
+    <p>Meeting this standard touches most of the site — from how images and video are made available to screen readers, to color contrast, keyboard access, and how forms and documents are built. The technical work is being scoped directly against the DOJ's requirements between the Web &amp; Multimedia Coordinator and district counsel, rather than tracked item-by-item on this page.</p>
+    <div class="fine-print">
+      This is general information, not legal advice. Confirm exact requirements and any applicable exceptions with district legal counsel or your accessibility compliance office. <a href="https://www.ada.gov/resources/2024-03-08-web-rule/" target="_blank" rel="noopener">Read the DOJ's official fact sheet on this rule →</a>
+    </div>
+  </section>
+
+  <section id="timeline">
+    <div class="section-kicker">Schedule</div>
+    <h2>Project timeline</h2>
+    <p>The full build-out schedule — platform setup, content migration, accessibility review, and launch — is tracked in one place and kept up to date as work progresses.</p>
+    <div class="cta-row">
+      <a class="btn btn-blue" href="https://teolopez-ouhsd.github.io/website-project-timeline/" target="_blank" rel="noopener">View the full project timeline →</a>
+      <span class="cta-note">Opens the live project Gantt chart in a new tab.</span>
+    </div>
+  </section>
+
+  <section id="survey" style="border-bottom:none;">
+    <div class="section-kicker">Have your say</div>
+    <h2>Tell us what you need from the new site</h2>
+    <p>Short, audience-specific surveys for students, parents/guardians, and staff — available in English and Spanish. Your answers directly shape the new site's navigation, content, and design.</p>
+    <div class="cta-row">
+      <a class="btn btn-fill" href="website-survey.html">Take the survey →</a>
+      <span class="cta-note">Takes about 5–10 minutes.</span>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Oxnard Union High School District — Website Redesign &amp; Migration Project.</p>
+    <p>Questions about this project? Contact Teo Lopez, Web &amp; Multimedia Coordinator, at <a href="mailto:teolopez@oxnardunion.org">teolopez@oxnardunion.org</a>.</p>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('.btn').forEach(el=>{
+    el.addEventListener('click', function(e){
+      const rect = this.getBoundingClientRect();
+      const ripple = document.createElement('span');
+      const size = Math.max(rect.width, rect.height);
+      ripple.className = 'ripple';
+      ripple.style.width = ripple.style.height = size + 'px';
+      ripple.style.left = (e.clientX - rect.left - size/2) + 'px';
+      ripple.style.top = (e.clientY - rect.top - size/2) + 'px';
+      this.style.position = this.style.position || 'relative';
+      this.appendChild(ripple);
+      setTimeout(()=>ripple.remove(), 550);
+    });
+  });
+</script>
+
+</body>
+</html>

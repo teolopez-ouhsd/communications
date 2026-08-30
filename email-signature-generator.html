@@ -41,6 +41,8 @@
   .wrap{max-width:1100px;margin:0 auto;padding:0 28px;}
   header.hero{background:linear-gradient(120deg, var(--md-primary) 0%, #7a1361 45%, var(--md-secondary) 100%);color:#fff;padding:52px 0 44px;margin-bottom:25px;}
   .hero .eyebrow{font-family:'Montserrat';font-weight:700;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;opacity:.85;margin-bottom:12px;}
+  .back-link{display:inline-block;margin-bottom:14px;font-family:'Montserrat';font-weight:600;font-size:13px;color:#fff;opacity:.85;text-decoration:none;}
+  .back-link:hover{opacity:1;text-decoration:underline;}
   .hero h1{font-size:34px;color:#fff;margin-bottom:8px;max-width:720px;}
   .hero p{font-size:15.5px;max-width:620px;opacity:.92;margin:0;}
   main{padding:48px 0 80px;}
@@ -86,6 +88,27 @@
   }
   .photo-preview img{width:100%;height:100%;object-fit:cover;}
   .file-btn-row{display:flex;gap:10px;flex-wrap:wrap;}
+  .drive-hint{font-size:11px;color:var(--muted);margin-top:2px;}
+
+  /* ---------- Crop modal ---------- */
+  .crop-modal{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:20px;}
+  .crop-modal-backdrop{position:absolute;inset:0;background:rgba(20,20,25,.55);}
+  .crop-modal-panel{
+    position:relative;background:#fff;border-radius:var(--shape-xl);padding:26px;max-width:380px;width:100%;
+    box-shadow:var(--el-3);text-align:center;
+  }
+  .crop-modal-panel h3{font-size:17px;margin-bottom:6px;}
+  .crop-hint{font-size:12.5px;color:var(--muted);margin:0 0 18px 0;}
+  .crop-stage{
+    width:280px;height:280px;margin:0 auto;border-radius:50%;overflow:hidden;background:repeating-conic-gradient(#eee 0% 25%, #fff 0% 50%) 50% / 16px 16px;
+    box-shadow:0 0 0 1.5px var(--line), var(--el-1);cursor:grab;touch-action:none;position:relative;
+  }
+  .crop-stage.dragging{cursor:grabbing;}
+  .crop-stage canvas{display:block;width:100%;height:100%;}
+  .crop-zoom-row{display:flex;align-items:center;gap:10px;margin-top:20px;}
+  .crop-zoom-row input[type=range]{flex:1;accent-color:var(--md-primary);}
+  .crop-zoom-row span{font-size:14px;color:var(--muted);flex-shrink:0;}
+  .crop-actions{display:flex;justify-content:center;gap:10px;margin-top:22px;}
 
   /* ---------- Material buttons ---------- */
   .btn{
@@ -141,6 +164,7 @@
 
 <header class="hero">
   <div class="wrap">
+    <a class="back-link" href="index.html">← Back to the Communications Hub</a>
     <div class="eyebrow">Oxnard Union High School District</div>
     <h1>Email Signature Generator</h1>
     <p>Fill in your info, add your photo, and copy a ready-to-paste signature for Gmail — built so your photo is embedded directly and won't break when pasted, the same way it works from the district's Google Doc template today.</p>
@@ -237,11 +261,14 @@
         <div class="photo-preview" id="photoPreview">No photo</div>
         <div class="file-btn-row">
           <button class="btn small outline" id="uploadBtn" type="button">Upload photo<span class="state-layer"></span></button>
+          <button class="btn small outline" id="driveSearchBtn" type="button" disabled title="Drive search isn't set up yet — see the setup guide">Search Google Drive<span class="state-layer"></span></button>
+          <button class="btn small outline" id="editCropBtn" type="button" style="display:none;">Edit crop<span class="state-layer"></span></button>
           <button class="btn small outline" id="removeBtn" type="button" style="display:none;">Remove<span class="state-layer"></span></button>
         </div>
         <input type="file" id="photoInput" accept="image/*">
       </div>
-      <div class="field-hint">Your photo is cropped to a circle and embedded directly in the signature on your device — nothing is uploaded anywhere.</div>
+      <div class="field-hint" id="photoFieldHint">Search your name or employee ID to pull your photo from the district's staff photo folder, or upload one from your device. Either way, you'll be able to drag and zoom to frame it before it's cropped to a circle and embedded directly in the signature — nothing is uploaded anywhere.</div>
+      <div class="drive-hint" id="driveSignInHint" style="display:none;">Signing you in with your district Google account to search the staff photo folder…</div>
     </div>
 
     <div class="preview-card">
@@ -274,6 +301,27 @@
     </div>
 
   </div>
+
+  <div class="crop-modal" id="cropModal" style="display:none;">
+    <div class="crop-modal-backdrop" id="cropBackdrop"></div>
+    <div class="crop-modal-panel">
+      <h3>Adjust your photo</h3>
+      <p class="crop-hint">Drag to reposition, use the slider to zoom. What's inside the circle is what gets used.</p>
+      <div class="crop-stage" id="cropStage">
+        <canvas id="cropCanvas" width="280" height="280"></canvas>
+      </div>
+      <div class="crop-zoom-row">
+        <span>−</span>
+        <input type="range" id="cropZoom" min="100" max="300" value="100">
+        <span>+</span>
+      </div>
+      <div class="crop-actions">
+        <button class="btn outline" id="cropCancel" type="button">Cancel<span class="state-layer"></span></button>
+        <button class="btn" id="cropApply" type="button">Use this photo<span class="state-layer"></span></button>
+      </div>
+    </div>
+  </div>
+
 </main>
 
 <footer>
@@ -432,11 +480,16 @@ function renderPreview(){
 Object.values(els).forEach(el => el.addEventListener('input', renderPreview));
 renderPreview();
 
-// ---- Photo upload: circular-crop via canvas, output as PNG data URL ----
+// ---- Photo: upload or Drive search, both feed an interactive circular cropper ----
 const photoInput = document.getElementById('photoInput');
 const photoPreview = document.getElementById('photoPreview');
 const uploadBtn = document.getElementById('uploadBtn');
 const removeBtn = document.getElementById('removeBtn');
+const editCropBtn = document.getElementById('editCropBtn');
+const driveSearchBtn = document.getElementById('driveSearchBtn');
+const driveSignInHint = document.getElementById('driveSignInHint');
+
+let lastSourceDataUrl = null; // full-res original, so "Edit crop" re-crops from full quality
 
 uploadBtn.addEventListener('click', ()=> photoInput.click());
 
@@ -444,42 +497,215 @@ photoInput.addEventListener('change', (e)=>{
   const file = e.target.files[0];
   if(!file) return;
   const reader = new FileReader();
-  reader.onload = (ev)=>{
-    const img = new Image();
-    img.onload = ()=>{
-      const SIZE = 176; // 2x for retina at 88px display
-      const canvas = document.createElement('canvas');
-      canvas.width = SIZE; canvas.height = SIZE;
-      const ctx = canvas.getContext('2d');
-      // cover-fit crop to square
-      const side = Math.min(img.width, img.height);
-      const sx = (img.width - side) / 2;
-      const sy = (img.height - side) / 2;
-      // circular clip
-      ctx.save();
-      ctx.beginPath();
-      ctx.arc(SIZE/2, SIZE/2, SIZE/2, 0, Math.PI*2);
-      ctx.closePath();
-      ctx.clip();
-      ctx.drawImage(img, sx, sy, side, side, 0, 0, SIZE, SIZE);
-      ctx.restore();
-      photoDataUrl = canvas.toDataURL('image/png');
-      photoPreview.innerHTML = `<img src="${photoDataUrl}" alt="">`;
-      removeBtn.style.display = 'inline-flex';
-      renderPreview();
-    };
-    img.src = ev.target.result;
-  };
+  reader.onload = (ev)=> openCropper(ev.target.result, true);
   reader.readAsDataURL(file);
+  photoInput.value = '';
 });
 
 removeBtn.addEventListener('click', ()=>{
   photoDataUrl = null;
-  photoInput.value = '';
+  lastSourceDataUrl = null;
   photoPreview.innerHTML = 'No photo';
   removeBtn.style.display = 'none';
+  editCropBtn.style.display = 'none';
   renderPreview();
 });
+
+editCropBtn.addEventListener('click', ()=>{
+  if(lastSourceDataUrl) openCropper(lastSourceDataUrl, false);
+});
+
+// ---- Circular crop modal: drag to reposition, slider to zoom ----
+const cropModal = document.getElementById('cropModal');
+const cropBackdrop = document.getElementById('cropBackdrop');
+const cropStage = document.getElementById('cropStage');
+const cropCanvas = document.getElementById('cropCanvas');
+const cropCtx = cropCanvas.getContext('2d');
+const cropZoom = document.getElementById('cropZoom');
+const cropCancel = document.getElementById('cropCancel');
+const cropApply = document.getElementById('cropApply');
+
+const STAGE = 280;      // live editor canvas size (css px, canvas attr matches)
+const OUTPUT = 320;     // final embedded image resolution (crisp on retina)
+
+let cropImg = null;         // the Image currently loaded in the cropper
+let cropBaseScale = 1;      // scale at which the image just covers the stage (100% on the slider)
+let cropScale = 1;          // current effective scale (cropBaseScale * zoom factor)
+let cropOffsetX = 0, cropOffsetY = 0; // top-left of the drawn image, in stage px
+let dragging = false, dragStartX = 0, dragStartY = 0, dragOrigX = 0, dragOrigY = 0;
+let keepFramingForImg = null; // reuse last framing when re-editing the same image
+
+function clampOffsets(){
+  const w = cropImg.width * cropScale, h = cropImg.height * cropScale;
+  cropOffsetX = Math.min(0, Math.max(STAGE - w, cropOffsetX));
+  cropOffsetY = Math.min(0, Math.max(STAGE - h, cropOffsetY));
+}
+
+function drawCrop(){
+  cropCtx.clearRect(0, 0, STAGE, STAGE);
+  cropCtx.drawImage(cropImg, cropOffsetX, cropOffsetY, cropImg.width * cropScale, cropImg.height * cropScale);
+}
+
+function openCropper(dataUrl, isNewImage){
+  const img = new Image();
+  img.onload = ()=>{
+    cropImg = img;
+    cropBaseScale = STAGE / Math.min(img.width, img.height);
+    if(isNewImage || keepFramingForImg !== dataUrl){
+      cropScale = cropBaseScale;
+      cropOffsetX = (STAGE - img.width * cropScale) / 2;
+      cropOffsetY = (STAGE - img.height * cropScale) / 2;
+      cropZoom.value = 100;
+    }
+    lastSourceDataUrl = dataUrl;
+    keepFramingForImg = dataUrl;
+    drawCrop();
+    cropModal.style.display = 'flex';
+  };
+  img.src = dataUrl;
+}
+
+function closeCropper(){
+  cropModal.style.display = 'none';
+}
+
+cropStage.addEventListener('pointerdown', (e)=>{
+  dragging = true;
+  cropStage.classList.add('dragging');
+  cropStage.setPointerCapture(e.pointerId);
+  dragStartX = e.clientX; dragStartY = e.clientY;
+  dragOrigX = cropOffsetX; dragOrigY = cropOffsetY;
+});
+cropStage.addEventListener('pointermove', (e)=>{
+  if(!dragging) return;
+  const rect = cropStage.getBoundingClientRect();
+  const scaleRatio = STAGE / rect.width; // in case CSS size ever differs from canvas attr size
+  cropOffsetX = dragOrigX + (e.clientX - dragStartX) * scaleRatio;
+  cropOffsetY = dragOrigY + (e.clientY - dragStartY) * scaleRatio;
+  clampOffsets();
+  drawCrop();
+});
+['pointerup','pointercancel','pointerleave'].forEach(evt=>{
+  cropStage.addEventListener(evt, ()=>{ dragging = false; cropStage.classList.remove('dragging'); });
+});
+
+cropZoom.addEventListener('input', ()=>{
+  const oldScale = cropScale;
+  cropScale = cropBaseScale * (cropZoom.value / 100);
+  // keep the stage's center point anchored while zooming
+  const cx = STAGE / 2, cy = STAGE / 2;
+  cropOffsetX = cx - (cx - cropOffsetX) * (cropScale / oldScale);
+  cropOffsetY = cy - (cy - cropOffsetY) * (cropScale / oldScale);
+  clampOffsets();
+  drawCrop();
+});
+
+cropCancel.addEventListener('click', closeCropper);
+cropBackdrop.addEventListener('click', closeCropper);
+
+cropApply.addEventListener('click', ()=>{
+  const out = document.createElement('canvas');
+  out.width = OUTPUT; out.height = OUTPUT;
+  const ctx = out.getContext('2d');
+  const ratio = OUTPUT / STAGE;
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(OUTPUT/2, OUTPUT/2, OUTPUT/2, 0, Math.PI*2);
+  ctx.closePath();
+  ctx.clip();
+  ctx.drawImage(cropImg, cropOffsetX * ratio, cropOffsetY * ratio, cropImg.width * cropScale * ratio, cropImg.height * cropScale * ratio);
+  ctx.restore();
+  photoDataUrl = out.toDataURL('image/png');
+  photoPreview.innerHTML = `<img src="${photoDataUrl}" alt="">`;
+  removeBtn.style.display = 'inline-flex';
+  editCropBtn.style.display = 'inline-flex';
+  closeCropper();
+  renderPreview();
+});
+
+// ---- Optional: search a shared Google Drive folder for a staff photo ----
+// Filled in by IT/Workspace admin per the setup guide. Until real values are
+// pasted in below, the "Search Google Drive" button stays disabled.
+const DRIVE_CONFIG = {
+  CLIENT_ID: 'PASTE_OAUTH_CLIENT_ID_HERE',
+  API_KEY: 'PASTE_API_KEY_HERE',
+  FOLDER_ID: 'PASTE_STAFF_PHOTOS_FOLDER_ID_HERE'
+};
+const DRIVE_CONFIGURED = !/^PASTE_/.test(DRIVE_CONFIG.CLIENT_ID) && !/^PASTE_/.test(DRIVE_CONFIG.API_KEY) && !/^PASTE_/.test(DRIVE_CONFIG.FOLDER_ID);
+
+let driveAccessToken = null, driveTokenClient = null, gapiReady = false, gisReady = false;
+
+function maybeEnableDriveButton(){
+  if(DRIVE_CONFIGURED && gapiReady && gisReady){
+    driveSearchBtn.disabled = false;
+    driveSearchBtn.title = '';
+  }
+}
+
+// Called by the gapi <script> tag's onload, only meaningful once DRIVE_CONFIG is filled in.
+window.onGapiLoad = function(){
+  if(!DRIVE_CONFIGURED) return;
+  gapi.load('client:picker', async ()=>{
+    await gapi.client.init({ apiKey: DRIVE_CONFIG.API_KEY });
+    gapiReady = true;
+    maybeEnableDriveButton();
+  });
+};
+
+// Called by the Google Identity Services <script> tag's onload.
+window.onGisLoad = function(){
+  if(!DRIVE_CONFIGURED) return;
+  driveTokenClient = google.accounts.oauth2.initTokenClient({
+    client_id: DRIVE_CONFIG.CLIENT_ID,
+    scope: 'https://www.googleapis.com/auth/drive.readonly',
+    callback: '' // set per-request just below
+  });
+  gisReady = true;
+  maybeEnableDriveButton();
+};
+
+driveSearchBtn.addEventListener('click', ()=>{
+  if(!DRIVE_CONFIGURED || !driveTokenClient) return;
+  driveSignInHint.style.display = 'block';
+  driveTokenClient.callback = (resp)=>{
+    driveSignInHint.style.display = 'none';
+    if(resp.error){ console.error('Drive sign-in error', resp); return; }
+    driveAccessToken = resp.access_token;
+    showDrivePicker();
+  };
+  driveTokenClient.requestAccessToken({ prompt: driveAccessToken ? '' : 'consent' });
+});
+
+function showDrivePicker(){
+  const view = new google.picker.DocsView(google.picker.ViewId.DOCS_IMAGES)
+    .setParent(DRIVE_CONFIG.FOLDER_ID)
+    .setIncludeFolders(false)
+    .setSelectFolderEnabled(false);
+  const picker = new google.picker.PickerBuilder()
+    .setOAuthToken(driveAccessToken)
+    .setDeveloperKey(DRIVE_CONFIG.API_KEY)
+    .addView(view)
+    .setCallback(onDrivePicked)
+    .build();
+  picker.setVisible(true);
+}
+
+function onDrivePicked(data){
+  if(data.action !== google.picker.Action.PICKED) return;
+  const file = data.docs[0];
+  fetchDriveImage(file.id);
+}
+
+async function fetchDriveImage(fileId){
+  const res = await fetch(`https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`, {
+    headers: { Authorization: 'Bearer ' + driveAccessToken }
+  });
+  if(!res.ok){ console.error('Drive fetch failed', res.status); return; }
+  const blob = await res.blob();
+  const reader = new FileReader();
+  reader.onload = (ev)=> openCropper(ev.target.result, true);
+  reader.readAsDataURL(blob);
+}
 
 // ---- Copy signature (rich HTML + plain text fallback) ----
 document.getElementById('copyBtn').addEventListener('click', async ()=>{
@@ -533,5 +759,12 @@ document.querySelectorAll('.btn').forEach(btn=>{
   });
 });
 </script>
+
+<!-- Loaded last, after onGapiLoad/onGisLoad are already defined above, so their
+     onload callbacks always have something to call. Only used when DRIVE_CONFIG
+     (in the script above) has been filled in by IT — see the Drive setup guide. -->
+<script async defer src="https://apis.google.com/js/api.js" onload="onGapiLoad()"></script>
+<script async defer src="https://accounts.google.com/gsi/client" onload="onGisLoad()"></script>
+
 </body>
 </html>
