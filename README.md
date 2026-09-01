@@ -27,3 +27,13 @@ To use a custom domain (e.g. `brand.oxnardunion.org`), add a `CNAME` file with t
 ## Updating content later
 
 Because everything is self-contained in the HTML files, updates (new logo files, palette tweaks, department list changes, copy edits) mean editing and re-uploading the relevant `.html` file — there's no database or CMS involved.
+
+## Analytics (Google Analytics 4)
+
+Every page already has a GA4 tracking snippet in its `<head>`, using a placeholder Measurement ID (`G-XXXXXXXXXX`). To turn tracking on:
+
+1. In your existing GA4 account, create a new **property** (or a new **data stream** under an existing one) for this site.
+2. Copy its **Measurement ID** (looks like `G-ABC123XYZ`).
+3. In each of the 6 `.html` files, find `G-XXXXXXXXXX` (it appears twice per file — in the `<script src>` and in the `gtag('config', ...)` call) and replace both with your real ID, then re-upload.
+
+Once real IDs are in place, GA4's default "Enhanced measurement" (on by default for new data streams) automatically tracks outbound link clicks — so clicks on the Google Form survey links and the project timeline link get tracked as events with no extra code needed, alongside normal page views for every page on the site.
