@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OUHSD — Photo &amp; Video Terms of Use</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:ital,wght@0,400;0,500;0,600;1,600&display=swap" rel="stylesheet">
+
+<!-- Google Analytics (GA4) — replace G-XXXXXXXXXX with the real Measurement ID from your GA4 property, in BOTH places below -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+<style>
+  :root{
+    --md-primary:#E20031;            --md-on-primary:#ffffff;
+    --md-primary-container:#FCE0E6;  --md-on-primary-container:#88001D;
+    --md-secondary:#0033A1;          --md-on-secondary:#ffffff;
+    --md-secondary-container:#E0E7F4;--md-on-secondary-container:#001F61;
+    --md-surface:#ffffff;            --md-on-surface:#1b2430;
+    --md-surface-variant:#F4F4F5;    --md-on-surface-variant:#5b6472;
+    --md-background:#FAFAFA;
+    --md-outline:#C7C9CE;
+    --md-outline-variant:#E2E6EC;
+
+    --shape-xs:3px; --shape-sm:5px; --shape-md:7px; --shape-lg:9px; --shape-xl:12px;
+    --shape-btn:7px; --shape-chip:6px; --shape-full:999px;
+
+    --el-1:0 1px 2px rgba(0,0,0,.30), 0 1px 3px 1px rgba(0,0,0,.15);
+    --el-2:0 1px 2px rgba(0,0,0,.30), 0 2px 6px 2px rgba(0,0,0,.15);
+
+    --red:var(--md-primary); --blue:var(--md-secondary);
+    --ink:var(--md-on-surface); --muted:var(--md-on-surface-variant);
+    --paper:var(--md-surface); --paper-alt:var(--md-background);
+    --line:var(--md-outline-variant); --radius:var(--shape-lg);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:'Open Sans',sans-serif;color:var(--ink);background:var(--paper);line-height:1.6;}
+  h1,h2,h3{font-family:'Montserrat',sans-serif;font-weight:700;margin:0 0 .4em 0;letter-spacing:-0.01em;}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 32px;}
+  a{color:inherit;}
+
+  /* ---------- Top app bar + subnav ---------- */
+  .appbar{position:sticky;top:0;z-index:20;background:var(--paper);box-shadow:var(--el-1);}
+  .appbar-inner{max-width:1200px;margin:0 auto;padding:0 32px;height:60px;display:flex;align-items:center;gap:14px;}
+  .appbar-mark{width:28px;height:28px;border-radius:var(--shape-sm);background:var(--red);display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Montserrat';font-weight:800;font-size:13px;flex-shrink:0;}
+  .appbar-title{font-family:'Montserrat';font-weight:700;font-size:15.5px;}
+  .appbar-back{margin-left:auto;font-family:'Montserrat';font-weight:600;font-size:12.5px;color:var(--muted);text-decoration:none;}
+  .appbar-back:hover{color:var(--ink);text-decoration:underline;}
+
+  .subnav{position:sticky;top:60px;z-index:19;background:rgba(250,250,250,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);}
+  .subnav-inner{max-width:1200px;margin:0 auto;padding:10px 32px;display:flex;align-items:center;gap:6px;overflow-x:auto;scrollbar-width:none;}
+  .subnav-inner::-webkit-scrollbar{display:none;}
+  .subnav-label{flex-shrink:0;font-family:'Montserrat';font-weight:700;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-right:6px;}
+  .subnav a{flex-shrink:0;font-family:'Montserrat';font-weight:600;font-size:12px;color:var(--muted);padding:6px 12px;border-radius:var(--shape-full);text-decoration:none;white-space:nowrap;transition:background .12s ease,color .12s ease;}
+  .subnav a:hover{background:var(--md-surface-variant);color:var(--ink);}
+
+  header.hero{background:linear-gradient(120deg, var(--red) 0%, #7a1361 45%, var(--blue) 100%);color:#fff;padding:44px 0 34px;margin-bottom:10px;}
+  .hero .eyebrow{font-family:'Montserrat';font-weight:700;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;opacity:.85;margin-bottom:12px;}
+  .hero h1{font-size:34px;color:#fff;margin-bottom:10px;max-width:760px;}
+  .hero p{font-size:15.5px;max-width:720px;opacity:.92;margin:0;}
+
+  main{padding:0 0 90px;}
+  section.intro{padding:44px 0 8px;}
+  .section-kicker{font-family:'Montserrat';font-weight:700;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--red);margin-bottom:10px;}
+  section.intro h2{font-size:24px;max-width:700px;}
+  section.intro p{font-size:15px;max-width:800px;color:var(--muted);margin:0 0 14px 0;}
+  section.intro p:last-of-type{margin-bottom:0;}
+
+  .doc-list{padding:26px 0 0;display:flex;flex-direction:column;gap:24px;}
+
+  /* ---------- Terms-of-use document card ---------- */
+  .doc-card{border:1px solid var(--line);border-radius:var(--radius);background:#fff;box-shadow:var(--el-1);padding:34px 38px;scroll-margin-top:130px;}
+  .doc-card .doc-kicker{display:inline-block;font-family:'Montserrat';font-weight:700;font-size:11px;letter-spacing:.08em;text-transform:uppercase;background:var(--md-primary-container);color:var(--md-on-primary-container);padding:5px 11px;border-radius:var(--shape-chip);margin-bottom:14px;}
+  .doc-card h2{font-size:22px;margin-bottom:4px;}
+  .doc-byline{font-size:12.5px;color:var(--muted);font-style:italic;margin:0 0 20px 0;}
+  .doc-card h3{font-family:'Montserrat';font-weight:700;font-size:14.5px;color:var(--blue);margin:26px 0 8px 0;}
+  .doc-card h3:first-of-type{margin-top:22px;}
+  .doc-card p{font-size:14.5px;color:var(--ink);margin:0 0 12px 0;max-width:820px;}
+  .m-ul{margin:0 0 4px 0;padding-left:22px;font-size:14.5px;line-height:1.7;max-width:820px;}
+  .m-ul li{padding-left:4px;margin-bottom:8px;}
+  .m-ul li::marker{color:var(--md-primary);font-size:1.1em;}
+  .doc-card .credit-line{background:var(--paper-alt);border-radius:var(--shape-md);padding:14px 18px;font-size:14px;margin-top:4px;}
+  .doc-card .doc-contact{border:1.5px dashed var(--line);border-radius:var(--radius);padding:16px 20px;margin-top:24px;font-size:13.5px;color:var(--muted);}
+  .doc-card .doc-contact a{color:var(--red);font-weight:600;text-decoration:none;}
+  .doc-card .doc-contact a:hover{text-decoration:underline;}
+
+  /* ---------- "More coming" placeholder card ---------- */
+  .more-card{border:1.5px dashed var(--line);border-radius:var(--radius);padding:24px 28px;font-size:13.5px;color:var(--muted);}
+  .more-card strong{display:block;font-family:'Montserrat';font-weight:700;color:var(--ink);font-size:14px;margin-bottom:4px;}
+
+  footer{padding:30px 0;background:var(--paper-alt);border-top:1px solid var(--line);margin-top:60px;}
+  footer p{font-size:12.5px;color:var(--muted);margin:0;}
+  footer p + p{margin-top:4px;}
+  footer a{color:var(--red);font-weight:600;text-decoration:none;}
+  footer a:hover{text-decoration:underline;}
+</style>
+</head>
+<body>
+
+<div class="appbar">
+  <div class="appbar-inner">
+    <div class="appbar-mark">OU</div>
+    <div class="appbar-title">Photo &amp; Video Terms of Use</div>
+    <a class="appbar-back" href="index.html">← Communications Hub</a>
+  </div>
+</div>
+
+<nav class="subnav">
+  <div class="subnav-inner">
+    <span class="subnav-label">Jump to:</span>
+    <a href="#athletics">Athletics</a>
+    <!-- Adding another program/department's terms later? Add its <a href="#anchor-id">Name</a> chip here,
+         matching the id on its new .doc-card section below. -->
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Web &amp; Multimedia Coordinator — Usage Guidelines</div>
+    <h1>Photo &amp; video terms of use</h1>
+    <p>How district-produced photos and video can (and can't) be used, by program. This page will keep growing as terms are published for more areas — check back for updates.</p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="intro">
+    <div class="section-kicker">Why this exists</div>
+    <h2>One place for how our media can be used</h2>
+    <p>The Web &amp; Multimedia Coordinator produces photo and video coverage for programs across the district. This page spells out, program by program, what that coverage can be used for and what needs a quick check-in first — so coaches, staff, and program leads have a clear answer without having to ask each time.</p>
+    <p>Right now this covers Athletics. More programs and use cases will be added here over time.</p>
+  </section>
+
+  <div class="wrap doc-list">
+
+    <div class="doc-card" id="athletics">
+      <span class="doc-kicker">Athletics</span>
+      <h2>Oxnard Union Athletics — Photo &amp; Video Terms of Use</h2>
+      <p class="doc-byline">Provided by the Web &amp; Multimedia Coordinator • Fall 2026</p>
+
+      <p>Each week, our Web &amp; Multimedia Coordinator covers a different game across our athletic programs, producing high-resolution photos and video. These files are provided to Athletic Directors and coaches at no cost, for the benefit of our student-athletes and programs. This note covers how they can be used.</p>
+
+      <h3>Ownership</h3>
+      <p>These images are created as official district work and remain the property of Oxnard Union. Providing them to your program is a permission to use them as described below, not a transfer of ownership — please don't redistribute them outside your program's own use without checking in first.</p>
+
+      <h3>Approved For</h3>
+      <ul class="m-ul">
+        <li>Downloading and keeping originals for your program's own records and archives.</li>
+        <li>Sharing with student-athletes and families for personal use — printing, photo books, keepsakes.</li>
+        <li>Posting on your team's or school's official social media, websites, and district channels, with credit.</li>
+        <li>Non-commercial program materials — senior night slideshows, banquet recaps, bulletin boards, yearbook submissions, recruiting profiles for your own athletes.</li>
+        <li>Sharing this same permission with your coaching staff for their team's use.</li>
+      </ul>
+
+      <h3>Not Approved Without Checking First</h3>
+      <ul class="m-ul">
+        <li>Selling, licensing, or using images in anything for-profit — merchandise, paid ads, sponsorship materials, etc.</li>
+        <li>Passing them to outside organizations, media outlets, third-party recruiting services, or stock/photo-sale sites.</li>
+        <li>Posting them in a way that removes credit or implies a different photographer or source.</li>
+        <li>Heavily editing or using images in a way that could misrepresent a student-athlete or the program.</li>
+      </ul>
+
+      <h3>Credit</h3>
+      <p class="credit-line">When reposting publicly, please credit: <em>"Photo/Video: Oxnard Union Web &amp; Multimedia — Teo Lopez"</em>, or tag <strong>@oxnardunion</strong> if posting on Instagram or similar.</p>
+
+      <div class="doc-contact">
+        <strong style="font-family:'Montserrat';color:var(--ink);">Questions, or a use not covered here?</strong> Reach out before assuming — most reasonable program uses are fine, we just want to know how images are being used district-wide: <a href="mailto:teolopez@oxnardunion.org">Teo Lopez, Web &amp; Multimedia Coordinator</a>.
+      </div>
+    </div>
+
+    <!-- ==========================================================================
+         ADD THE NEXT TERMS-OF-USE DOCUMENT HERE.
+         Copy the .doc-card block above (from the opening <div class="doc-card" ...>
+         to its closing </div>), give it a new id (used by the subnav chip above),
+         change the .doc-kicker label and heading, and replace the body content.
+         ========================================================================== -->
+
+    <div class="more-card">
+      <strong>More on the way</strong>
+      Terms of use for other programs and content types (yearbook, graduation, school site photography, etc.) will be added here as they're published.
+    </div>
+
+  </div>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Oxnard Union High School District — Photo &amp; Video Terms of Use.</p>
+    <p>Questions about a specific use? Contact Teo Lopez, Web &amp; Multimedia Coordinator, at <a href="mailto:teolopez@oxnardunion.org">teolopez@oxnardunion.org</a>.</p>
+  </div>
+</footer>
+
+</body>
+</html>
