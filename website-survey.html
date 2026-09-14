@@ -8,6 +8,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:ital,wght@0,400;0,500;0,600;1,600&display=swap" rel="stylesheet">
 
+<!-- Font Awesome (Free) — used for the survey audience icons below -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" referrerpolicy="no-referrer">
+
 <!-- Google Analytics (GA4) — replace G-XXXXXXXXXX with the real Measurement ID from your GA4 property, in BOTH places below -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
 <script>
@@ -51,11 +54,38 @@
   .hero h1{font-size:36px;color:#fff;margin-bottom:10px;max-width:820px;}
   .hero p{font-size:16px;max-width:760px;opacity:.92;margin:0;}
 
-  /* ---------- Language switch ---------- */
-  .lang-switch{display:inline-flex;flex-shrink:0;border:1.5px solid rgba(255,255,255,.55);border-radius:999px;padding:3px;gap:2px;}
-  .lang-btn{font-family:'Montserrat',sans-serif;font-weight:700;font-size:12.5px;letter-spacing:.03em;border:none;background:transparent;color:#fff;opacity:.78;padding:7px 16px;border-radius:999px;cursor:pointer;transition:background .15s ease, opacity .15s ease, color .15s ease;}
+  /* ---------- Language banner (stands out above the hero) ---------- */
+  .lang-banner{background:#FFF7DA;border-bottom:3px solid #F0B429;}
+  .lang-banner-inner{
+    max-width:1200px;margin:0 auto;padding:12px 32px;display:flex;align-items:center;justify-content:center;
+    gap:14px;flex-wrap:wrap;text-align:center;
+  }
+  .lang-banner-icon{font-size:18px;flex-shrink:0;}
+  .lang-banner-text{font-family:'Montserrat';font-weight:700;font-size:13.5px;color:#5c4400;}
+  .lang-banner-btn{
+    flex-shrink:0;font-family:'Montserrat';font-weight:700;font-size:12.5px;letter-spacing:.02em;
+    background:#5c4400;color:#fff;border:none;padding:8px 18px;border-radius:999px;cursor:pointer;
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .lang-banner-btn:hover{box-shadow:var(--el-1);transform:translateY(-1px);}
+
+  /* ---------- Language switch (in header) ---------- */
+  .lang-switch-wrap{position:relative;flex-shrink:0;}
+  .lang-switch{display:inline-flex;flex-shrink:0;border:1.5px solid rgba(255,255,255,.7);border-radius:999px;padding:4px;gap:2px;}
+  .lang-btn{font-family:'Montserrat',sans-serif;font-weight:700;font-size:13px;letter-spacing:.02em;border:none;background:transparent;color:#fff;opacity:.85;padding:8px 18px;border-radius:999px;cursor:pointer;transition:background .15s ease, opacity .15s ease, color .15s ease;}
   .lang-btn:hover{opacity:1;}
   .lang-btn.active{background:#fff;color:var(--red);opacity:1;}
+
+  /* ---------- Hint arrow pointing at the language switch ---------- */
+  .lang-arrow{
+    position:absolute;top:-22px;right:14px;width:20px;height:24px;pointer-events:none;
+    opacity:.8;animation:lang-arrow-bounce 1.6s ease-in-out infinite;
+  }
+  @keyframes lang-arrow-bounce{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(5px);}
+  }
+  @media(max-width:520px){.lang-arrow{display:none;}}
   .back-link{display:inline-block;font-family:'Montserrat';font-weight:600;font-size:13px;color:#fff;opacity:.85;text-decoration:none;}
   .back-link:hover{opacity:1;text-decoration:underline;}
 
@@ -84,8 +114,18 @@
   .timeline-link{display:inline-block;font-family:'Montserrat';font-weight:600;font-size:13.5px;color:var(--blue);text-decoration:none;}
   .timeline-link:hover{text-decoration:underline;}
 
+  /* ---------- Survey rows (one per language) ---------- */
+  .survey-row{margin-top:36px;}
+  .survey-row:first-of-type{margin-top:28px;}
+  .survey-row-head{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+  .survey-row-flag{font-family:'Montserrat';font-weight:800;font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:5px 12px;border-radius:var(--shape-chip);}
+  .survey-row.lang-en .survey-row-flag{background:var(--md-secondary-container);color:var(--md-on-secondary-container);}
+  .survey-row.lang-es .survey-row-flag{background:var(--md-primary-container);color:var(--md-on-primary-container);}
+  .survey-row-head h3{font-size:15.5px;margin:0;}
+  .survey-row-rule{flex:1;height:1px;background:var(--line);}
+
   /* ---------- Audience cards ---------- */
-  .audience-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:28px;}
+  .audience-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:0;}
   @media(max-width:820px){.audience-grid{grid-template-columns:1fr;}}
   .aud-card{
     position:relative;overflow:hidden;border:1px solid var(--line);border-radius:var(--radius);background:#fff;
@@ -94,11 +134,12 @@
   .aud-card:hover{box-shadow:var(--el-2);transform:translateY(-2px);}
   .aud-icon{
     width:56px;height:56px;border-radius:50%;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;
-    font-family:'Montserrat';font-weight:800;font-size:22px;
+    font-size:22px;
   }
   .aud-card.student .aud-icon{background:var(--md-primary-container);color:var(--md-on-primary-container);}
   .aud-card.parent .aud-icon{background:var(--md-secondary-container);color:var(--md-on-secondary-container);}
   .aud-card.staff .aud-icon{background:var(--paper-alt);color:var(--blue);border:1.5px solid var(--line);}
+  .aud-icon i{line-height:1;}
   .aud-card h3{font-size:18px;margin-bottom:8px;}
   .aud-card p{font-size:13.5px;color:var(--muted);margin:0 0 20px 0;min-height:60px;}
 
@@ -130,13 +171,27 @@
 </head>
 <body>
 
+<div class="lang-banner">
+  <div class="lang-banner-inner">
+    <span class="lang-banner-icon">🌐</span>
+    <span class="lang-banner-text">This page and both surveys are also available in Spanish · Esta página y ambas encuestas también están disponibles en español</span>
+    <button type="button" class="lang-banner-btn" id="langBannerBtn">Ver en Español</button>
+  </div>
+</div>
+
 <header class="hero">
   <div class="wrap">
     <div class="hero-top">
       <a class="back-link" href="index.html" data-i18n="backLink">← Back to the Communications Hub</a>
-      <div class="lang-switch" role="group" aria-label="Language / Idioma">
-        <button type="button" class="lang-btn" data-lang="en">EN</button>
-        <button type="button" class="lang-btn" data-lang="es">ES</button>
+      <div class="lang-switch-wrap">
+        <svg class="lang-arrow" viewBox="0 0 20 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M17 2C11.5 3.5 5 8 4 18" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+          <path d="M0 14L4 21L9.5 15.5" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="lang-switch" role="group" aria-label="Language / Idioma">
+          <button type="button" class="lang-btn" data-lang="en">English</button>
+          <button type="button" class="lang-btn" data-lang="es">Español</button>
+        </div>
       </div>
     </div>
     <div class="eyebrow" data-i18n="eyebrow">Web &amp; Multimedia Coordinator — Website Redesign</div>
@@ -167,27 +222,62 @@
   <section class="pick">
     <div class="section-kicker" data-i18n="pickKicker">Take the survey</div>
     <h2 data-i18n="pickTitle">Pick the survey that matches you</h2>
-    <p class="lead" data-i18n="pickLead">If more than one applies to you — for example, if you're both a parent and a staff member — feel free to complete more than one.</p>
-    <div class="audience-grid">
-      <div class="aud-card student">
-        <div class="aud-icon">S</div>
-        <h3 data-i18n="studentTitle">Students</h3>
-        <p data-i18n="studentBody">Tell us what you look for on the site — class registration, schedules, activities, and what's hard to find right now.</p>
-        <a class="btn btn-fill" data-survey="student" data-i18n="studentBtn" href="https://forms.gle/Zd71AzQeNYxypu6A9" target="_blank" rel="noopener">Take the Student Survey</a>
+    <p class="lead" data-i18n="pickLead">If more than one applies to you — for example, if you're both a parent and a staff member — feel free to complete more than one. Surveys are available in English and Spanish below.</p>
+
+    <div class="survey-row lang-en">
+      <div class="survey-row-head">
+        <span class="survey-row-flag">English</span>
+        <span class="survey-row-rule"></span>
       </div>
-      <div class="aud-card parent">
-        <div class="aud-icon">P</div>
-        <h3 data-i18n="parentTitle">Parents &amp; Guardians</h3>
-        <p data-i18n="parentBody">Tell us how you use the site to stay connected to your student's school — enrollment, calendars, announcements, and more.</p>
-        <a class="btn btn-blue" data-survey="parent" data-i18n="parentBtn" href="https://forms.gle/wrsuWLLcN3ZEKNJ48" target="_blank" rel="noopener">Take the Parent Survey</a>
-      </div>
-      <div class="aud-card staff">
-        <div class="aud-icon">St</div>
-        <h3 data-i18n="staffTitle">Staff</h3>
-        <p data-i18n="staffBody">Tell us what's hardest to find or maintain from the staff side — department pages, forms, and internal resources.</p>
-        <a class="btn btn-fill" data-survey="staff" data-i18n="staffBtn" href="https://forms.gle/XDwEuPD8Dd9o6o7n9" target="_blank" rel="noopener">Take the Staff Survey</a>
+      <div class="audience-grid">
+        <div class="aud-card student">
+          <div class="aud-icon"><i class="fa-solid fa-graduation-cap" aria-hidden="true"></i></div>
+          <h3>Students</h3>
+          <p>Tell us what you look for on the site — class registration, schedules, activities, and what's hard to find right now.</p>
+          <a class="btn btn-fill" href="https://forms.gle/Zd71AzQeNYxypu6A9" target="_blank" rel="noopener">Take the Student Survey</a>
+        </div>
+        <div class="aud-card parent">
+          <div class="aud-icon"><i class="fa-solid fa-user-group" aria-hidden="true"></i></div>
+          <h3>Parents &amp; Guardians</h3>
+          <p>Tell us how you use the site to stay connected to your student's school — enrollment, calendars, announcements, and more.</p>
+          <a class="btn btn-blue" href="https://forms.gle/wrsuWLLcN3ZEKNJ48" target="_blank" rel="noopener">Take the Parent Survey</a>
+        </div>
+        <div class="aud-card staff">
+          <div class="aud-icon"><i class="fa-solid fa-chalkboard-user" aria-hidden="true"></i></div>
+          <h3>Staff</h3>
+          <p>Tell us what's hardest to find or maintain from the staff side — department pages, forms, and internal resources.</p>
+          <a class="btn btn-fill" href="https://forms.gle/XDwEuPD8Dd9o6o7n9" target="_blank" rel="noopener">Take the Staff Survey</a>
+        </div>
       </div>
     </div>
+
+    <div class="survey-row lang-es">
+      <div class="survey-row-head">
+        <span class="survey-row-flag">Español</span>
+        <span class="survey-row-rule"></span>
+      </div>
+      <div class="audience-grid">
+        <div class="aud-card student">
+          <div class="aud-icon"><i class="fa-solid fa-graduation-cap" aria-hidden="true"></i></div>
+          <h3>Estudiantes</h3>
+          <p>Cuéntenos qué busca en el sitio — inscripción a clases, horarios, actividades, y qué es difícil de encontrar actualmente.</p>
+          <a class="btn btn-fill" href="https://docs.google.com/forms/d/e/1FAIpQLScHxAUzWoJZZ0Onv_SljMHnLL31qt8Artyj2fbEXYmxDLAVmA/viewform" target="_blank" rel="noopener">Realizar la Encuesta Estudiantil</a>
+        </div>
+        <div class="aud-card parent">
+          <div class="aud-icon"><i class="fa-solid fa-user-group" aria-hidden="true"></i></div>
+          <h3>Padres y Tutores</h3>
+          <p>Cuéntenos cómo usa el sitio para mantenerse conectado con la escuela de su estudiante — inscripción, calendarios, anuncios, y más.</p>
+          <a class="btn btn-blue" href="https://docs.google.com/forms/d/e/1FAIpQLSdu07EG1e6vj1VvNsPltquR-Zek1_DcmwjhSte_rlcS-punUA/viewform" target="_blank" rel="noopener">Realizar la Encuesta para Padres</a>
+        </div>
+        <div class="aud-card staff">
+          <div class="aud-icon"><i class="fa-solid fa-chalkboard-user" aria-hidden="true"></i></div>
+          <h3>Personal</h3>
+          <p>Cuéntenos qué es más difícil de encontrar o mantener desde el lado del personal — páginas de departamentos, formularios, y recursos internos.</p>
+          <a class="btn btn-fill" href="https://docs.google.com/forms/d/e/1FAIpQLSea88iof_jIcOKyev9Bj0WtEXmddnqs3MRKoABu8EM3ZZ-OVQ/viewform" target="_blank" rel="noopener">Realizar la Encuesta del Personal</a>
+        </div>
+      </div>
+    </div>
+
     <div class="note-band">
       <span>ℹ️</span>
       <span data-i18n="noteBand">Each survey opens in a new tab as a Google Form. Responses are collected by the Web &amp; Multimedia Coordinator and used only to guide the website redesign.</span>
@@ -238,16 +328,7 @@
       timelineLink: "See the full website migration project timeline →",
       pickKicker: "Take the survey",
       pickTitle: "Pick the survey that matches you",
-      pickLead: "If more than one applies to you — for example, if you're both a parent and a staff member — feel free to complete more than one.",
-      studentTitle: "Students",
-      studentBody: "Tell us what you look for on the site — class registration, schedules, activities, and what's hard to find right now.",
-      studentBtn: "Take the Student Survey",
-      parentTitle: "Parents &amp; Guardians",
-      parentBody: "Tell us how you use the site to stay connected to your student's school — enrollment, calendars, announcements, and more.",
-      parentBtn: "Take the Parent Survey",
-      staffTitle: "Staff",
-      staffBody: "Tell us what's hardest to find or maintain from the staff side — department pages, forms, and internal resources.",
-      staffBtn: "Take the Staff Survey",
+      pickLead: "If more than one applies to you — for example, if you're both a parent and a staff member — feel free to complete more than one. Surveys are available in English and Spanish below.",
       noteBand: "Each survey opens in a new tab as a Google Form. Responses are collected by the Web &amp; Multimedia Coordinator and used only to guide the website redesign.",
       footer1: "Oxnard Union High School District — Website Redesign Survey.",
       footer2: "Questions about this project? Contact Teo Lopez at <a href=\"mailto:teolopez@oxnardunion.org\">teolopez@oxnardunion.org</a>."
@@ -268,26 +349,11 @@
       timelineLink: "Ver el cronograma completo del proyecto de migración del sitio web →",
       pickKicker: "Realice la encuesta",
       pickTitle: "Elija la encuesta que corresponda a usted",
-      pickLead: "Si más de una se aplica a usted — por ejemplo, si es tanto padre/madre como miembro del personal — puede completar más de una.",
-      studentTitle: "Estudiantes",
-      studentBody: "Cuéntenos qué busca en el sitio — inscripción a clases, horarios, actividades, y qué es difícil de encontrar actualmente.",
-      studentBtn: "Realizar la Encuesta Estudiantil",
-      parentTitle: "Padres y Tutores",
-      parentBody: "Cuéntenos cómo usa el sitio para mantenerse conectado con la escuela de su estudiante — inscripción, calendarios, anuncios, y más.",
-      parentBtn: "Realizar la Encuesta para Padres",
-      staffTitle: "Personal",
-      staffBody: "Cuéntenos qué es más difícil de encontrar o mantener desde el lado del personal — páginas de departamentos, formularios, y recursos internos.",
-      staffBtn: "Realizar la Encuesta del Personal",
+      pickLead: "Si más de una se aplica a usted — por ejemplo, si es tanto padre/madre como miembro del personal — puede completar más de una. Las encuestas están disponibles en inglés y español a continuación.",
       noteBand: "Cada encuesta se abre en una pestaña nueva como un formulario de Google. Las respuestas son recopiladas por el Coordinador Web y Multimedia y se utilizan únicamente para guiar el rediseño del sitio web.",
       footer1: "Distrito Escolar de la Unión de Oxnard — Encuesta de Rediseño del Sitio Web.",
       footer2: "¿Preguntas sobre este proyecto? Comuníquese con Teo López a <a href=\"mailto:teolopez@oxnardunion.org\">teolopez@oxnardunion.org</a>."
     }
-  };
-
-  const surveyLinks = {
-    student: { en: "https://forms.gle/Zd71AzQeNYxypu6A9", es: "https://docs.google.com/forms/d/e/1FAIpQLScHxAUzWoJZZ0Onv_SljMHnLL31qt8Artyj2fbEXYmxDLAVmA/viewform" },
-    parent:  { en: "https://forms.gle/wrsuWLLcN3ZEKNJ48", es: "https://docs.google.com/forms/d/e/1FAIpQLSdu07EG1e6vj1VvNsPltquR-Zek1_DcmwjhSte_rlcS-punUA/viewform" },
-    staff:   { en: "https://forms.gle/XDwEuPD8Dd9o6o7n9", es: "https://docs.google.com/forms/d/e/1FAIpQLSea88iof_jIcOKyev9Bj0WtEXmddnqs3MRKoABu8EM3ZZ-OVQ/viewform" }
   };
 
   function setLanguage(lang){
@@ -300,21 +366,27 @@
         el.innerHTML = translations[lang][key];
       }
     });
-    document.querySelectorAll('[data-survey]').forEach(el=>{
-      const key = el.getAttribute('data-survey');
-      if(surveyLinks[key] && surveyLinks[key][lang]){
-        el.href = surveyLinks[key][lang];
-      }
-    });
     document.querySelectorAll('.lang-btn').forEach(b=>{
       b.classList.toggle('active', b.getAttribute('data-lang') === lang);
     });
+    const bannerBtn = document.getElementById('langBannerBtn');
+    if(bannerBtn){
+      bannerBtn.textContent = lang === 'es' ? 'View in English' : 'Ver en Español';
+    }
     try{ localStorage.setItem('ouhsd-survey-lang', lang); }catch(e){}
   }
 
   document.querySelectorAll('.lang-btn').forEach(btn=>{
     btn.addEventListener('click', ()=> setLanguage(btn.getAttribute('data-lang')));
   });
+
+  const langBannerBtn = document.getElementById('langBannerBtn');
+  if(langBannerBtn){
+    langBannerBtn.addEventListener('click', ()=>{
+      const current = document.documentElement.lang === 'es' ? 'es' : 'en';
+      setLanguage(current === 'es' ? 'en' : 'es');
+    });
+  }
 
   (function initLanguage(){
     let lang = 'en';
