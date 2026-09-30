@@ -275,14 +275,14 @@
         <div class="photo-preview" id="photoPreview">No photo</div>
         <div class="file-btn-row">
           <button class="btn small outline" id="uploadBtn" type="button">Upload photo<span class="state-layer"></span></button>
-          <button class="btn small outline" id="driveSearchBtn" type="button" disabled title="Drive search isn't set up yet — see the setup guide">Search Google Drive<span class="state-layer"></span></button>
+          <button class="btn small outline" id="driveSearchBtn" type="button" disabled title="Photo search isn't set up yet">Search staff photos<span class="state-layer"></span></button>
           <button class="btn small outline" id="editCropBtn" type="button" style="display:none;">Edit crop<span class="state-layer"></span></button>
           <button class="btn small outline" id="removeBtn" type="button" style="display:none;">Remove<span class="state-layer"></span></button>
         </div>
         <input type="file" id="photoInput" accept="image/*">
       </div>
-      <div class="field-hint" id="photoFieldHint">Search your name or employee ID to pull your photo from the district's staff photo folder, or upload one from your device. Either way, you'll be able to drag and zoom to frame it before it's cropped to a circle and embedded directly in the signature — nothing is uploaded anywhere.</div>
-      <div class="drive-hint" id="driveSignInHint" style="display:none;">Signing you in with your district Google account to search the staff photo folder…</div>
+      <div class="field-hint" id="photoFieldHint">Search by name or employee ID to find your photo in the district's staff photo folder (it doesn't have to be an exact match), or upload one from your device. Either way, you'll be able to drag and zoom to frame it before it's cropped to a circle and embedded directly in the signature — nothing is uploaded anywhere.</div>
+      <div class="drive-hint" id="driveSignInHint" style="display:none;"></div>
     </div>
 
     <div class="preview-card">
@@ -670,89 +670,46 @@ cropApply.addEventListener('click', ()=>{
   renderPreview();
 });
 
-// ---- Optional: search a shared Google Drive folder for a staff photo ----
-// Filled in by IT/Workspace admin per the setup guide. Until real values are
-// pasted in below, the "Search Google Drive" button stays disabled.
-const DRIVE_CONFIG = {
-  CLIENT_ID: 'PASTE_OAUTH_CLIENT_ID_HERE',
-  API_KEY: 'PASTE_API_KEY_HERE',
-  FOLDER_ID: 'PASTE_STAFF_PHOTOS_FOLDER_ID_HERE'
-};
-const DRIVE_CONFIGURED = !/^PASTE_/.test(DRIVE_CONFIG.CLIENT_ID) && !/^PASTE_/.test(DRIVE_CONFIG.API_KEY) && !/^PASTE_/.test(DRIVE_CONFIG.FOLDER_ID);
+// ---- Staff photo search (Google Apps Script web app) ----
+// Paste the web app URL from the Apps Script deployment (it ends in /exec).
+// Until it's filled in, the "Search staff photos" button stays disabled.
+// Setup steps: apps-script/photo-search/SETUP.md
+const PHOTO_SEARCH_URL = 'https://script.google.com/a/macros/oxnardunion.org/s/AKfycbxdDJwhY04qntnltkZJuj6PeS8kHPZTUELJzIgwVLxFIOg0GNO1DNdvQmYRDbsPDA9B/exec'; // PASTE_APPS_SCRIPT_WEB_APP_URL_HERE
+const PHOTO_SEARCH_READY = /^https:\/\/script\.google\.com\/.+\/exec$/.test(PHOTO_SEARCH_URL);
 
-let driveAccessToken = null, driveTokenClient = null, gapiReady = false, gisReady = false;
-
-function maybeEnableDriveButton(){
-  if(DRIVE_CONFIGURED && gapiReady && gisReady){
-    driveSearchBtn.disabled = false;
-    driveSearchBtn.title = '';
-  }
+if(PHOTO_SEARCH_READY){
+  driveSearchBtn.disabled = false;
+  driveSearchBtn.title = '';
 }
 
-// Called by the gapi <script> tag's onload, only meaningful once DRIVE_CONFIG is filled in.
-window.onGapiLoad = function(){
-  if(!DRIVE_CONFIGURED) return;
-  gapi.load('client:picker', async ()=>{
-    await gapi.client.init({ apiKey: DRIVE_CONFIG.API_KEY });
-    gapiReady = true;
-    maybeEnableDriveButton();
-  });
-};
-
-// Called by the Google Identity Services <script> tag's onload.
-window.onGisLoad = function(){
-  if(!DRIVE_CONFIGURED) return;
-  driveTokenClient = google.accounts.oauth2.initTokenClient({
-    client_id: DRIVE_CONFIG.CLIENT_ID,
-    scope: 'https://www.googleapis.com/auth/drive.readonly',
-    callback: '' // set per-request just below
-  });
-  gisReady = true;
-  maybeEnableDriveButton();
-};
+let photoSearchWin = null;
 
 driveSearchBtn.addEventListener('click', ()=>{
-  if(!DRIVE_CONFIGURED || !driveTokenClient) return;
-  driveSignInHint.style.display = 'block';
-  driveTokenClient.callback = (resp)=>{
+  if(!PHOTO_SEARCH_READY) return;
+  // Pre-fill the search with whatever they typed in the name field.
+  const q = els.name.value.trim();
+  const url = PHOTO_SEARCH_URL + '?origin=' + encodeURIComponent(location.origin) + (q ? '&q=' + encodeURIComponent(q) : '');
+  const w = 560, h = 680;
+  const left = Math.max(0, (window.screenX || 0) + (window.outerWidth - w) / 2);
+  const top = Math.max(0, (window.screenY || 0) + (window.outerHeight - h) / 2);
+  // No "noopener": the search window hands the photo back through window.opener.
+  photoSearchWin = window.open(url, 'ouhsdPhotoSearch', `width=${w},height=${h},left=${left},top=${top}`);
+  if(!photoSearchWin){
+    driveSignInHint.textContent = 'Your browser blocked the photo search window. Allow pop-ups for this page and try again.';
+    driveSignInHint.style.display = 'block';
+  }else{
     driveSignInHint.style.display = 'none';
-    if(resp.error){ console.error('Drive sign-in error', resp); return; }
-    driveAccessToken = resp.access_token;
-    showDrivePicker();
-  };
-  driveTokenClient.requestAccessToken({ prompt: driveAccessToken ? '' : 'consent' });
+  }
 });
 
-function showDrivePicker(){
-  const view = new google.picker.DocsView(google.picker.ViewId.DOCS_IMAGES)
-    .setParent(DRIVE_CONFIG.FOLDER_ID)
-    .setIncludeFolders(false)
-    .setSelectFolderEnabled(false);
-  const picker = new google.picker.PickerBuilder()
-    .setOAuthToken(driveAccessToken)
-    .setDeveloperKey(DRIVE_CONFIG.API_KEY)
-    .addView(view)
-    .setCallback(onDrivePicked)
-    .build();
-  picker.setVisible(true);
-}
-
-function onDrivePicked(data){
-  if(data.action !== google.picker.Action.PICKED) return;
-  const file = data.docs[0];
-  fetchDriveImage(file.id);
-}
-
-async function fetchDriveImage(fileId){
-  const res = await fetch(`https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`, {
-    headers: { Authorization: 'Bearer ' + driveAccessToken }
-  });
-  if(!res.ok){ console.error('Drive fetch failed', res.status); return; }
-  const blob = await res.blob();
-  const reader = new FileReader();
-  reader.onload = (ev)=> openCropper(ev.target.result, true);
-  reader.readAsDataURL(blob);
-}
+// The photo arrives from the Apps Script page, which is served from *.googleusercontent.com.
+window.addEventListener('message', (e)=>{
+  if(!/^https:\/\/([a-z0-9-]+\.)*googleusercontent\.com$/.test(e.origin)) return;
+  const d = e.data;
+  if(!d || d.type !== 'ouhsd-staff-photo' || typeof d.dataUrl !== 'string') return;
+  if(!/^data:image\/(jpeg|png|gif|webp);base64,/.test(d.dataUrl)) return;
+  openCropper(d.dataUrl, true);
+});
 
 // ---- Copy signature (rich HTML + plain text fallback) ----
 document.getElementById('copyBtn').addEventListener('click', async ()=>{
@@ -806,12 +763,6 @@ document.querySelectorAll('.btn').forEach(btn=>{
   });
 });
 </script>
-
-<!-- Loaded last, after onGapiLoad/onGisLoad are already defined above, so their
-     onload callbacks always have something to call. Only used when DRIVE_CONFIG
-     (in the script above) has been filled in by IT — see the Drive setup guide. -->
-<script async defer src="https://apis.google.com/js/api.js" onload="onGapiLoad()"></script>
-<script async defer src="https://accounts.google.com/gsi/client" onload="onGisLoad()"></script>
 
 </body>
 </html>
