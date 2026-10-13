@@ -55,8 +55,8 @@
   .hero h1{font-size:34px;color:#fff;margin-bottom:8px;max-width:720px;}
   .hero p{font-size:15.5px;max-width:620px;opacity:.92;margin:0;}
   main{padding:48px 0 80px;}
-  .grid{display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:start;}
-  @media(max-width:900px){.grid{grid-template-columns:1fr;}}
+  .grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:34px;align-items:start;}
+  @media(max-width:900px){.grid{grid-template-columns:minmax(0,1fr);}}
   .card{border:1px solid var(--line);border-radius:var(--radius);background:#fff;padding:30px;box-shadow:var(--el-1);}
   .card h2{font-size:19px;margin-bottom:6px;}
   .card .sub{font-size:13.5px;color:var(--muted);margin-bottom:22px;}
@@ -135,9 +135,18 @@
   .btn:disabled{opacity:.5;cursor:not-allowed;}
   .btn-ripple{position:absolute;border-radius:50%;background:currentColor;opacity:.3;transform:scale(0);animation:btn-ripple .55s ease-out;pointer-events:none;}
   @keyframes btn-ripple{to{transform:scale(2.6);opacity:0;}}
-  input[type=file]{display:none;}
 
   .preview-card{position:sticky;top:24px;}
+  .design-picker{border:0;margin:0 0 4px 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;}
+  @media(max-width:520px){.design-picker{grid-template-columns:1fr;}}
+  .design-picker legend{font-family:'Montserrat';font-weight:700;font-size:12.5px;letter-spacing:.02em;margin-bottom:8px;padding:0;color:var(--ink);}
+  .design-opt{display:flex;gap:8px;align-items:flex-start;margin:0;padding:11px 12px;border:1.5px solid var(--md-outline);border-radius:var(--shape-md);background:#fff;cursor:pointer;font-family:'Open Sans';font-weight:400;letter-spacing:normal;transition:border-color .12s ease,background .12s ease;}
+  .design-opt:hover{background:var(--md-surface-variant);}
+  .design-opt:has(input:checked){border-color:var(--md-secondary);background:var(--md-secondary-container);}
+  .design-opt input{margin:3px 0 0 0;accent-color:var(--md-secondary);flex-shrink:0;}
+  .design-opt input:focus-visible{outline:2px solid var(--md-secondary);outline-offset:2px;}
+  .design-name{display:block;font-family:'Montserrat';font-weight:700;font-size:13px;color:var(--ink);}
+  .design-desc{display:block;font-size:12px;line-height:1.4;color:var(--muted);margin-top:2px;}
   .preview-shell{
     border:1px solid var(--line);border-radius:var(--shape-md);background:var(--paper-alt);padding:26px;margin-top:18px;
   }
@@ -167,6 +176,18 @@
   @media(max-width:520px){.why-grid{grid-template-columns:1fr;}}
   .why-item{font-size:13px;color:var(--ink);line-height:1.5;}
   .why-item strong{display:block;font-family:'Montserrat';font-weight:700;font-size:13.5px;color:var(--md-secondary);margin-bottom:3px;}
+  .how-to{border:1px solid var(--line);border-radius:var(--radius);background:#fff;padding:24px 26px;margin-bottom:32px;box-shadow:var(--el-1);}
+  .clip{margin:0;display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:clamp(20px,3vw,36px);align-items:center;}
+  .clip video{display:block;width:100%;height:auto;aspect-ratio:16/9;background:var(--paper-alt);border:1px solid var(--line);border-radius:var(--shape-md);}
+  .clip figcaption{display:grid;gap:10px;align-content:center;min-width:0;}
+  .clip .lbl{font-family:'Montserrat';font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);}
+  .clip .lbl b{color:var(--md-primary);}
+  .clip-t{font-family:'Montserrat';font-weight:700;font-size:20px;line-height:1.25;color:var(--ink);margin:0;}
+  .clip ol{margin:0;padding-left:1.2em;display:grid;gap:6px;font-size:14px;color:var(--muted);}
+  @media(max-width:860px){.clip{grid-template-columns:1fr;}}
+  .watch-link{display:inline-flex;align-items:center;gap:8px;margin-top:18px;font-family:'Montserrat';font-weight:600;font-size:14px;color:#fff;
+    text-decoration:none;border:1.5px solid rgba(255,255,255,.75);border-radius:var(--shape-btn);padding:9px 16px;}
+  .watch-link:hover,.watch-link:focus-visible{background:rgba(255,255,255,.14);border-color:#fff;}
   footer{padding:30px 0;background:var(--paper-alt);margin-top:25px;}
   footer p{font-size:12.5px;color:var(--muted);margin:0;}
   footer a{color:var(--red);font-weight:600;text-decoration:none;}
@@ -181,10 +202,32 @@
     <div class="eyebrow">Oxnard Union High School District</div>
     <h1>Email Signature Generator</h1>
     <p>Fill in your info, add your photo, and copy a ready-to-paste signature for Gmail — built so your photo is embedded directly and won't break when pasted, the same way it works from the district's Google Doc template today.</p>
+    <a class="watch-link" href="#how-to"><span aria-hidden="true">&#9654;</span> Watch the 1-minute how-to</a>
   </div>
 </header>
 
 <main class="wrap">
+
+  <section class="how-to" id="how-to" aria-labelledby="how-to-title">
+    <figure class="clip">
+      <video controls muted playsinline preload="none" width="1280" height="720" poster="media/email-signature-how-to-poster.jpg" aria-describedby="how-to-steps">
+        <source src="media/email-signature-how-to.mp4" type="video/mp4">
+        Your browser can't play this video. The steps are listed next to it.
+      </video>
+      <figcaption id="how-to-steps">
+        <span class="lbl"><b>Watch</b> · 73 sec · no sound</span>
+        <h2 class="clip-t" id="how-to-title">Create your signature in about a minute</h2>
+        <ol>
+          <li>Fill in your name, job title, department, phone, and email.</li>
+          <li>Click <strong>Search staff photos</strong> and search by name or employee ID.</li>
+          <li>Drag and zoom to frame your photo, then click <strong>Use this photo</strong>.</li>
+          <li>Choose a design: Classic Column, Single Column, or Letterhead.</li>
+          <li>Click <strong>Copy signature</strong>.</li>
+          <li>In Gmail, open Settings, then See all settings, then Signature. Paste, and click <strong>Save Changes</strong>.</li>
+        </ol>
+      </figcaption>
+    </figure>
+  </section>
 
   <div class="why-band">
     <h2>Why use this instead of a graphic image as your signature?</h2>
@@ -274,14 +317,12 @@
       <div class="photo-row">
         <div class="photo-preview" id="photoPreview">No photo</div>
         <div class="file-btn-row">
-          <button class="btn small outline" id="uploadBtn" type="button">Upload photo<span class="state-layer"></span></button>
           <button class="btn small outline" id="driveSearchBtn" type="button" disabled title="Photo search isn't set up yet">Search staff photos<span class="state-layer"></span></button>
           <button class="btn small outline" id="editCropBtn" type="button" style="display:none;">Edit crop<span class="state-layer"></span></button>
           <button class="btn small outline" id="removeBtn" type="button" style="display:none;">Remove<span class="state-layer"></span></button>
         </div>
-        <input type="file" id="photoInput" accept="image/*">
       </div>
-      <div class="field-hint" id="photoFieldHint">Search by name or employee ID to find your photo in the district's staff photo folder (it doesn't have to be an exact match), or upload one from your device. Either way, you'll be able to drag and zoom to frame it before it's cropped to a circle and embedded directly in the signature — nothing is uploaded anywhere.</div>
+      <div class="field-hint" id="photoFieldHint">Search by name or employee ID to find your official district staff photo. It doesn't have to be an exact match. You can then drag and zoom to frame it before it's cropped to a circle and added to your signature. Don't see your photo? It may not be on file yet; contact <a href="mailto:teolopez@oxnardunion.org">teolopez@oxnardunion.org</a>.</div>
       <div class="drive-hint" id="driveSignInHint" style="display:none;"></div>
     </div>
 
@@ -289,6 +330,12 @@
       <div class="card">
         <h2>Preview</h2>
         <div class="sub">This is exactly what gets copied.</div>
+        <fieldset class="design-picker">
+          <legend>Choose a design</legend>
+          <label class="design-opt"><input type="radio" name="sigDesign" value="classic" checked><span><span class="design-name">Classic Column</span><span class="design-desc">Photo and logo on the left, details on the right.</span></span></label>
+          <label class="design-opt"><input type="radio" name="sigDesign" value="single"><span><span class="design-name">Single Column</span><span class="design-desc">Everything in one column. Easiest to read on phones.</span></span></label>
+          <label class="design-opt"><input type="radio" name="sigDesign" value="letterhead"><span><span class="design-name">Letterhead</span><span class="design-desc">District logo on top, name in Oxnard Blue.</span></span></label>
+        </fieldset>
         <div class="preview-shell">
           <div class="preview-inner" id="sigPreview"></div>
         </div>
@@ -310,7 +357,7 @@
         </div>
 
         <div class="note">
-          <strong>If the photo doesn't show up after pasting:</strong> click into the empty photo cell in the Gmail signature box, then use the small image icon in Gmail's own signature toolbar to upload your photo directly — that always works, since it uploads straight to Google's servers.
+          <strong>If the photo doesn't show up after pasting:</strong> make sure you clicked <strong>Save Changes</strong> in Gmail, then send yourself a test email. If it's still missing, contact <a href="mailto:teolopez@oxnardunion.org">teolopez@oxnardunion.org</a>.
         </div>
       </div>
     </div>
@@ -346,8 +393,10 @@
 </footer>
 
 <script>
-const LOGO_B64 = "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";
-const LOGO_SRC = "data:image/png;base64," + LOGO_B64;
+// Official OUHSD logos (brand/logos), rebuilt at 2x for sharp screens, exact brand colors,
+// with a white clear-space box so they stay visible in Gmail dark mode.
+const LOGO_STACK = { b64: "iVBORw0KGgoAAAANSUhEUgAAALQAAABxCAMAAABLNnkHAAADAFBMVEX///8AM6HiADGrvOBUdsD1q7vsVHUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAtAsZlAAAFUklEQVR42u1Z2barIAylQvL/n3wFMuKEVU+9a5EHqwzJJmxCoCEMGTJkyJAhQ4YM+TuJMaZZ5p/4nwBO6WNlxv56xAy0Cg3gzbgL5NRQIlLpeyFvYIsZ9hsxp113Ztivc/YxqPg6Z3chSu9ydiec+CbU3S58EerUT9bXoE6nFtg7UM/OO9k8vgFzfHKQD5EjPkqnZxx9HsHPCXI81znV83n1rwlyNNVzErWST6ffutr6bHlOyZDj69Zi4+h6xrKparxr9T7KaD0H7OVQ8YcBZN02nbB2Y8QPXb1lup4U482R8vl4N9N7v2t6FTt6J+lnoOPtzPpTSp+9S/ojUtfbl40pPn218TTo6C66JI/IIcIcxT+fc5cEDnRkueHyJctnT4pzo20TD8efVZZH/VixkDYk9jD2K0m72dM1OWbU3Zrj57o8BnoDdfq8GvQqr2/BfBH04p7/aOXHniglqrbW/z2eTu1R6o6Q9Vf0uAO73w5Wg+ETnE7pS+SRo6H87xEfA20j/9d/DBFgGm/c5ceNnuZVqfPb7XHzf4x2X/HEY/RooB87XO4XSp+UxNkb5LgOOol/vZFamNIR7kjJRDRpxXasuzvkuYBNlCxlBUDaQVwax9iD9rnoIRMc+F/mtPaXV4UaHZtcvNfZ+8Nt/KPuS4Wt0UOWP85pnsxGeJAL3wA6eV43/GZy56/kc3RJkLc8eiarOQfaxKUlEgFsE/jom6V0e8J0PS/ze871M0DPsTJelTXuXJIwZMiQIUOGDOkVwCxQ36AUlW9A/ay/uRxdJ2muH1LPv1ZTKWYzapgs2o77glOVrG3+KeDLF9bCWfg310/Q9sr15kO0QmBVpR8Xs3pRURqKZu54iHkepqDGqsFBZDioyDD3MharimkHNFrQYA1PPG7qcMwNdS5pAjaIosh4HNVl0A4Sja+XoFkngQbjWiTQ0AkazXyTfUJS7HEhFwD4WRQ30aCmLdAolKAytJwrJmR+D0GLHTCcEFyhvtu51ffW046PLWhAnknytLYl0ADM0H7Q/IaWtoRK1huSWeI0Ttbf+6BrozXQWGuxegi/BQ260kUjrx+whJeF2gEaiRTboLntl/Rw4WkKwkcs3kWNHhi6QZdWG/QAmUXoBA1BtJcnWAoXRcjMJQk+zNiFuAMaOPj4hcicVus90QONlSbkyc5BOw8Kj1Gc55i1CHlI4c3GUAl5wYY8dFH20NXzBgw46V4FLvjwzuB8t4gepAJc/DdqwVBPNxftZffW0LW7yJpyLkOddAr/hlE6G2CIA8vswCzegBa076VbQQ/ospFNMjsQ7KTKsJCd2tCZd4aiAVa8gRAUdBCi6Riom80UOvM8gGfyR/iR4SGPHQlgr3BZqyXQwYYLVLIRrz7zsqvrAMtOUlcHSh6GtFDnWqBirFt7bV/WM2d+Ju4hLTQsMQ7rplIiBkgKSXZrUtUVPTxost+A1rDBRyN+Qo17yI2qEgGNyL2QDEDgBmJP7GrdKdB6PPOgeaO3WMqTIxl73xa6hghGuYLOD5llg+cINBjQxpwFTR4Wq4KFjc2vZmAt6OIOoFnxoGmM5izbB5o3JTZXj8roTqpYiKmgubIPdIGle76ApqN9TvHgJOjQeHoGPTWeria+9nQQfYCTAz15bn0JujFilMH0NadB9FGd0IM9fQk00W4DtEYRXV+CCmRxtKBhgi3Q3Fzp3gUafMjL5C1z6JbezHKsyVp+c3EauS5X8mFB7o2wnCOB3Ql0e7SIHrUzdoc8kKfcVOW9qe5PIDdVemfVVMpNmrYCAQ1SC+5uTJ9g7WrdkCFDhgwZMmTIkFPyD2wtLk1V8ZhiAAAAAElFTkSuQmCC", w: 90, h: 56 };
+const LOGO_HORIZ = { b64: "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", w: 190, h: 48 };
 
 const els = {
   name: document.getElementById('fName'),
@@ -394,100 +443,137 @@ function currentDeptLine(){
 let photoDataUrl = null; // circular-cropped data URL, or null
 
 function esc(s){
-  return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ---- Signature designs ----
+// All three follow the same Gmail and accessibility rules:
+//  - Tables and inline styles only (Gmail strips <style>, classes, flexbox and web fonts)
+//  - Arial, 14px details / 18px name; every text color passes WCAG AA on white
+//  - Underlined links that say what they are; the phone number is a tap-to-call link
+//  - "Phone:" / "Email:" labels so screen readers and skimmers know what each line is
+//  - Alt text on the logo and photo; layout tables marked role="presentation"
+//  - Logos have a white box baked in so they stay visible in Gmail dark mode
+//  - The red and blue line is two solid table cells, not an image or border, so it pastes reliably
+const SIG_FONT = 'font-family:Arial,Helvetica,sans-serif;';
+const SIG_TEXT = SIG_FONT + 'font-size:14px;line-height:20px;color:#222222;';
+const SIG_LINK = 'color:#0033A1;text-decoration:underline;';
+const SIG_TABLE = 'role="presentation" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;"';
+const SIG_LOGO_ALT = 'Oxnard Union High School District';
+const SIG_SITE = 'https://www.oxnardunion.org';
+const SIG_ADDRESS = '1800 Solar Dr., Oxnard, CA 93030';
+const SIG_SOCIAL = [
+  ['Instagram', 'https://www.instagram.com/oxnardunion/'],
+  ['Facebook', 'https://www.facebook.com/oxnardunion'],
+  ['YouTube', 'https://www.youtube.com/oxnardunion'],
+];
+
+function sigLink(href, text){ return `<a href="${href}" style="${SIG_LINK}">${text}</a>`; }
+function sigGap(h){ return `<div style="height:${h}px;line-height:${h}px">&nbsp;</div>`; }
+function sigJoin(lines){ return lines.filter(Boolean).join('<br>'); }
+function sigTel(p){ const d = String(p).replace(/\D/g,''); return d.length === 10 ? '+1' + d : d; }
+function sigLogo(L){
+  return `<img src="data:image/png;base64,${L.b64}" width="${L.w}" height="${L.h}" alt="${SIG_LOGO_ALT}" style="display:block;width:${L.w}px;height:${L.h}px;border:0;">`;
+}
+function sigPhoto(size, name){
+  return `<img src="${photoDataUrl}" width="${size}" height="${size}" alt="${name}" style="display:block;width:${size}px;height:${size}px;border-radius:50%;border:0;">`;
+}
+// Horizontal red + Oxnard Blue line, half and half.
+function sigHLine(){
+  const cell = c => `<td width="50%" height="3" bgcolor="${c}" style="font-size:0;line-height:0">&nbsp;</td>`;
+  return `<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="max-width:440px"><tr>${cell('#E20031')}${cell('#0033A1')}</tr></table>`;
+}
+// One segment of the vertical line used by the Classic Column design.
+function sigVLine(c){
+  return `<td width="3" bgcolor="${c}" style="font-size:0;line-height:0">&nbsp;</td>`;
+}
+
+function sigFields(){
+  const email = els.email.value.trim();
+  const phone = els.phone.value.trim();
+  return {
+    name: esc(els.name.value.trim()) || 'Your Name',
+    title: esc(els.title.value.trim()),
+    dept: esc(currentDeptLine()),
+    phone: phone ? `Phone: ${sigLink('tel:' + sigTel(phone), esc(phone))}` : '',
+    email: email ? `Email: ${sigLink('mailto:' + esc(email), esc(email))}` : '',
+    site: sigLink(SIG_SITE, 'oxnardunion.org'),
+    follow: 'Follow us: ' + SIG_SOCIAL.map(([t, u]) => sigLink(u, t)).join('&nbsp;&nbsp; '),
+  };
+}
+function sigName(n, color){
+  return `<span style="font-size:18px;line-height:24px;font-weight:bold;${color ? 'color:' + color + ';' : ''}">${n}</span>`;
+}
+
+/* Option 1: Classic Column
+   Photo (if any) and stacked logo on the left. A vertical line runs red beside
+   the name block and Oxnard Blue beside the contact details. */
+function buildClassic(f){
+  const left = photoDataUrl
+    ? `${sigPhoto(80, f.name)}${sigGap(12)}${sigLogo(LOGO_STACK)}`
+    : sigLogo(LOGO_STACK);
+  return `<table ${SIG_TABLE}>
+<tr><td rowspan="2" style="vertical-align:top;padding:0 16px 0 0;">${left}</td>${sigVLine('#E20031')}<td style="vertical-align:top;padding:0 0 10px 16px;${SIG_TEXT}">${sigName(f.name)}${f.title || f.dept ? '<br>' + sigJoin([f.title, f.dept]) : ''}</td></tr>
+<tr>${sigVLine('#0033A1')}<td style="vertical-align:top;padding:0 0 0 16px;${SIG_TEXT}">${sigJoin([f.phone, f.email, f.site, `<span style="color:#4A4A4A;">${SIG_ADDRESS}</span>`])}${sigGap(10)}${f.follow}</td></tr>
+</table>`;
+}
+
+/* Option 2: Single Column
+   Everything in one column, top to bottom, framed by the red and blue line.
+   Reads in the same order on every screen and screen reader. */
+function buildSingle(f){
+  const nameBlock = `${sigName(f.name)}${f.title || f.dept ? '<br>' + sigJoin([f.title, f.dept]) : ''}`;
+  const head = photoDataUrl
+    ? `<table ${SIG_TABLE}><tr><td style="vertical-align:middle;padding:0 12px 0 0;">${sigPhoto(64, f.name)}</td><td style="vertical-align:middle;${SIG_TEXT}">${nameBlock}</td></tr></table>`
+    : nameBlock;
+  const contact = sigJoin([f.phone, f.email]);
+  return `<table ${SIG_TABLE}><tr><td style="${SIG_TEXT}">
+${sigHLine()}${sigGap(14)}${head}
+${contact ? sigGap(10) + contact : ''}
+${sigGap(10)}${f.site}<br>${f.follow}
+${sigGap(14)}${sigLogo(LOGO_HORIZ)}<span style="color:#4A4A4A;">${SIG_ADDRESS}</span>
+${sigGap(14)}${sigHLine()}
+</td></tr></table>`;
+}
+
+/* Option 3: Letterhead
+   District logo leads, name in Oxnard Blue, framed by the red and blue line. */
+function buildLetterhead(f){
+  const details = `${sigName(f.name, '#0033A1')}${[f.title, f.dept, f.phone, f.email].some(Boolean) ? '<br>' + sigJoin([f.title, f.dept, f.phone, f.email]) : ''}`;
+  const person = photoDataUrl
+    ? `<table ${SIG_TABLE}><tr><td style="vertical-align:top;padding:0 14px 0 0;">${sigPhoto(72, f.name)}</td><td style="vertical-align:top;${SIG_TEXT}">${details}</td></tr></table>`
+    : details;
+  return `<table ${SIG_TABLE}><tr><td style="${SIG_TEXT}">
+${sigHLine()}${sigGap(12)}${sigLogo(LOGO_HORIZ)}
+${sigGap(14)}${person}
+${sigGap(10)}<span style="color:#4A4A4A;">${f.site}&nbsp;&nbsp; ${SIG_ADDRESS}</span><br>${f.follow}
+${sigGap(14)}${sigHLine()}
+</td></tr></table>`;
+}
+
+const SIG_DESIGNS = { classic: buildClassic, single: buildSingle, letterhead: buildLetterhead };
+
+function currentDesign(){
+  const picked = document.querySelector('input[name="sigDesign"]:checked');
+  return picked && SIG_DESIGNS[picked.value] ? picked.value : 'classic';
 }
 
 function buildSignatureHTML(){
-  const name = esc(els.name.value.trim()) || 'Your Name';
-  const title = esc(els.title.value.trim());
-  const deptLine = esc(currentDeptLine());
-  const phone = esc(els.phone.value.trim());
-  const email = els.email.value.trim();
-  const emailEsc = esc(email);
-
-  const phoneLine = phone ? `<p style="margin:0;padding:0;font-family:Arial,sans-serif;font-size:13px;color:#000000;line-height:1.5;">${phone}</p>` : '';
-  const emailLine = email
-    ? `<p style="margin:0;padding:0;font-family:Arial,sans-serif;font-size:13px;line-height:1.5;"><a href="mailto:${emailEsc}" style="color:#1155cc;text-decoration:underline;">${emailEsc}</a></p>`
-    : '';
-
-  const nameBlock = `
-      <p style="margin:0;padding:0;font-family:Arial,sans-serif;font-weight:700;font-size:17px;color:#000000;line-height:1.5;">${name}</p>
-      ${title ? `<p style="margin:0;padding:0;font-family:Arial,sans-serif;font-size:13px;color:#000000;line-height:1.5;">${title}</p>` : ''}
-      ${deptLine ? `<p style="margin:0;padding:0;font-family:Arial,sans-serif;font-size:13px;color:#000000;line-height:1.5;">${deptLine}</p>` : ''}`;
-
-  const followRow = `
-  <tr>
-    <td style="padding:8px 5px 0 0;vertical-align:top;width:80px;text-align:center;">
-      <p style="margin:0;padding:0;font-family:Arial,sans-serif;font-size:13px;color:#000000;line-height:1.5;">Follow Us:</p>
-    </td>
-    <td style="padding:8px 0 0 0;vertical-align:top;">
-      <p style="margin:0;padding:0;font-family:Arial,sans-serif;font-size:13px;line-height:1.5;">
-        <a href="https://www.instagram.com/oxnardunion/" style="color:#1155cc;text-decoration:underline;">Instagram</a>&nbsp;&nbsp;
-        <a href="https://facebook.com/oxnardunion" style="color:#1155cc;text-decoration:underline;">Facebook</a>&nbsp;&nbsp;
-        <a href="https://youtube.com/oxnardunion" style="color:#1155cc;text-decoration:underline;">YouTube</a>
-      </p>
-    </td>
-  </tr>`;
-
-  if(photoDataUrl){
-    // Photo uploaded: original 3-row layout (photo over logo, both in the left column).
-    return `
-<table style="border-spacing:0;border-collapse:collapse;margin-right:auto;font-family:Arial,sans-serif;">
-  <tr>
-    <td style="padding:5px;vertical-align:top;width:90px;text-align:center;">
-      <img src="${photoDataUrl}" width="72" height="72" alt="${name}" style="width:72px;height:72px;border-radius:50%;display:block;margin:0 auto;">
-    </td>
-    <td style="padding:5px;vertical-align:top;">
-      ${nameBlock}
-    </td>
-  </tr>
-  <tr>
-    <td style="padding:5px;vertical-align:top;width:90px;text-align:center;">
-      <img src="${LOGO_SRC}" width="90" alt="Oxnard Union High School District" style="width:90px;height:auto;display:block;margin:0 auto;">
-    </td>
-    <td style="padding:5px;vertical-align:top;">
-      <p style="margin:0;padding:0;font-family:Arial,sans-serif;font-size:14px;color:#000000;line-height:1.5;">Contact me:</p>
-      ${phoneLine}
-      ${emailLine}
-      <p style="margin:0;padding:0;font-family:Arial,sans-serif;font-size:13px;line-height:1.5;"><a href="https://www.oxnardunion.org" style="color:#1155cc;text-decoration:underline;">www.oxnardunion.org</a></p>
-      <p style="margin:0;padding:0;font-family:Arial,sans-serif;font-size:13px;color:#000000;line-height:1.5;">1800 Solar Dr. Oxnard, CA 93030</p>
-    </td>
-  </tr>
-  <tr>
-    <td style="padding:5px;vertical-align:top;width:90px;text-align:center;">
-      <p style="margin:0;padding:0;font-family:Arial,sans-serif;font-size:13px;color:#000000;line-height:1.5;">Follow Us:</p>
-    </td>
-    <td style="padding:5px;vertical-align:top;">
-      <p style="margin:0;padding:0;font-family:Arial,sans-serif;font-size:13px;line-height:1.5;">
-        <a href="https://www.instagram.com/oxnardunion/" style="color:#1155cc;text-decoration:underline;">Instagram</a>&nbsp;&nbsp;
-        <a href="https://facebook.com/oxnardunion" style="color:#1155cc;text-decoration:underline;">Facebook</a>&nbsp;&nbsp;
-        <a href="https://youtube.com/oxnardunion" style="color:#1155cc;text-decoration:underline;">YouTube</a>
-      </p>
-    </td>
-  </tr>
-</table>`;
-  }
-  // (No-photo layout below now uses followRow to keep "Follow Us:" under the logo column too.)
-
-  // No photo: logo moves up so its top aligns with the top of the name.
-  return `
-<table style="border-spacing:0;border-collapse:collapse;margin-right:auto;font-family:Arial,sans-serif;">
-  <tr>
-    <td style="padding:0 14px 0 0;vertical-align:top;width:80px;">
-      <img src="${LOGO_SRC}" width="80" alt="Oxnard Union High School District" style="width:80px;height:auto;display:block;">
-    </td>
-    <td style="padding:0;vertical-align:top;">
-      ${nameBlock}
-      <p style="margin:8px 0 0 0;padding:0;font-family:Arial,sans-serif;font-size:14px;color:#000000;line-height:1.5;">Contact me:</p>
-      ${phoneLine}
-      ${emailLine}
-      <p style="margin:0;padding:0;font-family:Arial,sans-serif;font-size:13px;line-height:1.5;"><a href="https://www.oxnardunion.org" style="color:#1155cc;text-decoration:underline;">www.oxnardunion.org</a></p>
-      <p style="margin:0;padding:0;font-family:Arial,sans-serif;font-size:13px;color:#000000;line-height:1.5;">1800 Solar Dr. Oxnard, CA 93030</p>
-    </td>
-  </tr>
-  ${followRow}
-</table>`;
+  return SIG_DESIGNS[currentDesign()](sigFields());
 }
+
+// Design picker: re-render on change and remember the choice in this browser.
+document.querySelectorAll('input[name="sigDesign"]').forEach(r => {
+  r.addEventListener('change', () => {
+    try { localStorage.setItem('ouhsdSigDesign', r.value); } catch (e) {}
+    renderPreview();
+  });
+});
+try {
+  const saved = localStorage.getItem('ouhsdSigDesign');
+  const radio = saved && document.querySelector(`input[name="sigDesign"][value="${saved}"]`);
+  if (radio) radio.checked = true;
+} catch (e) {}
 
 const SIGNATURE_LIMIT = 10000;
 
@@ -517,27 +603,14 @@ function updateSizeNote(len){
 Object.values(els).forEach(el => el.addEventListener('input', renderPreview));
 renderPreview();
 
-// ---- Photo: upload or Drive search, both feed an interactive circular cropper ----
-const photoInput = document.getElementById('photoInput');
+// ---- Photo: staff photo search feeds an interactive circular cropper ----
 const photoPreview = document.getElementById('photoPreview');
-const uploadBtn = document.getElementById('uploadBtn');
 const removeBtn = document.getElementById('removeBtn');
 const editCropBtn = document.getElementById('editCropBtn');
 const driveSearchBtn = document.getElementById('driveSearchBtn');
 const driveSignInHint = document.getElementById('driveSignInHint');
 
 let lastSourceDataUrl = null; // full-res original, so "Edit crop" re-crops from full quality
-
-uploadBtn.addEventListener('click', ()=> photoInput.click());
-
-photoInput.addEventListener('change', (e)=>{
-  const file = e.target.files[0];
-  if(!file) return;
-  const reader = new FileReader();
-  reader.onload = (ev)=> openCropper(ev.target.result, true);
-  reader.readAsDataURL(file);
-  photoInput.value = '';
-});
 
 removeBtn.addEventListener('click', ()=>{
   photoDataUrl = null;
@@ -662,7 +735,7 @@ cropApply.addEventListener('click', ()=>{
   // embedded logo and this photo, both base64-encoded), so keeping this image
   // small in both resolution and format is what keeps "Copy signature" actually
   // pasteable in Gmail instead of triggering its "signature is too long" error.
-  photoDataUrl = out.toDataURL('image/jpeg', 0.6);
+  photoDataUrl = out.toDataURL('image/jpeg', 0.5);
   photoPreview.innerHTML = `<img src="${photoDataUrl}" alt="">`;
   removeBtn.style.display = 'inline-flex';
   editCropBtn.style.display = 'inline-flex';
@@ -715,7 +788,7 @@ window.addEventListener('message', (e)=>{
 document.getElementById('copyBtn').addEventListener('click', async ()=>{
   const html = buildSignatureHTML();
   const container = document.getElementById('sigPreview');
-  const text = container.innerText;
+  const text = container.innerText.replace(/[ \t\u00a0]+\n/g,'\n').replace(/\n{3,}/g,'\n\n').trim();
   const status = document.getElementById('copyStatus');
 
   async function showCopied(){
