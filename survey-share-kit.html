@@ -453,7 +453,7 @@ button.chip[aria-pressed="true"] { background: var(--tint-strong); border-color:
         </select>
         <label for="school">Your school</label>
       </div>
-      <p class="hint">Skip this to keep the district-wide wording. Del Sol, Channel Islands and Pacifica also get their mascot as a background watermark on the flyers.</p>
+      <p class="hint">Skip this to keep the district-wide wording. Each school's mascot is added to the flyers as a background watermark.</p>
     </div>
   </section>
 
@@ -689,14 +689,37 @@ button.chip[aria-pressed="true"] { background: var(--tint-strong); border-color:
 
   /* School mascots from the brand style guides (served from this site, so the canvas stays exportable). */
   var LOGOS = {
-    'Del Sol High School': 'brand/logos/schools/del-sol.png',
+    'Adolfo Camarillo High School': 'brand/logos/schools/achs-logo-mascot.png',
     'Channel Islands High School': 'brand/logos/schools/channel-islands.png',
-    'Pacifica High School': 'brand/logos/schools/pacifica.png'
+    'Condor High School': 'brand/logos/schools/chs-logo-mascot.png',
+    'Del Sol High School': 'brand/logos/schools/del-sol.png',
+    'Frontier High School': 'brand/logos/schools/fhs-logo-mascot.png',
+    'Hueneme High School': 'brand/logos/schools/hhs-logo-mascot.png',
+    'Oxnard High School': 'brand/logos/schools/ohs-logo-mascot.png',
+    'Oxnard Middle College': 'brand/logos/schools/omc-logo-mascot.png',
+    'Pacifica High School': 'brand/logos/schools/pacifica.png',
+    'Rancho Campana High School': 'brand/logos/schools/rchs-logo-mascot.png',
+    'Rio Mesa High School': 'brand/logos/schools/rmhs-logo-mascot.png'
   };
   var logoImgs = {};
+  /* Find the visible (non-transparent) area so padding in the source PNG does not move the mascot. */
+  function trimBox(im) {
+    var w = im.naturalWidth, h = im.naturalHeight, sx = 0, sy = 0, sw = w, sh = h;
+    try {
+      var s = Math.min(1, 400 / Math.max(w, h)), cw = Math.max(1, Math.round(w * s)), ch = Math.max(1, Math.round(h * s));
+      var c = document.createElement('canvas'); c.width = cw; c.height = ch;
+      var g = c.getContext('2d'); g.drawImage(im, 0, 0, cw, ch);
+      var d = g.getImageData(0, 0, cw, ch).data, x0 = cw, y0 = ch, x1 = -1, y1 = -1;
+      for (var yy = 0; yy < ch; yy++) { for (var xx = 0; xx < cw; xx++) {
+        if (d[(yy * cw + xx) * 4 + 3] > 12) { if (xx < x0) { x0 = xx; } if (xx > x1) { x1 = xx; } if (yy < y0) { y0 = yy; } if (yy > y1) { y1 = yy; } }
+      } }
+      if (x1 >= 0) { sx = Math.floor(x0 / s); sy = Math.floor(y0 / s); sw = Math.min(w - sx, Math.ceil((x1 - x0 + 1) / s)); sh = Math.min(h - sy, Math.ceil((y1 - y0 + 1) / s)); }
+    } catch (e) { /* keep the full image */ }
+    return { sx: sx, sy: sy, sw: sw, sh: sh };
+  }
   Object.keys(LOGOS).forEach(function (name) {
     var im = new Image();
-    im.onload = function () { im.ready = true; if (typeof scheduleDraw === 'function') { scheduleDraw(); } };
+    im.onload = function () { im.box = trimBox(im); im.ready = true; if (typeof scheduleDraw === 'function') { scheduleDraw(); } };
     im.onerror = function () { im.ready = false; };
     im.src = LOGOS[name];
     logoImgs[name] = im;
@@ -714,11 +737,11 @@ button.chip[aria-pressed="true"] { background: var(--tint-strong); border-color:
     /* school mascot as a large, faint watermark in the top right corner, behind everything */
     var mascot = schoolLogo();
     if (mascot) {
-      var bw = 800, bh = 800, ms = Math.min(bw / mascot.naturalWidth, bh / mascot.naturalHeight);
-      var mw = mascot.naturalWidth * ms, mh = mascot.naturalHeight * ms;
+      var bx = mascot.box, bw = 800, bh = 800, ms = Math.min(bw / bx.sw, bh / bx.sh);
+      var mw = bx.sw * ms, mh = bx.sh * ms;
       x.save(); x.globalAlpha = 0.14;
       /* anchored to the top right corner, bleeding off the edges */
-      x.drawImage(mascot, W - mw + mw * 0.2, -mh * 0.14, mw, mh);
+      x.drawImage(mascot, bx.sx, bx.sy, bx.sw, bx.sh, W - mw + mw * 0.2, -mh * 0.14, mw, mh);
       x.restore();
     }
 
