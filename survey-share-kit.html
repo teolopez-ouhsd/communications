@@ -711,13 +711,14 @@ button.chip[aria-pressed="true"] { background: var(--tint-strong); border-color:
     x.textBaseline = 'alphabetic';
     x.fillStyle = '#FFFFFF'; x.fillRect(0, 0, W, H);
 
-    /* school mascot as a large, faint watermark behind everything */
+    /* school mascot as a large, faint watermark in the top right corner, behind everything */
     var mascot = schoolLogo();
     if (mascot) {
-      var bw = W - 60, bh = 1000, ms = Math.min(bw / mascot.naturalWidth, bh / mascot.naturalHeight);
+      var bw = 800, bh = 800, ms = Math.min(bw / mascot.naturalWidth, bh / mascot.naturalHeight);
       var mw = mascot.naturalWidth * ms, mh = mascot.naturalHeight * ms;
-      x.save(); x.globalAlpha = 0.13;
-      x.drawImage(mascot, (W - mw) / 2, 690 - mh / 2, mw, mh);
+      x.save(); x.globalAlpha = 0.14;
+      /* anchored to the top right corner, bleeding off the edges */
+      x.drawImage(mascot, W - mw + mw * 0.2, -mh * 0.14, mw, mh);
       x.restore();
     }
 
