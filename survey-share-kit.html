@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Survey Share Kit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<style>
+/* Layout: one column in three steps. A glass hero, then Step 1 school picker, Step 2 (ParentSquare message with an English/Spanish switch), Step 3 (two Instagram-size flyers side by side, each with a download and a caption). Liquid glass kept flat, 4px corners, Oxnard Blue as the strongest color, Oxnard Red only on the main actions. Light only by design. */
+:root {
+  --bg: #EEF2FA;
+  --fg: #0F1013;
+  --muted: #4A5160;
+  --blue: #0033A1;
+  --navy: #001F61;
+  --red: #E20031;
+  --on-red: #FFFFFF;
+  --glass: rgba(255, 255, 255, 0.62);
+  --glass-in: rgba(255, 255, 255, 0.80);
+  --rim: rgba(255, 255, 255, 0.85);
+  --hair: rgba(0, 31, 97, 0.16);
+  --hair-soft: rgba(0, 31, 97, 0.08);
+  --edge: rgba(0, 31, 97, 0.45);
+  --tint: rgba(0, 51, 161, 0.10);
+  --tint-strong: rgba(0, 51, 161, 0.16);
+  --r: 4px;
+  --lift: 0 0 0 1px var(--hair-soft), 0 10px 28px -10px rgba(0, 31, 97, 0.22), inset 0 1px 0 var(--rim);
+  --font-display: 'Montserrat', Arial, sans-serif;
+  --font-body: 'Open Sans', Arial, sans-serif;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 16px; line-height: 1.55; }
+body::before {
+  content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(560px 440px at 6% 4%, rgba(0, 51, 161, 0.22), transparent 70%),
+    radial-gradient(600px 480px at 98% 30%, rgba(153, 173, 217, 0.60), transparent 70%),
+    radial-gradient(520px 420px at 4% 78%, rgba(153, 173, 217, 0.45), transparent 70%),
+    radial-gradient(560px 440px at 72% 102%, rgba(226, 0, 49, 0.12), transparent 70%);
+}
+a { color: var(--blue); }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; margin: 0; color: var(--navy); }
+h1 { font-weight: 700; font-size: clamp(30px, 5.5vw, 48px); line-height: 1.1; letter-spacing: -0.01em; }
+h2 { font-weight: 700; font-size: clamp(22px, 3vw, 28px); line-height: 1.2; }
+h3 { font-weight: 600; font-size: 18px; line-height: 1.3; }
+p { margin: 0; }
+:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
+.wrap { max-width: 1060px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+main { display: flex; flex-direction: column; gap: 44px; padding-block: 28px 56px; }
+
+.brandbar { background: rgba(255, 255, 255, 0.78); -webkit-backdrop-filter: blur(22px) saturate(170%); backdrop-filter: blur(22px) saturate(170%); border-bottom: 1px solid var(--hair); box-shadow: 0 8px 20px -14px rgba(0, 31, 97, 0.3); }
+.brandbar .wrap { padding-block: 16px; }
+.brandbar a { display: inline-block; line-height: 0; }
+.brandrow { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 24px; }
+.brandbar a.backlink { font-family: var(--font-display); font-weight: 600; font-size: 13.5px; line-height: 1.4; text-decoration: none; }
+.brandbar a.backlink:hover { text-decoration: underline; }
+.brandbar img { display: block; height: 54px; width: auto; max-width: 100%; }
+.hero, .card {
+  background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.70), rgba(255, 255, 255, 0.40));
+  background-color: var(--glass);
+  -webkit-backdrop-filter: blur(22px) saturate(170%);
+  backdrop-filter: blur(22px) saturate(170%);
+  border: 1px solid var(--rim);
+  border-radius: var(--r);
+  box-shadow: var(--lift);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .hero, .card { background-color: rgba(255, 255, 255, 0.93); } }
+.hero { padding: 36px; display: flex; flex-direction: column; gap: 14px; }
+.eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--blue); }
+.lede { max-width: 60ch; font-size: 18px; }
+.card { padding: 24px; min-width: 0; display: flex; flex-direction: column; gap: 18px; }
+
+/* School picker */
+.school-card { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 12px 24px; }
+.school-card .ff { flex: 1 1 320px; max-width: 460px; }
+.ff { position: relative; min-width: 0; }
+.ff input { width: 100%; font: inherit; font-size: 16px; color: var(--fg); background: var(--glass-in); border: 1px solid var(--edge); border-radius: var(--r); padding: 24px 14px 8px; min-height: 56px; box-shadow: inset 0 1px 2px rgba(0, 31, 97, 0.06); }
+.ff input:focus { border-color: var(--blue); background: #fff; box-shadow: 0 0 0 3px rgba(0, 51, 161, 0.16); outline: none; }
+.ff label { position: absolute; left: 15px; top: 17px; font-size: 16px; color: var(--muted); pointer-events: none; transition: top 0.15s, font-size 0.15s, color 0.15s; }
+.ff input:focus + label, .ff input:not(:placeholder-shown) + label { top: 7px; font-size: 12px; font-weight: 700; color: var(--blue); }
+.hint { font-size: 14px; color: var(--muted); }
+.school-card .hint { flex: 1 1 200px; }
+.ff select { width: 100%; font: inherit; font-size: 16px; color: var(--fg); background-color: var(--glass-in); border: 1px solid var(--edge); border-radius: var(--r); padding: 24px 44px 8px 14px; min-height: 56px; appearance: none; -webkit-appearance: none; cursor: pointer; box-shadow: inset 0 1px 2px rgba(0, 31, 97, 0.06); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%230033A1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; }
+.ff select:focus { border-color: var(--blue); background-color: #fff; box-shadow: 0 0 0 3px rgba(0, 51, 161, 0.16); outline: none; }
+.ff select + label { top: 7px; font-size: 12px; font-weight: 700; color: var(--blue); }
+
+/* Steps */
+.step-sec { display: flex; flex-direction: column; gap: 18px; scroll-margin-top: 16px; }
+.step-head { display: flex; align-items: center; gap: 16px; }
+.step-num { flex: none; width: 56px; height: 56px; border-radius: var(--r); background: var(--blue); color: #fff; display: grid; place-items: center; font-family: var(--font-display); font-weight: 700; font-size: 26px; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 1px 2px rgba(0, 20, 70, 0.35); }
+.step-head p { color: var(--muted); max-width: 64ch; }
+.step-label { display: block; font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--blue); }
+
+/* Tabs and chips */
+.tabs { display: inline-flex; gap: 2px; padding: 3px; border-radius: var(--r); background: var(--tint); align-self: flex-start; }
+.tab { font: inherit; font-weight: 600; font-size: 15px; background: transparent; border: 0; border-radius: 2px; color: var(--muted); padding: 0 22px; min-height: 42px; cursor: pointer; transition: background 0.15s, color 0.15s; }
+.tab[aria-selected="true"] { background: #fff; color: var(--blue); box-shadow: 0 1px 3px rgba(0, 31, 97, 0.22), 0 0 0 0.5px var(--hair-soft); }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+button.chip { font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; min-height: 44px; padding: 6px 16px; border-radius: var(--r); background: var(--glass-in); border: 1px solid var(--edge); color: var(--fg); transition: background 0.15s, border-color 0.15s; }
+button.chip:hover { background: #fff; }
+button.chip[aria-pressed="true"] { background: var(--tint-strong); border-color: var(--blue); color: var(--blue); }
+.bar-label { font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--blue); }
+
+/* Buttons */
+.btn { position: relative; font: inherit; font-weight: 600; font-size: 16px; min-height: 46px; padding: 0 22px; border-radius: var(--r); cursor: pointer; border: 1px solid transparent; display: inline-flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; transition: background 0.15s, box-shadow 0.15s, transform 0.15s; }
+.btn:active { transform: translateY(1px); }
+.btn.filled { background: var(--red); border-color: var(--red); color: var(--on-red); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.32), 0 1px 2px rgba(120, 0, 25, 0.35); }
+.btn.filled:hover { background: #C8002C; border-color: #C8002C; }
+.btn.outlined { background: var(--glass-in); border-color: var(--blue); color: var(--blue); }
+.btn.outlined:hover { background: #fff; }
+.btn.tonal { background: var(--tint); color: var(--blue); }
+.btn.tonal:hover { background: var(--tint-strong); }
+.btn[disabled] { opacity: 0.55; cursor: wait; }
+.icon { font-family: 'Material Symbols Outlined'; }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+
+/* Message blocks */
+.block { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.block-top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; }
+.msg { white-space: pre-wrap; overflow-wrap: anywhere; background: var(--glass-in); border: 1px solid var(--hair); border-radius: var(--r); padding: 14px 16px; font-size: 15px; line-height: 1.6; user-select: all; }
+.msg.sm { font-size: 14px; }
+.msg.rich { white-space: normal; }
+.msg.rich p { margin: 0 0 12px; }
+.msg.rich p:last-child { margin: 0; }
+.msg.rich a { font-weight: 600; }
+.tip { display: flex; gap: 10px; align-items: flex-start; padding: 12px 14px; border-radius: var(--r); background: var(--tint); color: var(--navy); font-size: 15px; }
+.tip b { font-weight: 700; }
+
+/* Flyers */
+.flyers-top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; }
+.pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; align-items: start; }
+.flyer-card { padding: 18px; }
+.flyer-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.flyer-head span { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.flyer-card canvas { display: block; width: 100%; height: auto; max-width: 100%; aspect-ratio: 4 / 5; border-radius: 2px; background: #fff; box-shadow: 0 0 0 1px var(--hair), 0 8px 20px -8px rgba(0, 31, 97, 0.3); }
+
+.foot { padding-bottom: 8px; color: var(--muted); font-size: 14px; }
+.toast { position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); transform: translate(-50%, 24px); opacity: 0; pointer-events: none; background: rgba(0, 31, 97, 0.94); color: #fff; padding: 12px 20px; border-radius: var(--r); font-weight: 600; font-size: 15px; box-shadow: 0 10px 24px -8px rgba(0, 31, 97, 0.5); z-index: 30; max-width: calc(100% - 32px); transition: opacity 0.2s, transform 0.2s; }
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+@media (max-width: 760px) {
+  .pair { grid-template-columns: minmax(0, 1fr); max-width: 460px; }
+  .hero { padding: 24px; }
+  .card { padding: 18px; }
+  .step-num { width: 48px; height: 48px; font-size: 22px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+<div class="brandbar"><div class="wrap brandrow"><a href="https://www.oxnardunion.org" target="_blank" rel="noopener"><img alt="Oxnard Union High School District" width="255" height="54" src="brand/logos/svg/ouhsd-logo-horizontal-color.svg"></a><a class="backlink" href="website-survey.html">&larr; Website survey page</a></div></div>
+<div class="wrap">
+<main>
+
+  <header class="hero">
+    <p class="eyebrow">Website Redesign Survey</p>
+    <h1>Share the survey in three steps</h1>
+    <p class="lede">Pick your school, post the ready-made message to ParentSquare, then share the flyers on social media. Everything below is ready to copy or download in English and Spanish.</p>
+  </header>
+
+  <!-- STEP 1 -->
+  <section class="step-sec" id="step1" aria-labelledby="s1h">
+    <div class="step-head">
+      <div class="step-num" aria-hidden="true">1</div>
+      <div>
+        <span class="step-label">Step 1</span>
+        <h2 id="s1h">Pick your school</h2>
+        <p>Your school's name is added to the message and to both flyers.</p>
+      </div>
+    </div>
+    <div class="card school-card">
+      <div class="ff">
+        <select id="school">
+          <option value="">Select your school</option>
+          <option value="Adolfo Camarillo High School">Adolfo Camarillo High School</option>
+          <option value="Anacapa Adult Transition Program">Anacapa Adult Transition Program</option>
+          <option value="Channel Islands High School">Channel Islands High School</option>
+          <option value="Condor High School">Condor High School</option>
+          <option value="Del Sol High School">Del Sol High School</option>
+          <option value="Frontier High School">Frontier High School</option>
+          <option value="Hueneme High School">Hueneme High School</option>
+          <option value="Oxnard High School">Oxnard High School</option>
+          <option value="Oxnard Adult School">Oxnard Adult School</option>
+          <option value="Oxnard Middle College">Oxnard Middle College</option>
+          <option value="Pacifica High School">Pacifica High School</option>
+          <option value="Rancho Campana High School">Rancho Campana High School</option>
+          <option value="Rio Mesa High School">Rio Mesa High School</option>
+        </select>
+        <label for="school">Your school</label>
+      </div>
+      <p class="hint">Skip this to keep the district-wide wording.</p>
+    </div>
+  </section>
+
+  <!-- STEP 2 -->
+  <section class="step-sec" id="step2" aria-labelledby="s2h">
+    <div class="step-head">
+      <div class="step-num" aria-hidden="true">2</div>
+      <div>
+        <span class="step-label">Step 2</span>
+        <h2 id="s2h">Post to ParentSquare</h2>
+        <p>Copy the subject line and message, then paste them into a new ParentSquare post. The survey links are hyperlinks, so no long web addresses show.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="tabs" role="tablist" aria-label="Message language">
+        <button class="tab" role="tab" id="tab-en" aria-selected="true" aria-controls="ps-panel" data-lang="en" type="button">English</button>
+        <button class="tab" role="tab" id="tab-es" aria-selected="false" aria-controls="ps-panel" data-lang="es" type="button" tabindex="-1">Spanish</button>
+      </div>
+      <div id="ps-panel" role="tabpanel" aria-labelledby="tab-en" style="display:flex;flex-direction:column;gap:18px">
+        <div class="block">
+          <div class="block-top"><span class="bar-label">Subject line</span><button class="btn tonal" id="copy-subject" type="button">Copy subject</button></div>
+          <div class="msg" id="ps-subject"></div>
+        </div>
+        <div class="block">
+          <div class="block-top"><span class="bar-label">Message</span><button class="btn filled" id="copy-message" type="button">Copy message</button></div>
+          <div class="msg rich" id="ps-message"></div>
+        </div>
+      </div>
+      <div class="tip"><span><b>Tip:</b> after pasting, check that the survey lines show as links. If ParentSquare drops them, highlight each line and use its link button to add the web address. You can also attach a flyer from Step 3 to the same post.</span></div>
+    </div>
+  </section>
+
+  <!-- STEP 3 -->
+  <section class="step-sec" id="step3" aria-labelledby="s3h">
+    <div class="step-head">
+      <div class="step-num" aria-hidden="true">3</div>
+      <div>
+        <span class="step-label">Step 3</span>
+        <h2 id="s3h">Share on social media</h2>
+        <p>Download the English and Spanish posts and upload them to Instagram, Facebook or your school account. Each one has a QR code that opens the survey. Post both for the widest reach.</p>
+      </div>
+    </div>
+    <div class="flyers-top">
+      <div class="chips" role="group" aria-label="Who the flyers are for">
+        <span class="bar-label" style="margin-right:4px">Flyers for</span>
+        <button class="chip" type="button" data-aud="parents" aria-pressed="true">Parents &amp; Guardians</button>
+        <button class="chip" type="button" data-aud="students" aria-pressed="false">Students</button>
+        <button class="chip" type="button" data-aud="staff" aria-pressed="false">Staff</button>
+      </div>
+      <button class="btn outlined" id="dl-both" type="button">Download both</button>
+    </div>
+    <div class="pair">
+      <div class="card flyer-card" id="card-en">
+        <div class="flyer-head"><h3>English</h3><span>1080 × 1350 px</span></div>
+        <canvas id="fly-en" width="1080" height="1350"></canvas>
+        <div class="actions"><button class="btn filled" id="dl-en" type="button">Download English post</button></div>
+        <div class="block">
+          <div class="block-top"><span class="bar-label">Caption</span><button class="btn tonal" id="copy-cap-en" type="button">Copy caption</button></div>
+          <div class="msg sm" id="cap-en"></div>
+        </div>
+      </div>
+      <div class="card flyer-card" id="card-es">
+        <div class="flyer-head"><h3>Spanish</h3><span>1080 × 1350 px</span></div>
+        <canvas id="fly-es" width="1080" height="1350"></canvas>
+        <div class="actions"><button class="btn filled" id="dl-es" type="button">Download Spanish post</button></div>
+        <div class="block">
+          <div class="block-top"><span class="bar-label">Caption</span><button class="btn tonal" id="copy-cap-es" type="button">Copy caption</button></div>
+          <div class="msg sm" id="cap-es"></div>
+        </div>
+      </div>
+    </div>
+    <p class="hint" id="dl-hint">If a download does not start, press and hold the image on a phone, or right-click it on a computer, and choose Save image.</p>
+  </section>
+
+  <p class="foot">Questions about the survey or the website project? Contact Teo Lopez, Web &amp; Multimedia Coordinator, at <span id="mail" style="user-select:all">teo.lopez@oxnardunion.org</span>.</p>
+</main>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  var LINKS = {
+    parents: { en: 'https://forms.gle/wrsuWLLcN3ZEKNJ48', es: 'https://docs.google.com/forms/d/e/1FAIpQLSdu07EG1e6vj1VvNsPltquR-Zek1_DcmwjhSte_rlcS-punUA/viewform' },
+    students: { en: 'https://forms.gle/Zd71AzQeNYxypu6A9', es: 'https://docs.google.com/forms/d/e/1FAIpQLScHxAUzWoJZZ0Onv_SljMHnLL31qt8Artyj2fbEXYmxDLAVmA/viewform' },
+    staff: { en: 'https://forms.gle/XDwEuPD8Dd9o6o7n9', es: 'https://docs.google.com/forms/d/e/1FAIpQLSea88iof_jIcOKyev9Bj0WtEXmddnqs3MRKoABu8EM3ZZ-OVQ/viewform' }
+  };
+  var state = { lang: 'en', aud: 'parents' };
+
+  /* ---------- toast + copy ---------- */
+  var tt;
+  function toast(msg) {
+    var t = $('toast'); t.textContent = msg; t.classList.add('show');
+    clearTimeout(tt); tt = setTimeout(function () { t.classList.remove('show'); }, 2400);
+  }
+  function copyText(text, okMsg) {
+    function ok() { toast(okMsg); }
+    function fb() {
+      var ta = document.createElement('textarea');
+      ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      var done = false;
+      try { done = document.execCommand('copy'); } catch (e) { done = false; }
+      document.body.removeChild(ta);
+      if (done) { ok(); } else { toast('Select the text and press Ctrl+C or Cmd+C'); }
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(text).then(ok, fb); } else { fb(); }
+  }
+
+  /* ---------- ParentSquare + captions ---------- */
+  function school() { return $('school').value; }
+  function psText(lang) {
+    var s = school();
+    if (lang === 'es') {
+      return {
+        subject: 'Ayúdenos a dar forma a nuestro nuevo sitio web' + (s ? ' de ' + s : '') + ': encuesta abierta hasta el 21 de octubre',
+        links: [{ label: 'Realizar la Encuesta para Padres y Tutores en español', url: LINKS.parents.es }, { label: 'Realizar la encuesta en inglés (English)', url: LINKS.parents.en }],
+        body: 'Estimadas familias' + (s ? ' de ' + s : '') + ':\n\n' +
+          'Estamos rediseñando los sitios web del distrito y de nuestras escuelas, y necesitamos su opinión. Cuéntenos qué es difícil de encontrar, qué falta y cómo sería un mejor sitio web para usted. Sus respuestas darán forma directamente a la navegación, el contenido y el diseño del nuevo sitio.\n\n' +
+          'La encuesta toma de 5 a 10 minutos. Por favor responda a más tardar el miércoles 21 de octubre.\n\n' +
+          '[[L1]]\n[[L2]]\n\n' +
+          'Gracias por ayudarnos a crear un sitio web que funcione mejor para nuestros estudiantes y familias.'
+      };
+    }
+    return {
+      subject: 'Help Shape the New ' + (s ? s + ' ' : '') + 'Website: Survey Open Through Oct. 21',
+      links: [{ label: 'Take the Parent & Guardian Survey in English', url: LINKS.parents.en }, { label: 'Take the survey in Spanish (Español)', url: LINKS.parents.es }],
+      body: 'Dear ' + (s ? s + ' ' : '') + 'Families,\n\n' +
+        'Our district and school websites are getting a redesign, and we need your input. Tell us what is hard to find, what is missing, and what a better website looks like to you. Your answers will directly shape the new site\'s navigation, content, and design.\n\n' +
+        'The survey takes about 5 to 10 minutes. Please respond by Wednesday, October 21.\n\n' +
+        '[[L1]]\n[[L2]]\n\n' +
+        'Thank you for helping us build a website that works better for our students and families.'
+    };
+  }
+  function caption(lang) {
+    var s = school();
+    if (lang === 'es') {
+      return '¡Estamos rediseñando ' + (s ? 'el sitio web de ' + s + ' y los demás sitios del distrito' : 'los sitios web del distrito y de nuestras escuelas') + ' y queremos su opinión! Cuéntenos qué es difícil de encontrar y cómo sería un mejor sitio para usted. Escanee el código QR para responder la encuesta de 5 a 10 minutos antes del 21 de octubre.';
+    }
+    return 'We are redesigning ' + (s ? s + '\'s website and our other district websites' : 'our district and school websites') + ', and we want your input! Tell us what is hard to find and what a better site looks like to you. Scan the QR code to take the 5 to 10 minute survey by Oct. 21.';
+  }
+  /* The message shows survey links as hyperlinks, so the long web addresses stay out of sight and carry over when pasted. */
+  function renderMessage(p) {
+    var box = $('ps-message');
+    box.textContent = '';
+    var plain = p.body;
+    p.links.forEach(function (l, i) { plain = plain.replace('[[L' + (i + 1) + ']]', l.label + ': ' + l.url); });
+    state.plain = plain;
+    p.body.split('\n\n').forEach(function (para) {
+      var el = document.createElement('p');
+      para.split('\n').forEach(function (line, li) {
+        if (li) { el.appendChild(document.createElement('br')); }
+        var m = /^\[\[L(\d)\]\]$/.exec(line);
+        if (m) {
+          var l = p.links[Number(m[1]) - 1], a = document.createElement('a');
+          a.href = l.url; a.target = '_blank'; a.rel = 'noopener'; a.textContent = l.label;
+          el.appendChild(a);
+        } else { el.appendChild(document.createTextNode(line)); }
+      });
+      box.appendChild(el);
+    });
+  }
+  function copyRich(el, plain, okMsg) {
+    try {
+      var sel = window.getSelection(), range = document.createRange();
+      range.selectNodeContents(el); sel.removeAllRanges(); sel.addRange(range);
+      var done = document.execCommand('copy');
+      sel.removeAllRanges();
+      if (done) { toast(okMsg); return; }
+    } catch (e) { /* fall through to plain text */ }
+    copyText(plain, okMsg);
+  }
+  function renderText() {
+    var p = psText(state.lang);
+    $('ps-subject').textContent = p.subject;
+    renderMessage(p);
+    $('cap-en').textContent = caption('en');
+    $('cap-es').textContent = caption('es');
+  }
+
+  /* ---------- Flyer ---------- */
+  var DISP = "'Montserrat', Arial, sans-serif";
+  var BODYF = "'Open Sans', Arial, sans-serif";
+  var C = { BLUE: '#0033A1', NAVY: '#001F61', RED: '#E20031', BODY: '#3A3F4B', MUTED: '#4A5160' };
+  var COPY = {
+    en: {
+      eyebrow: 'Website Redesign Survey',
+      head: 'Help Us Design Our New Website!',
+      body: function () { return 'Our district and school websites are getting a redesign, and your opinion is a key part of it. This short survey takes 5 to 10 minutes and helps shape the new site.'; },
+      aud: { parents: 'For Parents & Guardians', students: 'For Students', staff: 'For Staff' },
+      scan: function () { return 'Scan with your phone camera to begin'; },
+      dead: 'Deadline: Wednesday, October 21',
+      prog: ' · Website Redesign Project',
+      ask: 'Questions? Contact Teo Lopez, Web & Multimedia Coordinator · '
+    },
+    es: {
+      eyebrow: 'Encuesta de rediseño del sitio web',
+      head: function (a) { return a === 'students' ? '¡Ayúdanos a Diseñar Nuestro Nuevo Sitio Web!' : '¡Ayúdenos a Diseñar Nuestro Nuevo Sitio Web!'; },
+      body: function (a) { return 'Estamos rediseñando los sitios web del distrito y de nuestras escuelas, y ' + (a === 'students' ? 'tu' : 'su') + ' opinión es una parte clave de este proceso. Esta breve encuesta toma de 5 a 10 minutos y nos ayuda a dar forma al nuevo sitio.'; },
+      aud: { parents: 'Para padres y tutores', students: 'Para estudiantes', staff: 'Para el personal' },
+      scan: function (a) { return a === 'students' ? 'Escanea con la cámara de tu teléfono para comenzar' : 'Escanee con la cámara de su teléfono para comenzar'; },
+      dead: 'Fecha límite: miércoles 21 de octubre',
+      prog: ' · Proyecto de rediseño del sitio web',
+      ask: '¿Preguntas? Comuníquese con Teo López, Coordinador de Web y Multimedia · '
+    }
+  };
+  function val(v, a) { return typeof v === 'function' ? v(a) : v; }
+  function ls(x, v) { try { x.letterSpacing = v; } catch (e) { /* unsupported */ } }
+  function wrap(x, text, maxW) {
+    var words = text.split(' '), lines = [], line = '';
+    words.forEach(function (w) {
+      var t = line ? line + ' ' + w : w;
+      if (x.measureText(t).width > maxW && line) { lines.push(line); line = w; } else { line = t; }
+    });
+    if (line) { lines.push(line); }
+    return lines;
+  }
+  function rr(x, px, py, w, h, r) { x.beginPath(); if (x.roundRect) { x.roundRect(px, py, w, h, r); } else { x.rect(px, py, w, h); } }
+  /* Draw a centered line made of [text, weight, color] parts, shrinking the font until it fits maxW. */
+  function centerParts(x, parts, cx, y, size, maxW) {
+    var px = size, total;
+    for (;;) {
+      total = 0;
+      parts.forEach(function (p) { x.font = p[1] + ' ' + px + 'px ' + BODYF; total += x.measureText(p[0]).width; });
+      if (total <= maxW || px <= 14) { break; }
+      px -= 1;
+    }
+    var sx = cx - total / 2;
+    x.textAlign = 'left';
+    parts.forEach(function (p) { x.font = p[1] + ' ' + px + 'px ' + BODYF; x.fillStyle = p[2]; x.fillText(p[0], sx, y); sx += x.measureText(p[0]).width; });
+  }
+
+  function drawFlyer(lang) {
+    var cv = $('fly-' + lang), a = state.aud, T = COPY[lang];
+    var W = 1080, H = 1350, M = 72;
+    cv.width = W; cv.height = H;
+    var x = cv.getContext('2d');
+    x.textBaseline = 'alphabetic';
+    x.fillStyle = '#FFFFFF'; x.fillRect(0, 0, W, H);
+
+    /* header */
+    x.textAlign = 'left';
+    x.fillStyle = C.MUTED; x.font = '700 25px ' + DISP; ls(x, '5px');
+    x.fillText(T.eyebrow.toUpperCase(), M, 112); ls(x, '0px');
+    x.fillStyle = C.BLUE; x.font = '700 64px ' + DISP;
+    var y = 200;
+    wrap(x, val(T.head, a), W - 2 * M).forEach(function (ln) { x.fillText(ln, M, y); y += 76; });
+    y -= 76;
+    var g = x.createLinearGradient(M, 0, M + 170, 0); g.addColorStop(0, C.RED); g.addColorStop(1, C.BLUE);
+    x.fillStyle = g; rr(x, M, y + 30, 170, 8, 4); x.fill();
+
+    /* body */
+    y += 30 + 8 + 58;
+    x.fillStyle = C.BODY; x.font = '400 31px ' + BODYF;
+    wrap(x, val(T.body, a), W - 2 * M).forEach(function (ln) { x.fillText(ln, M, y); y += 46; });
+    var bodyEnd = y - 46 + 20;
+
+    /* footer geometry */
+    var barH = 14, footTop = H - 150;
+    var pillH = 70, pillTop = footTop - 26 - pillH;
+
+    /* QR card */
+    var cardTop = bodyEnd + 26, cardBottom = pillTop - 26;
+    var avail = cardBottom - cardTop;
+    var over = 8 + 26 + 26 + 18 + 18 + 30 + 24; /* accent bar, pads, label, gaps, caption */
+    var qrS = Math.max(240, Math.min(440, avail - over));
+    var cardW = qrS + 2 * 44, cardH = over + qrS;
+    var cx = (W - cardW) / 2, cy = cardTop + Math.max(0, (avail - cardH) / 2);
+    x.fillStyle = '#F6F8FC'; rr(x, cx, cy, cardW, cardH, 4); x.fill();
+    x.lineWidth = 2; x.strokeStyle = '#D3DAE8'; rr(x, cx + 1, cy + 1, cardW - 2, cardH - 2, 4); x.stroke();
+    x.save(); rr(x, cx, cy, cardW, cardH, 4); x.clip(); x.fillStyle = C.RED; x.fillRect(cx, cy, cardW, 8); x.restore();
+
+    x.textAlign = 'center';
+    x.fillStyle = C.NAVY; x.font = '700 24px ' + DISP; ls(x, '3px');
+    x.fillText(T.aud[a].toUpperCase(), W / 2, cy + 8 + 26 + 26); ls(x, '0px');
+    var qy = cy + 8 + 26 + 26 + 18;
+    var qx = (W - qrS) / 2;
+    x.fillStyle = '#FFFFFF'; x.fillRect(qx, qy, qrS, qrS);
+    try {
+      var q = qrcode(0, 'M'); q.addData(LINKS[a][lang]); q.make();
+      var n = q.getModuleCount();
+      var m = Math.floor(qrS / (n + 6));
+      var size = m * (n + 6);
+      var ox = qx + (qrS - size) / 2 + 3 * m, oy = qy + (qrS - size) / 2 + 3 * m;
+      x.fillStyle = C.NAVY;
+      for (var r = 0; r < n; r++) { for (var c = 0; c < n; c++) { if (q.isDark(r, c)) { x.fillRect(ox + c * m, oy + r * m, m, m); } } }
+    } catch (e) {
+      x.fillStyle = C.NAVY; x.font = '600 28px ' + BODYF; x.fillText('QR code unavailable', W / 2, qy + qrS / 2);
+    }
+    x.fillStyle = C.BODY;
+    var sc = val(T.scan, a), sp = 24;
+    for (;;) { x.font = '600 ' + sp + 'px ' + BODYF; if (x.measureText(sc).width <= cardW - 32 || sp <= 15) { break; } sp -= 1; }
+    x.fillText(sc, W / 2, qy + qrS + 18 + 20);
+
+    /* deadline */
+    x.fillStyle = 'rgba(0, 51, 161, 0.10)'; rr(x, M, pillTop, W - 2 * M, pillH, 4); x.fill();
+    x.fillStyle = C.BLUE; x.font = '700 30px ' + DISP; x.textAlign = 'center';
+    x.fillText(T.dead, W / 2, pillTop + 46);
+
+    /* footer */
+    x.fillStyle = '#E2E7F0'; x.fillRect(0, footTop, W, 2);
+    var s = school();
+    centerParts(x, [[(s ? s + ' · ' : '') + 'Oxnard Union High School District', '700', C.MUTED], [T.prog, '400', C.MUTED]], W / 2, footTop + 54, 26, W - 2 * M);
+    centerParts(x, [[T.ask, '400', C.MUTED], ['teo.lopez@oxnardunion.org', '700', C.BLUE]], W / 2, footTop + 94, 22, W - 2 * M);
+    var bg = x.createLinearGradient(0, 0, W, 0); bg.addColorStop(0, C.NAVY); bg.addColorStop(0.5, C.BLUE); bg.addColorStop(1, C.RED);
+    x.fillStyle = bg; x.fillRect(0, H - barH, W, barH);
+    x.textAlign = 'left';
+
+    cv.setAttribute('role', 'img');
+    cv.setAttribute('aria-label', (lang === 'es' ? 'Publicación en español: ' : 'English post: ') + val(T.head, a) + ' ' + T.aud[a] + '. QR code opens the survey.');
+  }
+  function drawBoth() { drawFlyer('en'); drawFlyer('es'); }
+  var dt;
+  function scheduleDraw() { clearTimeout(dt); dt = setTimeout(drawBoth, 120); }
+
+  /* ---------- Downloads ---------- */
+  var DL = null;
+  if (window.claude && window.claude.use) {
+    window.claude.use('downloads').then(function (d) { DL = d; }, function () { DL = null; });
+  }
+  function fileName(lang) { return 'OUHSD-Survey-Post-' + (lang === 'es' ? 'Espanol' : 'English') + '-' + ({ parents: 'Parents', students: 'Students', staff: 'Staff' })[state.aud] + '.png'; }
+  function saveFlyer(lang) {
+    drawFlyer(lang);
+    return new Promise(function (resolve) {
+      $('fly-' + lang).toBlob(function (blob) {
+        if (!blob) { toast('Could not build the image. Try again.'); resolve(false); return; }
+        if (!DL) {
+          try {
+            var url = URL.createObjectURL(blob), a = document.createElement('a');
+            a.href = url; a.download = fileName(lang); document.body.appendChild(a); a.click(); document.body.removeChild(a);
+            setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+            toast('Saved ' + fileName(lang)); resolve(true);
+          } catch (e) { toast('Could not save. Press and hold the image to save it.'); resolve(false); }
+          return;
+        }
+        DL.save({ filename: fileName(lang), data: blob }).then(function () { toast('Saved ' + fileName(lang)); resolve(true); }, function (err) {
+          if (!err || err.code !== 'declined') { toast('Could not save. Press and hold the image to save it.'); }
+          resolve(false);
+        });
+      }, 'image/png');
+    });
+  }
+  $('dl-en').addEventListener('click', function () { saveFlyer('en'); });
+  $('dl-es').addEventListener('click', function () { saveFlyer('es'); });
+  $('dl-both').addEventListener('click', function () {
+    var b = this; b.disabled = true;
+    saveFlyer('en').then(function (ok) { return ok ? saveFlyer('es') : false; }).then(function () { b.disabled = false; });
+  });
+
+  /* ---------- Controls ---------- */
+  $('copy-subject').addEventListener('click', function () { copyText($('ps-subject').textContent, 'Subject copied'); });
+  $('copy-message').addEventListener('click', function () { copyRich($('ps-message'), state.plain, 'Message copied with links'); });
+  $('copy-cap-en').addEventListener('click', function () { copyText($('cap-en').textContent, 'Caption copied'); });
+  $('copy-cap-es').addEventListener('click', function () { copyText($('cap-es').textContent, 'Caption copied'); });
+
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+  function setLang(lang, focus) {
+    state.lang = lang;
+    tabs.forEach(function (t) {
+      var on = t.getAttribute('data-lang') === lang;
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+      t.tabIndex = on ? 0 : -1;
+      if (on) { $('ps-panel').setAttribute('aria-labelledby', t.id); if (focus) { t.focus(); } }
+    });
+    renderText();
+  }
+  tabs.forEach(function (t, i) {
+    t.addEventListener('click', function () { setLang(t.getAttribute('data-lang')); });
+    t.addEventListener('keydown', function (e) {
+      var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (d) { e.preventDefault(); setLang(tabs[(i + d + tabs.length) % tabs.length].getAttribute('data-lang'), true); }
+    });
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('[data-aud]'), function (b) {
+    b.addEventListener('click', function () {
+      state.aud = b.getAttribute('data-aud');
+      Array.prototype.forEach.call(document.querySelectorAll('[data-aud]'), function (o) { o.setAttribute('aria-pressed', o === b ? 'true' : 'false'); });
+      drawBoth();
+    });
+  });
+  $('school').addEventListener('change', function () { renderText(); scheduleDraw(); });
+
+  renderText();
+  drawBoth();
+  if (document.fonts && document.fonts.load) {
+    Promise.all([
+      document.fonts.load("700 64px 'Montserrat'"), document.fonts.load("400 31px 'Open Sans'"),
+      document.fonts.load("600 24px 'Open Sans'"), document.fonts.load("700 26px 'Open Sans'")
+    ]).then(drawBoth, drawBoth);
+  }
+}());
+</script>
+</body>
+</html>

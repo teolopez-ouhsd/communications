@@ -162,6 +162,11 @@
   }
   .note-band strong{color:var(--ink);font-family:'Montserrat';}
 
+  /* ---------- Help spread the word (staff) ---------- */
+  .spread{border-top:1px solid var(--line);}
+  .spread .about-band{margin-top:20px;}
+  .spread-cta{margin-top:22px;}
+
   footer{padding:30px 0;background:var(--paper-alt);border-top:1px solid var(--line);}
   footer p{font-size:12.5px;color:var(--muted);margin:0;}
   footer p + p{margin-top:4px;}
@@ -284,12 +289,28 @@
     </div>
   </section>
 
+  <section class="spread">
+    <div class="section-kicker" data-i18n="spreadKicker">For staff</div>
+    <h2 data-i18n="spreadTitle">Help spread the word</h2>
+    <p class="lead" data-i18n="spreadLead">Know a parent, student, or colleague who hasn't taken the survey yet? The Survey Share Kit has everything you need to share it in minutes.</p>
+    <div class="about-band">
+      <div class="about-grid">
+        <div class="about-item" data-i18n="spreadItem1"><strong>Pick your school</strong>Choose your school and the wording and flyers update to match.</div>
+        <div class="about-item" data-i18n="spreadItem2"><strong>Post to ParentSquare</strong>A ready-made message in English and Spanish, with the survey links built in.</div>
+        <div class="about-item" data-i18n="spreadItem3"><strong>Share on social media</strong>Instagram-size flyers with QR codes, plus a caption to copy.</div>
+      </div>
+    </div>
+    <p class="spread-cta">
+      <a class="btn btn-blue" href="survey-share-kit.html" data-i18n="spreadBtn">Open the Survey Share Kit →</a>
+    </p>
+  </section>
+
 </main>
 
 <footer>
   <div class="wrap">
     <p data-i18n="footer1">Oxnard Union High School District — Website Redesign Survey.</p>
-    <p data-i18n="footer2">Questions about this project? Contact Teo Lopez at <a href="mailto:teolopez@oxnardunion.org">teolopez@oxnardunion.org</a>.</p>
+    <p data-i18n="footer2">Questions about this project? Contact Teo Lopez at <a href="mailto:teo.lopez@oxnardunion.org">teo.lopez@oxnardunion.org</a>.</p>
   </div>
 </footer>
 
@@ -330,8 +351,15 @@
       pickTitle: "Pick the survey that matches you",
       pickLead: "If more than one applies to you — for example, if you're both a parent and a staff member — feel free to complete more than one. Surveys are available in English and Spanish below.",
       noteBand: "Each survey opens in a new tab as a Google Form. Responses are collected by the Web &amp; Multimedia Coordinator and used only to guide the website redesign.",
+      spreadKicker: "For staff",
+      spreadTitle: "Help spread the word",
+      spreadLead: "Know a parent, student, or colleague who hasn't taken the survey yet? The Survey Share Kit has everything you need to share it in minutes.",
+      spreadItem1: "<strong>Pick your school</strong>Choose your school and the wording and flyers update to match.",
+      spreadItem2: "<strong>Post to ParentSquare</strong>A ready-made message in English and Spanish, with the survey links built in.",
+      spreadItem3: "<strong>Share on social media</strong>Instagram-size flyers with QR codes, plus a caption to copy.",
+      spreadBtn: "Open the Survey Share Kit →",
       footer1: "Oxnard Union High School District — Website Redesign Survey.",
-      footer2: "Questions about this project? Contact Teo Lopez at <a href=\"mailto:teolopez@oxnardunion.org\">teolopez@oxnardunion.org</a>."
+      footer2: "Questions about this project? Contact Teo Lopez at <a href=\"mailto:teo.lopez@oxnardunion.org\">teo.lopez@oxnardunion.org</a>."
     },
     es: {
       title: "OUHSD — Ayude a Dar Forma a Nuestro Nuevo Sitio Web",
@@ -351,8 +379,15 @@
       pickTitle: "Elija la encuesta que corresponda a usted",
       pickLead: "Si más de una se aplica a usted — por ejemplo, si es tanto padre/madre como miembro del personal — puede completar más de una. Las encuestas están disponibles en inglés y español a continuación.",
       noteBand: "Cada encuesta se abre en una pestaña nueva como un formulario de Google. Las respuestas son recopiladas por el Coordinador Web y Multimedia y se utilizan únicamente para guiar el rediseño del sitio web.",
+      spreadKicker: "Para el personal",
+      spreadTitle: "Ayude a correr la voz",
+      spreadLead: "¿Conoce a algún padre, estudiante o colega que aún no ha respondido la encuesta? El Kit para Compartir la Encuesta tiene todo lo necesario para compartirla en minutos.",
+      spreadItem1: "<strong>Elija su escuela</strong>Elija su escuela y el texto y los volantes se actualizan automáticamente.",
+      spreadItem2: "<strong>Publique en ParentSquare</strong>Un mensaje listo para usar en inglés y español, con los enlaces de la encuesta incluidos.",
+      spreadItem3: "<strong>Comparta en redes sociales</strong>Volantes del tamaño de Instagram con códigos QR y un pie de foto para copiar.",
+      spreadBtn: "Abrir el Kit para Compartir la Encuesta →",
       footer1: "Distrito Escolar de la Unión de Oxnard — Encuesta de Rediseño del Sitio Web.",
-      footer2: "¿Preguntas sobre este proyecto? Comuníquese con Teo López a <a href=\"mailto:teolopez@oxnardunion.org\">teolopez@oxnardunion.org</a>."
+      footer2: "¿Preguntas sobre este proyecto? Comuníquese con Teo López a <a href=\"mailto:teo.lopez@oxnardunion.org\">teo.lopez@oxnardunion.org</a>."
     }
   };
 
