@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Accessibility · OUHSD Brand Center</title>
+<meta name="description" content="OUHSD accessibility requirements for color, type, alt text, captions, links, documents, PDFs, social media, and websites.">
+<meta name="theme-color" content="#0033A1">
+<link rel="icon" href="assets/district/logos/png/logo-stacked-color.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<link rel="stylesheet" href="assets/bc.css">
+</head>
+<body data-root="" class="">
+<a class="skip" href="#main">Skip to content</a>
+<header class="hdr">
+ <div class="wrap">
+  <div class="hdr-top">
+   <a class="brandmark" href="index.html" aria-label="OUHSD Brand Center home">
+    <img class="bmc" src="assets/district/logos/svg/logo-horizontal-color.svg" alt="" width="160" height="34">
+    <img class="bmw" src="assets/district/logos/svg/logo-horizontal-white.svg" alt="" width="160" height="34">
+    <span>Brand<br>Center</span></a>
+   <button class="searchbtn" type="button" data-search="" aria-label="Search the Brand Center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><span>Search logos, templates, colors...</span><kbd>/</kbd></button>
+   <a class="btn sm support" href="support.html#request">Request support</a>
+   <button class="iconbtn" type="button" id="themeBtn" aria-label="Switch light or dark mode"><svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M10 2a8 8 0 0 1 0 16z" fill="currentColor"/></svg></button>
+   <button class="iconbtn menubtn" type="button" id="menuBtn" aria-expanded="false" aria-controls="drawer" aria-label="Open menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  </div>
+  <nav class="nav" aria-label="Main"><a href="brand.html">Brand</a><a href="visual-identity.html">Logos</a><a href="colors.html">Colors</a><a href="typography.html">Typography</a><a href="photography.html">Photography</a><a href="video.html">Video</a><a href="digital-social.html">Digital & Social</a><a href="writing.html">Writing</a><a href="accessibility.html" aria-current="page">Accessibility</a><a href="templates.html">Templates</a><a href="schools/index.html">Schools</a></nav>
+ </div>
+</header>
+<div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Menu">
+ <div class="drawer-head"><b>Brand Center</b><button class="iconbtn" type="button" id="drawerClose" aria-label="Close menu"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+ <a href="index.html">Home<small>Quick actions</small></a><a href="brand.html">Brand<small>Mission, voice, naming</small></a><a href="visual-identity.html">Logos<small>Visual identity and downloads</small></a><a href="colors.html">Colors<small>HEX, RGB, CMYK, Pantone</small></a><a href="typography.html">Typography<small>Fonts and hierarchy</small></a><a href="photography.html">Photography<small>Style and permissions</small></a><a href="video.html">Video<small>Graphics, captions, livestream</small></a><a href="digital-social.html">Digital & Social<small>Web, social, sizes</small></a><a href="writing.html">Writing<small>Names, style, Spanish</small></a><a href="accessibility.html">Accessibility<small>Contrast, alt text, PDFs</small></a><a href="templates.html">Templates<small>Canva and downloads</small></a><a href="schools/index.html">Schools<small>School brand centers</small></a><a href="support.html">Support<small>Requests and contact</small></a>
+</div>
+<main id="main" tabindex="-1">
+<header class="pagehead"><div class="wrap">
+ <div class="crumbs"><a href="index.html">Brand Center</a> / Accessibility</div>
+ <h1>Accessibility</h1>
+ <p class="lead">Everything we publish should work for everyone, including people who use screen readers, captions, or magnification. It's also the law.</p>
+ <div class="meta"><span>Target: WCAG 2.1 AA</span><span>Updated October 7, 2026</span></div>
+</div></header>
+<div class="wrap layout">
+ <nav class="toc" aria-label="On this page"><b>On this page</b>
+  <a href="#quick">Quick check</a><a href="#contrast">Color contrast</a><a href="#type">Typography</a><a href="#alt-text">Alt text</a><a href="#captions">Video captions</a><a href="#links">Links</a><a href="#documents">Documents</a><a href="#pdfs">PDFs</a><a href="#social">Social media</a><a href="#web">Website content</a><a href="#wcag">WCAG and ADA</a>
+ </nav>
+ <div>
+  <section class="blk" id="quick">
+   <div class="blk-h"><h2>The 60-second check</h2><span class="tag req">Required</span></div>
+   <ul class="check">
+    <li><input type="checkbox" id="q1"><label for="q1">Text is dark on light, or white on dark, with strong contrast</label></li>
+    <li><input type="checkbox" id="q2"><label for="q2">Every image has alt text, or is marked decorative</label></li>
+    <li><input type="checkbox" id="q3"><label for="q3">Every video has accurate captions</label></li>
+    <li><input type="checkbox" id="q4"><label for="q4">Links describe where they go</label></li>
+    <li><input type="checkbox" id="q5"><label for="q5">Documents use real headings and lists</label></li>
+    <li><input type="checkbox" id="q6"><label for="q6">Color is never the only way information is shown</label></li>
+   </ul>
+  </section>
+  <section class="blk" id="contrast">
+   <div class="blk-h"><h2>Color contrast</h2><span class="tag req">Required</span></div>
+   <div class="grid g3">
+    <div class="card flat"><h3>4.5:1</h3><p class="small muted">Normal text, like paragraphs and captions.</p></div>
+    <div class="card flat"><h3>3:1</h3><p class="small muted">Large text (24 px, or 19 px bold), icons, buttons, and form borders.</p></div>
+    <div class="card flat"><h3>Never color alone</h3><p class="small muted">Add a label, icon, or underline so meaning isn't lost.</p></div>
+   </div>
+   <p style="margin-top:12px"><a href="colors.html#accessible">See which brand color pairs pass</a></p>
+  </section>
+  <section class="blk" id="type">
+   <div class="blk-h"><h2>Accessible typography</h2><span class="tag req">Required</span></div>
+   <ul><li>Body text: at least 16 px on screens, 11 pt in print, 20 pt on slides.</li><li>Left-align paragraphs. Don't justify or center long text.</li><li>Avoid all caps for more than a few words.</li><li>Don't put text over busy photos.</li></ul>
+  </section>
+  <section class="blk" id="alt-text">
+   <div class="blk-h"><h2>Alt text</h2><span class="tag req">Required</span></div>
+   <div class="dos">
+    <div class="do"><h4>Good</h4><p>"Pacifica seniors in green caps and gowns toss their caps on the football field."</p></div>
+    <div class="dont"><h4>Not helpful</h4><p>"IMG_4021.jpg" or "Photo of graduation"</p></div>
+   </div>
+   <ul style="margin-top:12px"><li>Describe what matters in one or two sentences.</li><li>Don't start with "image of."</li><li>If the image has text, like a flyer, include that text.</li><li>Logos: "Oxnard Union High School District logo." Decorative shapes: leave alt text empty.</li></ul>
+  </section>
+  <section class="blk" id="captions">
+   <div class="blk-h"><h2>Video captions</h2><span class="tag req">Required</span></div>
+   <p>Captions on every video, checked for accuracy. Livestreams get live captions when possible, and corrected captions on the recording. <a href="video.html#captions">Caption details</a></p>
+  </section>
+  <section class="blk" id="links">
+   <div class="blk-h"><h2>Links</h2><span class="tag req">Required</span></div>
+   <div class="dos">
+    <div class="do"><h4>Do</h4><p>Read the <a href="#links">2026-27 bell schedule</a>.</p></div>
+    <div class="dont"><h4>Don't</h4><p>To see the bell schedule, <span style="text-decoration:underline">click here</span>.</p></div>
+   </div>
+   <p class="small muted" style="margin-top:8px">Links should be underlined, and say when they open a PDF or a new tab.</p>
+  </section>
+  <section class="blk" id="documents">
+   <div class="blk-h"><h2>Documents</h2><span class="tag req">Required</span></div>
+   <ul><li>Use the built-in Heading 1, Heading 2 styles, in order.</li><li>Use real bulleted and numbered lists.</li><li>Add alt text to images. Use simple tables with a header row.</li><li>Run the accessibility checker in Word (Review tab) or Google Docs (Grackle add-on) before sharing.</li></ul>
+  </section>
+  <section class="blk" id="pdfs">
+   <div class="blk-h"><h2>PDFs</h2><span class="tag req">Required</span></div>
+   <ul><li>Post a web page instead of a PDF whenever you can.</li><li>Never post a scanned image of text. Export from the original document.</li><li>Export with tags: in Word, use Save as PDF with "Document structure tags for accessibility" checked.</li><li>Set the document title and language.</li></ul>
+  </section>
+  <section class="blk" id="social">
+   <div class="blk-h"><h2>Social media</h2><span class="tag req">Required</span></div>
+   <p>Alt text on every image, captions on every video, CamelCase hashtags, and key details in the post text. <a href="digital-social.html#accessible">Social checklist</a></p>
+  </section>
+  <section class="blk" id="web">
+   <div class="blk-h"><h2>Website content</h2><span class="tag req">Required</span></div>
+   <ul><li>Headings in order, descriptive links, alt text, captioned video.</li><li>Tables only for data, never for layout.</li><li>Forms have visible labels.</li><li>Check pages with a free tool like WAVE before publishing.</li></ul>
+  </section>
+  <section class="blk" id="wcag">
+   <div class="blk-h"><h2>WCAG and ADA</h2><span class="tag req">Required</span></div>
+   <p>Public school districts must make websites, documents, and media accessible under the Americans with Disabilities Act (ADA) and Section 504. The technical standard is the Web Content Accessibility Guidelines (WCAG) 2.1, Level AA. The U.S. Department of Justice's 2024 rule requires this standard for state and local government web content, with compliance dates starting in 2026 for larger entities. Confirm the date that applies to OUHSD with district leadership.</p>
+   <div class="ph"><b>Placeholder:</b> link the district's accessibility statement and how to report an accessibility problem.</div>
+  </section>
+ </div>
+</div>
+
+</main>
+<footer class="ftr">
+ <div class="wrap cols">
+  <div>
+   <h4>OUHSD Brand Center</h4>
+   <p class="small muted">Everything you need to represent our district and schools consistently, accurately and accessibly.</p>
+   <p class="small"><b>Brand owner:</b> OUHSD Communications<br><b>Contact:</b> Teo Lopez, Web and Multimedia Coordinator<br><button class="copy" data-copy="teo.lopez@oxnardunion.org">teo.lopez@oxnardunion.org</button></p>
+   <p class="small muted">Last updated October 7, 2026</p>
+  </div>
+  <div>
+   <h4>Get help</h4>
+   <ul class="small">
+    <li><a href="support.html#request">Request brand support</a></li>
+    <li><a href="mailto:teo.lopez@oxnardunion.org?subject=Brand%20Center%3A%20design%20review%20request">Ask for a design review</a></li>
+    <li><a href="mailto:teo.lopez@oxnardunion.org?subject=Brand%20Center%3A%20request%20an%20update">Request an update</a></li>
+    <li><a href="mailto:teo.lopez@oxnardunion.org?subject=Brand%20Center%3A%20outdated%20asset%20report">Report an outdated asset</a></li>
+    <li><a href="../index.html">Communications Hub</a></li>
+   </ul>
+  </div>
+  <div>
+   <h4>Legend</h4>
+   <ul class="small legend" style="display:grid;gap:8px">
+    <li><span class="tag req">Required</span> Must be followed</li>
+    <li><span class="tag rec">Recommended</span> Preferred practice</li>
+    <li><span class="tag ava">Available</span> Optional resource</li>
+    <li><span class="tag draft">Draft</span> Pending review</li>
+   </ul>
+  </div>
+ </div>
+</footer>
+<script src="assets/schools.js"></script>
+<script src="assets/bc.js"></script>
+</body>
+</html>
