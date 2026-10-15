@@ -167,6 +167,188 @@
   .spread .about-band{margin-top:20px;}
   .spread-cta{margin-top:22px;}
 
+
+  /* ---------- How-to video: animated walkthrough of the Survey Share Kit ---------- */
+  .sv{margin-top:28px;}
+  .sv-title{font-size:18px;margin:0 0 12px 0;}
+  .sv-frame{position:relative;width:100%;aspect-ratio:960/416;overflow:hidden;border-radius:var(--radius);border:1px solid var(--line);
+    background:linear-gradient(135deg,#E0E7F4,#F4F7FD 55%,#FCE9EE);box-shadow:var(--el-1);}
+  .sv-stage{position:absolute;left:0;top:0;width:960px;height:416px;transform-origin:0 0;transform:scale(var(--svs,1));font-family:'Open Sans',sans-serif;color:#1b2430;line-height:1.4;}
+  .sv-stage *{box-sizing:border-box;}
+  .sv-win{position:absolute;left:60px;top:12px;width:840px;height:392px;background:#fff;border:1px solid #C9D2E0;border-radius:8px;overflow:hidden;box-shadow:0 14px 30px -14px rgba(0,31,97,.35);}
+  .sv-chrome{height:36px;display:flex;align-items:center;gap:6px;padding:0 12px;background:#F1F4FA;border-bottom:1px solid #DCE2EE;}
+  .sv-chrome i{width:10px;height:10px;border-radius:50%;background:#C8CFDC;}
+  .sv-url{margin-left:12px;flex:1;max-width:440px;height:22px;border-radius:11px;background:#fff;border:1px solid #DCE2EE;font-size:11px;color:#5b6472;display:flex;align-items:center;padding:0 12px;white-space:nowrap;overflow:hidden;}
+  .sv-content{position:absolute;left:0;top:36px;width:840px;height:356px;background:linear-gradient(180deg,#F7F9FD,#EEF2FA);}
+  .sc{position:absolute;inset:0;opacity:0;}
+  .sc1{opacity:1;}
+  .bdg{position:absolute;left:24px;top:18px;width:44px;height:44px;border-radius:4px;background:#0033A1;color:#fff;font-family:'Montserrat',sans-serif;font-weight:700;font-size:22px;display:grid;place-items:center;}
+  .hd{position:absolute;left:80px;top:16px;}
+  .hd small{display:block;font-family:'Montserrat',sans-serif;font-weight:700;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#0033A1;}
+  .hd b{display:block;font-family:'Montserrat',sans-serif;font-weight:700;font-size:21px;color:#001F61;line-height:1.2;}
+  .box{position:absolute;background:#fff;border:1px solid #C7C9CE;border-radius:4px;}
+  .lbl{font-family:'Montserrat',sans-serif;font-weight:700;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:#0033A1;}
+  .selbox{left:24px;top:110px;width:360px;height:56px;border:1px solid #C7C9CE;}
+  .selbox .lbl{position:absolute;left:14px;top:7px;text-transform:none;letter-spacing:0;font-size:11px;}
+  .selbox .val{position:absolute;left:14px;top:25px;font-size:15px;white-space:nowrap;}
+  .selbox .val.v0{color:#5b6472;}
+  .selbox:after{content:"";position:absolute;right:18px;top:20px;width:8px;height:8px;border:solid #0033A1;border-width:0 2px 2px 0;transform:rotate(45deg);}
+  .dd{position:absolute;left:24px;top:170px;width:360px;height:154px;background:#fff;border:1px solid #C7C9CE;border-radius:4px;box-shadow:0 12px 24px -10px rgba(0,31,97,.35);padding:4px 0;opacity:0;z-index:5;}
+  .dd div{height:36px;line-height:36px;padding:0 14px;font-size:14px;}
+  .dd .r3{background:rgba(224,231,244,0);color:#001F61;font-weight:600;}
+  .prev{position:absolute;left:430px;top:100px;width:386px;}
+  .pbox{position:relative;background:#fff;border:1px solid #DCE2EE;border-radius:4px;padding:10px 14px 12px;margin-bottom:12px;min-height:74px;}
+  .pbox .t{position:relative;display:block;margin-top:6px;font-size:13.5px;min-height:38px;}
+  .pbox .t span{position:absolute;left:0;top:0;right:0;}
+  .s1,.f1,.v1{opacity:0;}
+  .tabs2{position:absolute;left:24px;top:76px;display:flex;gap:6px;}
+  .tabs2 span{height:30px;line-height:30px;padding:0 16px;border-radius:4px;font-size:13px;font-weight:600;background:#E0E7F4;color:#4A5160;}
+  .tabs2 .on{background:#fff;color:#0033A1;box-shadow:0 1px 3px rgba(0,31,97,.25);}
+  .subj{left:24px;top:116px;width:392px;height:36px;padding:0 12px;line-height:34px;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border-color:#DCE2EE;}
+  .msg2{left:24px;top:160px;width:392px;height:136px;border-color:#DCE2EE;padding:12px 14px;}
+  .bar{display:block;height:7px;border-radius:3px;background:#D5DBE6;margin-bottom:8px;}
+  .lnk{display:block;font-size:12px;color:#0033A1;text-decoration:underline;font-weight:600;margin-bottom:5px;}
+  .copybtn{position:absolute;left:252px;top:304px;width:164px;height:38px;border-radius:4px;background:#E20031;color:#fff;font-weight:600;font-size:14px;display:grid;place-items:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 1px 2px rgba(120,0,25,.35);}
+  .toast{position:absolute;left:452px;top:304px;width:290px;height:38px;border-radius:4px;background:#001F61;color:#fff;font-weight:600;font-size:13px;display:flex;align-items:center;padding:0 14px;opacity:0;}
+  .pnl{left:452px;top:20px;width:364px;height:270px;border:1px solid #DCE2EE;overflow:hidden;}
+  .pnl .top{height:34px;background:#F1F4FA;border-bottom:1px solid #DCE2EE;font-size:12px;font-weight:700;color:#4A5160;display:flex;align-items:center;padding:0 14px;font-family:'Montserrat',sans-serif;}
+  .pnl .body{padding:14px;}
+  .pnl .body > *{opacity:0;}
+  .pnl .body .ph{font-size:12.5px;display:block;margin-bottom:9px;color:#1b2430;}
+  .vchip{position:absolute;left:560px;top:118px;height:26px;padding:0 10px;border-radius:4px;background:#001F61;color:#fff;font-size:11.5px;font-weight:700;display:flex;align-items:center;opacity:0;font-family:'Montserrat',sans-serif;}
+  .thumb{position:absolute;top:76px;width:150px;height:188px;border:1px solid #C9D2E0;border-radius:2px;box-shadow:0 8px 16px -8px rgba(0,31,97,.35);background:#fff;overflow:hidden;}
+  .fly{display:block;width:100%;height:100%;}
+  .dlb{position:absolute;top:276px;width:150px;height:34px;border-radius:4px;background:#E20031;color:#fff;font-weight:600;font-size:11.5px;display:grid;place-items:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 1px 2px rgba(120,0,25,.35);}
+  .tray{position:absolute;left:400px;top:76px;width:200px;height:234px;border:1px dashed #AEB8CC;border-radius:4px;background:rgba(255,255,255,.6);padding:10px;}
+  .chipf{display:flex;gap:8px;align-items:center;background:#fff;border:1px solid #DCE2EE;border-radius:4px;padding:6px 8px;margin-top:8px;opacity:0;font-size:10.5px;line-height:1.25;word-break:break-all;}
+  .chipf b{flex:none;width:26px;height:30px;border-radius:2px;background:#E0E7F4;color:#0033A1;font-size:8px;display:grid;place-items:center;font-family:'Montserrat',sans-serif;}
+  .phone{position:absolute;left:632px;top:30px;width:164px;height:298px;border:3px solid #1b2430;border-radius:22px;background:#fff;overflow:hidden;opacity:0;}
+  .phone .ph-h{height:34px;display:flex;align-items:center;gap:7px;padding:0 10px;font-size:10.5px;font-weight:700;border-bottom:1px solid #E2E6EC;}
+  .phone .ph-h i{width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,#0033A1,#E20031);}
+  .phone .img{height:158px;background:#eef2fa;display:flex;justify-content:center;}
+  .phone .img .fly{width:126px;height:158px;}
+  .phone .cap{padding:8px 10px;}
+  .phone .cap .bar{height:5px;margin-bottom:6px;}
+  .ph1,.ph2,.ph3{opacity:0;}
+  .sc4{background:#fff;}
+  .sc4 .big{position:absolute;left:0;right:0;top:54px;text-align:center;font-family:'Montserrat',sans-serif;font-weight:700;font-size:46px;color:#001F61;letter-spacing:-.01em;}
+  .sc4 .big span{display:inline-block;margin:0 12px;opacity:0;}
+  .sc4 .big .w3{color:#0033A1;}
+  .sc4 .sub{position:absolute;left:0;right:0;top:158px;text-align:center;font-size:16px;color:#4A5160;opacity:0;}
+  .sc4 .cta{position:absolute;left:0;right:0;top:250px;text-align:center;opacity:0;}
+  .ctabtn{display:inline-grid;place-items:center;height:44px;padding:0 26px;border-radius:4px;background:#E20031;color:#fff;font-weight:600;font-size:15px;box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 1px 2px rgba(120,0,25,.35);}
+  .sv-cur{position:absolute;left:0;top:0;z-index:30;opacity:0;pointer-events:none;width:22px;height:26px;transform:translate(700px,60px);}
+  .sv-cur svg{display:block;filter:drop-shadow(0 1px 2px rgba(0,0,0,.35));transform-origin:3px 3px;}
+  .sv-curlayer{position:absolute;left:0;top:36px;width:840px;height:356px;pointer-events:none;z-index:30;}
+  /* captions (real text, outside the scaled stage) */
+  .sv-caps{display:grid;margin-top:14px;min-height:64px;}
+  .sv-cap{grid-area:1/1;opacity:0;display:flex;gap:14px;align-items:flex-start;}
+  .sv-cap.cap1{opacity:1;}
+  .sv-cap .n{flex:none;width:36px;height:36px;border-radius:4px;background:var(--blue);color:#fff;display:grid;place-items:center;font-family:'Montserrat',sans-serif;font-weight:700;font-size:17px;}
+  .sv-cap.cap4 .n{background:var(--red);}
+  .sv-cap b{display:block;font-family:'Montserrat',sans-serif;font-size:16px;color:var(--ink);}
+  .sv-cap span.t{display:block;font-size:14px;color:var(--muted);max-width:70ch;}
+  .sv-ctl{display:flex;align-items:center;gap:14px;margin-top:12px;}
+  .sv-btn{font-family:'Montserrat',sans-serif;font-weight:600;font-size:13px;min-height:40px;padding:0 18px;border-radius:var(--shape-btn);border:1.5px solid var(--blue);background:#fff;color:var(--blue);cursor:pointer;min-width:96px;}
+  .sv-btn:hover{background:var(--md-secondary-container);}
+  .sv-btn:focus-visible{outline:3px solid var(--blue);outline-offset:2px;}
+  .sv-btn span{display:none;}
+  .sv[data-state="idle"] .l-play,.sv[data-state="paused"] .l-play,.sv[data-state="playing"] .l-pause,.sv[data-state="ended"] .l-replay{display:inline;}
+  .sv-prog{flex:1;height:6px;border-radius:3px;background:var(--line);overflow:hidden;}
+  .sv-prog i{display:block;height:100%;background:linear-gradient(90deg,var(--red),var(--blue));transform-origin:0 50%;transform:scaleX(0);}
+  .sv.paused .sv-stage *,.sv.paused .sv-prog i,.sv.paused .sv-cap{animation-play-state:paused !important;}
+  .sv-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
+  @keyframes svsc1{0%{opacity:1;animation-timing-function:linear}24.167%{opacity:1;animation-timing-function:linear}25.833%{opacity:0;animation-timing-function:linear}100%{opacity:0;animation-timing-function:linear}}
+  @keyframes svsc2{0%{opacity:0;animation-timing-function:linear}24.167%{opacity:0;animation-timing-function:linear}25.833%{opacity:1;animation-timing-function:linear}53.333%{opacity:1;animation-timing-function:linear}55%{opacity:0;animation-timing-function:linear}100%{opacity:0;animation-timing-function:linear}}
+  @keyframes svsc3{0%{opacity:0;animation-timing-function:linear}53.333%{opacity:0;animation-timing-function:linear}55%{opacity:1;animation-timing-function:linear}82.5%{opacity:1;animation-timing-function:linear}84.167%{opacity:0;animation-timing-function:linear}100%{opacity:0;animation-timing-function:linear}}
+  @keyframes svsc4{0%{opacity:0;animation-timing-function:linear}82.5%{opacity:0;animation-timing-function:linear}84.167%{opacity:1;animation-timing-function:linear}100%{opacity:1;animation-timing-function:linear}}
+  @keyframes svcap1{0%{opacity:1;animation-timing-function:linear}24.167%{opacity:1;animation-timing-function:linear}25.833%{opacity:0;animation-timing-function:linear}100%{opacity:0;animation-timing-function:linear}}
+  @keyframes svcap2{0%{opacity:0;animation-timing-function:linear}24.167%{opacity:0;animation-timing-function:linear}25.833%{opacity:1;animation-timing-function:linear}53.333%{opacity:1;animation-timing-function:linear}55%{opacity:0;animation-timing-function:linear}100%{opacity:0;animation-timing-function:linear}}
+  @keyframes svcap3{0%{opacity:0;animation-timing-function:linear}53.333%{opacity:0;animation-timing-function:linear}55%{opacity:1;animation-timing-function:linear}82.5%{opacity:1;animation-timing-function:linear}84.167%{opacity:0;animation-timing-function:linear}100%{opacity:0;animation-timing-function:linear}}
+  @keyframes svcap4{0%{opacity:0;animation-timing-function:linear}82.5%{opacity:0;animation-timing-function:linear}84.167%{opacity:1;animation-timing-function:linear}100%{opacity:1;animation-timing-function:linear}}
+  @keyframes svcur{0%{transform:translate(700px,60px);opacity:0;animation-timing-function:cubic-bezier(.4,0,.2,1)}1.25%{transform:translate(700px,60px);opacity:0;animation-timing-function:cubic-bezier(.4,0,.2,1)}3.75%{transform:translate(690px,70px);opacity:1;animation-timing-function:cubic-bezier(.4,0,.2,1)}6.25%{transform:translate(210px,140px);opacity:1;animation-timing-function:cubic-bezier(.4,0,.2,1)}12.5%{transform:translate(150px,262px);opacity:1;animation-timing-function:cubic-bezier(.4,0,.2,1)}17.5%{transform:translate(150px,270px);opacity:1;animation-timing-function:cubic-bezier(.4,0,.2,1)}23.333%{transform:translate(560px,230px);opacity:1;animation-timing-function:cubic-bezier(.4,0,.2,1)}26.667%{transform:translate(560px,230px);opacity:1;animation-timing-function:cubic-bezier(.4,0,.2,1)}32.083%{transform:translate(334px,323px);opacity:1;animation-timing-function:cubic-bezier(.4,0,.2,1)}34.583%{transform:translate(334px,323px);opacity:1;animation-timing-function:cubic-bezier(.4,0,.2,1)}38.333%{transform:translate(630px,160px);opacity:1;animation-timing-function:cubic-bezier(.4,0,.2,1)}44.167%{transform:translate(630px,172px);opacity:1;animation-timing-function:cubic-bezier(.4,0,.2,1)}52.083%{transform:translate(480px,230px);opacity:1;animation-timing-function:cubic-bezier(.4,0,.2,1)}55.833%{transform:translate(480px,230px);opacity:1;animation-timing-function:cubic-bezier(.4,0,.2,1)}58.333%{transform:translate(99px,293px);opacity:1;animation-timing-function:cubic-bezier(.4,0,.2,1)}60.833%{transform:translate(99px,293px);opacity:1;animation-timing-function:cubic-bezier(.4,0,.2,1)}63.333%{transform:translate(269px,293px);opacity:1;animation-timing-function:cubic-bezier(.4,0,.2,1)}66.25%{transform:translate(269px,293px);opacity:1;animation-timing-function:cubic-bezier(.4,0,.2,1)}69.583%{transform:translate(480px,220px);opacity:1;animation-timing-function:cubic-bezier(.4,0,.2,1)}82.5%{transform:translate(480px,220px);opacity:1;animation-timing-function:cubic-bezier(.4,0,.2,1)}90.833%{transform:translate(420px,272px);opacity:1;animation-timing-function:cubic-bezier(.4,0,.2,1)}97.5%{transform:translate(420px,272px);opacity:1;animation-timing-function:cubic-bezier(.4,0,.2,1)}99.583%{transform:translate(420px,272px);opacity:0.0;animation-timing-function:cubic-bezier(.4,0,.2,1)}100%{transform:translate(420px,272px);opacity:0.0;animation-timing-function:cubic-bezier(.4,0,.2,1)}}
+  @keyframes svclick{0%{transform:scale(1);animation-timing-function:cubic-bezier(.4,0,.2,1)}6.25%{transform:scale(1);animation-timing-function:cubic-bezier(.4,0,.2,1)}6.667%{transform:scale(.78);animation-timing-function:cubic-bezier(.4,0,.2,1)}7.333%{transform:scale(1);animation-timing-function:cubic-bezier(.4,0,.2,1)}14.583%{transform:scale(1);animation-timing-function:cubic-bezier(.4,0,.2,1)}15%{transform:scale(.78);animation-timing-function:cubic-bezier(.4,0,.2,1)}15.667%{transform:scale(1);animation-timing-function:cubic-bezier(.4,0,.2,1)}32.917%{transform:scale(1);animation-timing-function:cubic-bezier(.4,0,.2,1)}33.333%{transform:scale(.78);animation-timing-function:cubic-bezier(.4,0,.2,1)}34%{transform:scale(1);animation-timing-function:cubic-bezier(.4,0,.2,1)}38.333%{transform:scale(1);animation-timing-function:cubic-bezier(.4,0,.2,1)}38.75%{transform:scale(.78);animation-timing-function:cubic-bezier(.4,0,.2,1)}39.417%{transform:scale(1);animation-timing-function:cubic-bezier(.4,0,.2,1)}58.75%{transform:scale(1);animation-timing-function:cubic-bezier(.4,0,.2,1)}59.167%{transform:scale(.78);animation-timing-function:cubic-bezier(.4,0,.2,1)}59.833%{transform:scale(1);animation-timing-function:cubic-bezier(.4,0,.2,1)}63.75%{transform:scale(1);animation-timing-function:cubic-bezier(.4,0,.2,1)}64.167%{transform:scale(.78);animation-timing-function:cubic-bezier(.4,0,.2,1)}64.833%{transform:scale(1);animation-timing-function:cubic-bezier(.4,0,.2,1)}93.333%{transform:scale(1);animation-timing-function:cubic-bezier(.4,0,.2,1)}93.75%{transform:scale(.78);animation-timing-function:cubic-bezier(.4,0,.2,1)}94.417%{transform:scale(1);animation-timing-function:cubic-bezier(.4,0,.2,1)}100%{transform:scale(1);animation-timing-function:cubic-bezier(.4,0,.2,1)}}
+  @keyframes svselbox{0%{border-color:#C7C9CE;box-shadow:0 0 0 0 rgba(0,51,161,0);animation-timing-function:cubic-bezier(.4,0,.2,1)}6.667%{border-color:#C7C9CE;box-shadow:0 0 0 0 rgba(0,51,161,0);animation-timing-function:cubic-bezier(.4,0,.2,1)}7.083%{border-color:#0033A1;box-shadow:0 0 0 3px rgba(0,51,161,.18);animation-timing-function:cubic-bezier(.4,0,.2,1)}15.833%{border-color:#0033A1;box-shadow:0 0 0 3px rgba(0,51,161,.18);animation-timing-function:cubic-bezier(.4,0,.2,1)}16.667%{border-color:#C7C9CE;box-shadow:0 0 0 0 rgba(0,51,161,0);animation-timing-function:cubic-bezier(.4,0,.2,1)}100%{border-color:#C7C9CE;box-shadow:0 0 0 0 rgba(0,51,161,0);animation-timing-function:cubic-bezier(.4,0,.2,1)}}
+  @keyframes svdd{0%{opacity:0;transform:translateY(-6px);animation-timing-function:cubic-bezier(.4,0,.2,1)}6.875%{opacity:0;transform:translateY(-6px);animation-timing-function:cubic-bezier(.4,0,.2,1)}7.708%{opacity:1;transform:translateY(0);animation-timing-function:cubic-bezier(.4,0,.2,1)}15.625%{opacity:1;transform:translateY(0);animation-timing-function:cubic-bezier(.4,0,.2,1)}16.458%{opacity:0;transform:translateY(-6px);animation-timing-function:cubic-bezier(.4,0,.2,1)}100%{opacity:0;transform:translateY(-6px);animation-timing-function:cubic-bezier(.4,0,.2,1)}}
+  @keyframes svrow{0%{background-color:rgba(224,231,244,0);animation-timing-function:cubic-bezier(.4,0,.2,1)}12.083%{background-color:rgba(224,231,244,0);animation-timing-function:cubic-bezier(.4,0,.2,1)}12.708%{background-color:rgba(224,231,244,1);animation-timing-function:cubic-bezier(.4,0,.2,1)}15.417%{background-color:rgba(224,231,244,1);animation-timing-function:cubic-bezier(.4,0,.2,1)}15.833%{background-color:rgba(224,231,244,1);animation-timing-function:cubic-bezier(.4,0,.2,1)}100%{background-color:rgba(224,231,244,1);animation-timing-function:cubic-bezier(.4,0,.2,1)}}
+  @keyframes svv0{0%{opacity:1;animation-timing-function:linear}15.833%{opacity:1;animation-timing-function:linear}16.458%{opacity:0;animation-timing-function:linear}100%{opacity:0;animation-timing-function:linear}}
+  @keyframes svv1{0%{opacity:0;animation-timing-function:linear}15.833%{opacity:0;animation-timing-function:linear}16.458%{opacity:1;animation-timing-function:linear}100%{opacity:1;animation-timing-function:linear}}
+  @keyframes svs0{0%{opacity:1;animation-timing-function:linear}17.5%{opacity:1;animation-timing-function:linear}18.333%{opacity:0;animation-timing-function:linear}100%{opacity:0;animation-timing-function:linear}}
+  @keyframes svs1{0%{opacity:0;animation-timing-function:linear}17.5%{opacity:0;animation-timing-function:linear}18.333%{opacity:1;animation-timing-function:linear}100%{opacity:1;animation-timing-function:linear}}
+  @keyframes svf0{0%{opacity:1;animation-timing-function:linear}18.75%{opacity:1;animation-timing-function:linear}19.583%{opacity:0;animation-timing-function:linear}100%{opacity:0;animation-timing-function:linear}}
+  @keyframes svf1{0%{opacity:0;animation-timing-function:linear}18.75%{opacity:0;animation-timing-function:linear}19.583%{opacity:1;animation-timing-function:linear}100%{opacity:1;animation-timing-function:linear}}
+  @keyframes svcopy{0%{transform:scale(1);animation-timing-function:cubic-bezier(.4,0,.2,1)}32.917%{transform:scale(1);animation-timing-function:cubic-bezier(.4,0,.2,1)}33.333%{transform:scale(.95);animation-timing-function:cubic-bezier(.4,0,.2,1)}34.083%{transform:scale(1);animation-timing-function:cubic-bezier(.4,0,.2,1)}100%{transform:scale(1);animation-timing-function:cubic-bezier(.4,0,.2,1)}}
+  @keyframes svtoast{0%{opacity:0;transform:translateY(10px);animation-timing-function:cubic-bezier(.4,0,.2,1)}33.333%{opacity:0;transform:translateY(10px);animation-timing-function:cubic-bezier(.4,0,.2,1)}34.375%{opacity:1;transform:translateY(0);animation-timing-function:cubic-bezier(.4,0,.2,1)}41.667%{opacity:1;transform:translateY(0);animation-timing-function:cubic-bezier(.4,0,.2,1)}42.917%{opacity:0;transform:translateY(0);animation-timing-function:cubic-bezier(.4,0,.2,1)}100%{opacity:0;transform:translateY(0);animation-timing-function:cubic-bezier(.4,0,.2,1)}}
+  @keyframes svpnl{0%{border-color:#DCE2EE;box-shadow:0 0 0 0 rgba(0,51,161,0);animation-timing-function:cubic-bezier(.4,0,.2,1)}38.75%{border-color:#DCE2EE;box-shadow:0 0 0 0 rgba(0,51,161,0);animation-timing-function:cubic-bezier(.4,0,.2,1)}39.167%{border-color:#0033A1;box-shadow:0 0 0 3px rgba(0,51,161,.18);animation-timing-function:cubic-bezier(.4,0,.2,1)}53.333%{border-color:#0033A1;box-shadow:0 0 0 3px rgba(0,51,161,.18);animation-timing-function:cubic-bezier(.4,0,.2,1)}100%{border-color:#0033A1;box-shadow:0 0 0 3px rgba(0,51,161,.18);animation-timing-function:cubic-bezier(.4,0,.2,1)}}
+  @keyframes svvchip{0%{opacity:0;animation-timing-function:linear}39.167%{opacity:0;animation-timing-function:linear}39.583%{opacity:1;animation-timing-function:linear}42.083%{opacity:1;animation-timing-function:linear}42.917%{opacity:0;animation-timing-function:linear}100%{opacity:0;animation-timing-function:linear}}
+  @keyframes svp1{0%{opacity:0;animation-timing-function:linear}42.083%{opacity:0;animation-timing-function:linear}43.125%{opacity:1;animation-timing-function:linear}100%{opacity:1;animation-timing-function:linear}}
+  @keyframes svp2{0%{opacity:0;animation-timing-function:linear}42.917%{opacity:0;animation-timing-function:linear}43.958%{opacity:1;animation-timing-function:linear}100%{opacity:1;animation-timing-function:linear}}
+  @keyframes svp3{0%{opacity:0;animation-timing-function:linear}43.75%{opacity:0;animation-timing-function:linear}44.792%{opacity:1;animation-timing-function:linear}100%{opacity:1;animation-timing-function:linear}}
+  @keyframes svp4{0%{opacity:0;animation-timing-function:linear}44.583%{opacity:0;animation-timing-function:linear}45.625%{opacity:1;animation-timing-function:linear}100%{opacity:1;animation-timing-function:linear}}
+  @keyframes svp5{0%{opacity:0;animation-timing-function:linear}45.417%{opacity:0;animation-timing-function:linear}46.458%{opacity:1;animation-timing-function:linear}100%{opacity:1;animation-timing-function:linear}}
+  @keyframes svp6{0%{opacity:0;animation-timing-function:linear}46.25%{opacity:0;animation-timing-function:linear}47.292%{opacity:1;animation-timing-function:linear}100%{opacity:1;animation-timing-function:linear}}
+  @keyframes svp7{0%{opacity:0;animation-timing-function:linear}47.083%{opacity:0;animation-timing-function:linear}48.125%{opacity:1;animation-timing-function:linear}100%{opacity:1;animation-timing-function:linear}}
+  @keyframes svdlen{0%{transform:scale(1);animation-timing-function:cubic-bezier(.4,0,.2,1)}59.167%{transform:scale(1);animation-timing-function:cubic-bezier(.4,0,.2,1)}59.583%{transform:scale(.95);animation-timing-function:cubic-bezier(.4,0,.2,1)}60.208%{transform:scale(1);animation-timing-function:cubic-bezier(.4,0,.2,1)}100%{transform:scale(1);animation-timing-function:cubic-bezier(.4,0,.2,1)}}
+  @keyframes svdles{0%{transform:scale(1);animation-timing-function:cubic-bezier(.4,0,.2,1)}64.167%{transform:scale(1);animation-timing-function:cubic-bezier(.4,0,.2,1)}64.583%{transform:scale(.95);animation-timing-function:cubic-bezier(.4,0,.2,1)}65.208%{transform:scale(1);animation-timing-function:cubic-bezier(.4,0,.2,1)}100%{transform:scale(1);animation-timing-function:cubic-bezier(.4,0,.2,1)}}
+  @keyframes svchip1{0%{opacity:0;transform:translateY(-14px);animation-timing-function:cubic-bezier(.4,0,.2,1)}60.417%{opacity:0;transform:translateY(-14px);animation-timing-function:cubic-bezier(.4,0,.2,1)}61.667%{opacity:1;transform:translateY(0);animation-timing-function:cubic-bezier(.4,0,.2,1)}100%{opacity:1;transform:translateY(0);animation-timing-function:cubic-bezier(.4,0,.2,1)}}
+  @keyframes svchip2{0%{opacity:0;transform:translateY(-14px);animation-timing-function:cubic-bezier(.4,0,.2,1)}65.417%{opacity:0;transform:translateY(-14px);animation-timing-function:cubic-bezier(.4,0,.2,1)}66.667%{opacity:1;transform:translateY(0);animation-timing-function:cubic-bezier(.4,0,.2,1)}100%{opacity:1;transform:translateY(0);animation-timing-function:cubic-bezier(.4,0,.2,1)}}
+  @keyframes svphone{0%{opacity:0;transform:translateX(34px);animation-timing-function:cubic-bezier(.4,0,.2,1)}70.417%{opacity:0;transform:translateX(34px);animation-timing-function:cubic-bezier(.4,0,.2,1)}72.917%{opacity:1;transform:translateX(0);animation-timing-function:cubic-bezier(.4,0,.2,1)}100%{opacity:1;transform:translateX(0);animation-timing-function:cubic-bezier(.4,0,.2,1)}}
+  @keyframes svph1{0%{opacity:0;animation-timing-function:linear}74.167%{opacity:0;animation-timing-function:linear}75.417%{opacity:1;animation-timing-function:linear}100%{opacity:1;animation-timing-function:linear}}
+  @keyframes svph2{0%{opacity:0;animation-timing-function:linear}76.25%{opacity:0;animation-timing-function:linear}77.5%{opacity:1;animation-timing-function:linear}100%{opacity:1;animation-timing-function:linear}}
+  @keyframes svph3{0%{opacity:0;animation-timing-function:linear}78.333%{opacity:0;animation-timing-function:linear}79.583%{opacity:1;animation-timing-function:linear}100%{opacity:1;animation-timing-function:linear}}
+  @keyframes svw1{0%{opacity:0;transform:translateY(14px);animation-timing-function:cubic-bezier(.4,0,.2,1)}85%{opacity:0;transform:translateY(14px);animation-timing-function:cubic-bezier(.4,0,.2,1)}86.458%{opacity:1;transform:translateY(0);animation-timing-function:cubic-bezier(.4,0,.2,1)}100%{opacity:1;transform:translateY(0);animation-timing-function:cubic-bezier(.4,0,.2,1)}}
+  @keyframes svw2{0%{opacity:0;transform:translateY(14px);animation-timing-function:cubic-bezier(.4,0,.2,1)}86.667%{opacity:0;transform:translateY(14px);animation-timing-function:cubic-bezier(.4,0,.2,1)}88.125%{opacity:1;transform:translateY(0);animation-timing-function:cubic-bezier(.4,0,.2,1)}100%{opacity:1;transform:translateY(0);animation-timing-function:cubic-bezier(.4,0,.2,1)}}
+  @keyframes svw3{0%{opacity:0;transform:translateY(14px);animation-timing-function:cubic-bezier(.4,0,.2,1)}88.333%{opacity:0;transform:translateY(14px);animation-timing-function:cubic-bezier(.4,0,.2,1)}89.792%{opacity:1;transform:translateY(0);animation-timing-function:cubic-bezier(.4,0,.2,1)}100%{opacity:1;transform:translateY(0);animation-timing-function:cubic-bezier(.4,0,.2,1)}}
+  @keyframes svsub{0%{opacity:0;transform:translateY(14px);animation-timing-function:cubic-bezier(.4,0,.2,1)}90.417%{opacity:0;transform:translateY(14px);animation-timing-function:cubic-bezier(.4,0,.2,1)}91.875%{opacity:1;transform:translateY(0);animation-timing-function:cubic-bezier(.4,0,.2,1)}100%{opacity:1;transform:translateY(0);animation-timing-function:cubic-bezier(.4,0,.2,1)}}
+  @keyframes svcta{0%{opacity:0;transform:translateY(14px);animation-timing-function:cubic-bezier(.4,0,.2,1)}91.667%{opacity:0;transform:translateY(14px);animation-timing-function:cubic-bezier(.4,0,.2,1)}93.125%{opacity:1;transform:translateY(0);animation-timing-function:cubic-bezier(.4,0,.2,1)}100%{opacity:1;transform:translateY(0);animation-timing-function:cubic-bezier(.4,0,.2,1)}}
+  @keyframes svctapress{0%{transform:scale(1);animation-timing-function:cubic-bezier(.4,0,.2,1)}93.75%{transform:scale(1);animation-timing-function:cubic-bezier(.4,0,.2,1)}94.167%{transform:scale(.95);animation-timing-function:cubic-bezier(.4,0,.2,1)}94.917%{transform:scale(1);animation-timing-function:cubic-bezier(.4,0,.2,1)}100%{transform:scale(1);animation-timing-function:cubic-bezier(.4,0,.2,1)}}
+  @keyframes svprog{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+  .sv.playing .sc1{animation:svsc1 24s both}
+  .sv.playing .sc2{animation:svsc2 24s both}
+  .sv.playing .sc3{animation:svsc3 24s both}
+  .sv.playing .sc4{animation:svsc4 24s both}
+  .sv.playing .cap1{animation:svcap1 24s both}
+  .sv.playing .cap2{animation:svcap2 24s both}
+  .sv.playing .cap3{animation:svcap3 24s both}
+  .sv.playing .cap4{animation:svcap4 24s both}
+  .sv.playing .sv-cur{animation:svcur 24s both}
+  .sv.playing .sv-cur svg{animation:svclick 24s both}
+  .sv.playing .selbox{animation:svselbox 24s both}
+  .sv.playing .dd{animation:svdd 24s both}
+  .sv.playing .dd .r3{animation:svrow 24s both}
+  .sv.playing .v0{animation:svv0 24s both}
+  .sv.playing .v1{animation:svv1 24s both}
+  .sv.playing .s0{animation:svs0 24s both}
+  .sv.playing .s1{animation:svs1 24s both}
+  .sv.playing .f0{animation:svf0 24s both}
+  .sv.playing .f1{animation:svf1 24s both}
+  .sv.playing .copybtn{animation:svcopy 24s both}
+  .sv.playing .toast{animation:svtoast 24s both}
+  .sv.playing .pnl{animation:svpnl 24s both}
+  .sv.playing .vchip{animation:svvchip 24s both}
+  .sv.playing .p1{animation:svp1 24s both}
+  .sv.playing .p2{animation:svp2 24s both}
+  .sv.playing .p3{animation:svp3 24s both}
+  .sv.playing .p4{animation:svp4 24s both}
+  .sv.playing .p5{animation:svp5 24s both}
+  .sv.playing .p6{animation:svp6 24s both}
+  .sv.playing .p7{animation:svp7 24s both}
+  .sv.playing .dlen{animation:svdlen 24s both}
+  .sv.playing .dles{animation:svdles 24s both}
+  .sv.playing .chip1{animation:svchip1 24s both}
+  .sv.playing .chip2{animation:svchip2 24s both}
+  .sv.playing .phone{animation:svphone 24s both}
+  .sv.playing .ph1{animation:svph1 24s both}
+  .sv.playing .ph2{animation:svph2 24s both}
+  .sv.playing .ph3{animation:svph3 24s both}
+  .sv.playing .w1{animation:svw1 24s both}
+  .sv.playing .w2{animation:svw2 24s both}
+  .sv.playing .w3{animation:svw3 24s both}
+  .sv.playing .sub{animation:svsub 24s both}
+  .sv.playing .cta{animation:svcta 24s both}
+  .sv.playing .cta .ctabtn{animation:svctapress 24s both}
+  .sv.playing .sv-prog i{animation:svprog 24s linear both}
+
   footer{padding:30px 0;background:var(--paper-alt);border-top:1px solid var(--line);}
   footer p{font-size:12.5px;color:var(--muted);margin:0;}
   footer p + p{margin-top:4px;}
@@ -300,6 +482,71 @@
         <div class="about-item" data-i18n="spreadItem3"><strong>Share on social media</strong>Instagram-size flyers with QR codes, plus a caption to copy.</div>
       </div>
     </div>
+
+    <div class="sv" id="sv" data-state="idle" role="group" aria-labelledby="svTitle" aria-describedby="svSr">
+      <h3 class="sv-title" id="svTitle" data-i18n="svTitle">See how it works</h3>
+      <div class="sv-frame">
+        <div class="sv-stage" aria-hidden="true">
+          <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><linearGradient id="svg1" x1="0" x2="1"><stop offset="0" stop-color="#001F61"/><stop offset=".5" stop-color="#0033A1"/><stop offset="1" stop-color="#E20031"/></linearGradient><linearGradient id="svg2" x1="0" x2="1"><stop offset="0" stop-color="#E20031"/><stop offset="1" stop-color="#0033A1"/></linearGradient><symbol id="svqr" viewBox="0 0 11 11"><path d="M0 0h1v1h-1zM1 0h1v1h-1zM2 0h1v1h-1zM3 0h1v1h-1zM4 0h1v1h-1zM6 0h1v1h-1zM8 0h1v1h-1zM9 0h1v1h-1zM10 0h1v1h-1zM0 1h1v1h-1zM2 1h1v1h-1zM3 1h1v1h-1zM4 1h1v1h-1zM6 1h1v1h-1zM7 1h1v1h-1zM8 1h1v1h-1zM10 1h1v1h-1zM0 2h1v1h-1zM1 2h1v1h-1zM2 2h1v1h-1zM3 2h1v1h-1zM4 2h1v1h-1zM5 2h1v1h-1zM7 2h1v1h-1zM8 2h1v1h-1zM9 2h1v1h-1zM10 2h1v1h-1zM0 3h1v1h-1zM4 3h1v1h-1zM6 3h1v1h-1zM8 3h1v1h-1zM9 3h1v1h-1zM10 3h1v1h-1zM0 4h1v1h-1zM2 4h1v1h-1zM5 4h1v1h-1zM7 4h1v1h-1zM8 4h1v1h-1zM9 4h1v1h-1zM0 5h1v1h-1zM1 5h1v1h-1zM3 5h1v1h-1zM4 5h1v1h-1zM7 5h1v1h-1zM1 6h1v1h-1zM3 6h1v1h-1zM4 6h1v1h-1zM6 6h1v1h-1zM7 6h1v1h-1zM8 6h1v1h-1zM2 7h1v1h-1zM6 7h1v1h-1zM9 7h1v1h-1zM0 8h1v1h-1zM1 8h1v1h-1zM2 8h1v1h-1zM3 8h1v1h-1zM8 8h1v1h-1zM9 8h1v1h-1zM0 9h1v1h-1zM2 9h1v1h-1zM3 9h1v1h-1zM4 9h1v1h-1zM5 9h1v1h-1zM6 9h1v1h-1zM7 9h1v1h-1zM9 9h1v1h-1zM10 9h1v1h-1zM0 10h1v1h-1zM1 10h1v1h-1zM2 10h1v1h-1zM3 10h1v1h-1zM5 10h1v1h-1zM6 10h1v1h-1z" fill="#001F61"/></symbol><symbol id="svfly" viewBox="0 0 150 188"><rect width="150" height="188" fill="#fff"/><rect x="14" y="14" width="56" height="4" rx="2" fill="#8a93a3"/><rect x="14" y="25" width="112" height="9" rx="2" fill="#0033A1"/><rect x="14" y="38" width="78" height="9" rx="2" fill="#0033A1"/><rect x="14" y="52" width="36" height="3" rx="1.5" fill="url(#svg2)"/><rect x="14" y="62" width="122" height="4" rx="2" fill="#c3c9d6"/><rect x="14" y="70" width="116" height="4" rx="2" fill="#c3c9d6"/><rect x="14" y="78" width="88" height="4" rx="2" fill="#c3c9d6"/><rect x="33" y="90" width="84" height="72" rx="2" fill="#f4f6fb" stroke="#d3dae8"/><rect x="33" y="90" width="84" height="4" fill="#E20031"/><rect x="48" y="99" width="54" height="3" rx="1.5" fill="#001F61"/><rect x="47" y="105" width="56" height="52" fill="#fff"/><use href="#svqr" x="50" y="107" width="50" height="48"/><rect x="14" y="166" width="122" height="10" rx="2" fill="#dfe6f3"/><rect y="182" width="150" height="6" fill="url(#svg1)"/></symbol></defs></svg>
+          <div class="sv-win">
+            <div class="sv-chrome"><i></i><i></i><i></i><span class="sv-url">teolopez-ouhsd.github.io/communications/survey-share-kit.html</span></div>
+            <div class="sv-content">
+              <div class="sc sc1">
+                <div class="bdg">1</div><div class="hd"><small>Step 1</small><b>Pick your school</b></div>
+                <div class="box selbox"><span class="lbl">Your school</span><span class="val v0">Select your school</span><span class="val v1">Pacifica High School</span></div>
+                <div class="dd"><div>Hueneme High School</div><div>Oxnard High School</div><div class="r3">Pacifica High School</div><div>Rancho Campana High School</div></div>
+                <div class="prev">
+                  <div class="pbox"><span class="lbl">Subject line</span><span class="t"><span class="s0">Help Shape the New Website: Survey Open Through Oct. 21</span><span class="s1">Help Shape the New Pacifica High School Website: Survey Open Through Oct. 21</span></span></div>
+                  <div class="pbox"><span class="lbl">Flyer footer</span><span class="t"><span class="f0">Oxnard Union High School District</span><span class="f1">Pacifica High School · Oxnard Union High School District</span></span></div>
+                </div>
+              </div>
+              <div class="sc sc2">
+                <div class="bdg">2</div><div class="hd"><small>Step 2</small><b>Post to ParentSquare</b></div>
+                <div class="tabs2"><span class="on">English</span><span>Spanish</span></div>
+                <div class="box subj">Help Shape the New Pacifica High School Website: Survey Open Through Oct. 21</div>
+                <div class="box msg2"><span class="bar" style="width:62%"></span><span class="bar" style="width:96%"></span><span class="bar" style="width:90%"></span><span class="bar" style="width:70%"></span><span class="lnk">Take the Parent &amp; Guardian Survey in English</span><span class="lnk">Take the survey in Spanish (Español)</span></div>
+                <div class="copybtn">Copy message</div>
+                <div class="box pnl"><div class="top">New post</div><div class="body">
+                  <span class="ph p1">Dear Pacifica High School Families,</span>
+                  <span class="bar p2" style="width:96%"></span><span class="bar p3" style="width:88%"></span><span class="bar p4" style="width:64%"></span>
+                  <span class="lnk p5">Take the Parent &amp; Guardian Survey in English</span>
+                  <span class="lnk p6">Take the survey in Spanish (Español)</span>
+                  <span class="bar p7" style="width:80%"></span></div></div>
+                <div class="toast">Message copied with links</div>
+                <div class="vchip">Ctrl + V</div>
+              </div>
+              <div class="sc sc3">
+                <div class="bdg">3</div><div class="hd"><small>Step 3</small><b>Share on social media</b></div>
+                <div class="thumb" style="left:24px"><svg class="fly " viewBox="0 0 150 188" aria-hidden="true"><use href="#svfly"/></svg></div><div class="thumb" style="left:194px"><svg class="fly " viewBox="0 0 150 188" aria-hidden="true"><use href="#svfly"/></svg></div>
+                <div class="dlb dlen" style="left:24px">Download English post</div><div class="dlb dles" style="left:194px">Download Spanish post</div>
+                <div class="tray"><span class="lbl">Downloads</span>
+                  <div class="chipf chip1"><b>PNG</b><span>OUHSD-Survey-Post-English-Parents.png</span></div>
+                  <div class="chipf chip2"><b>PNG</b><span>OUHSD-Survey-Post-Espanol-Parents.png</span></div></div>
+                <div class="phone"><div class="ph-h"><i></i>yourschool</div><div class="img"><svg class="fly " viewBox="0 0 150 188" aria-hidden="true"><use href="#svfly"/></svg></div>
+                  <div class="cap"><span class="bar ph1" style="width:92%"></span><span class="bar ph2" style="width:78%"></span><span class="bar ph3" style="width:50%"></span></div></div>
+              </div>
+              <div class="sc sc4">
+                <div class="big"><span class="w1">Pick.</span><span class="w2">Post.</span><span class="w3">Share.</span></div>
+                <div class="sub">Everything is ready to copy or download.</div>
+                <div class="cta"><span class="ctabtn">Open the Survey Share Kit</span></div>
+              </div>
+            </div>
+            <div class="sv-curlayer"><div class="sv-cur"><svg width="22" height="26" viewBox="0 0 22 26" aria-hidden="true"><path d="M2 2v19l5-4.6 3.4 7.6 3.4-1.5-3.4-7.4H18z" fill="#fff" stroke="#1b2430" stroke-width="1.6" stroke-linejoin="round"/></svg></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="sv-caps" aria-live="off">
+        <div class="sv-cap cap1"><span class="n">1</span><div><b data-i18n="svC1t">Pick your school</b><span class="t" data-i18n="svC1s">Choose your school from the list and the wording updates to match.</span></div></div>
+        <div class="sv-cap cap2"><span class="n">2</span><div><b data-i18n="svC2t">Post to ParentSquare</b><span class="t" data-i18n="svC2s">Copy the ready-made message, links included, and paste it into a new post.</span></div></div>
+        <div class="sv-cap cap3"><span class="n">3</span><div><b data-i18n="svC3t">Share on social media</b><span class="t" data-i18n="svC3s">Download the English and Spanish flyers, each with a QR code, and upload them to your account.</span></div></div>
+        <div class="sv-cap cap4"><span class="n">&#10003;</span><div><b data-i18n="svC4t">That's it</b><span class="t" data-i18n="svC4s">Pick, post, share. Everything is ready to copy or download.</span></div></div>
+      </div>
+      <div class="sv-ctl">
+        <button type="button" class="sv-btn" id="svBtn"><span class="l-play" data-i18n="svPlay">Play</span><span class="l-pause" data-i18n="svPause">Pause</span><span class="l-replay" data-i18n="svReplay">Replay</span></button>
+        <div class="sv-prog" aria-hidden="true"><i></i></div>
+      </div>
+      <p class="sv-sr" id="svSr" data-i18n="svSr">Video walkthrough, about 24 seconds. Step 1: pick your school from the list. Step 2: copy the ready-made ParentSquare message, with the survey links included, and paste it into a new post. Step 3: download the English and Spanish flyers, each with a QR code, and upload them to social media.</p>
+    </div>
     <p class="spread-cta">
       <a class="btn btn-blue" href="survey-share-kit.html" data-i18n="spreadBtn">Open the Survey Share Kit →</a>
     </p>
@@ -358,6 +605,19 @@
       spreadItem2: "<strong>Post to ParentSquare</strong>A ready-made message in English and Spanish, with the survey links built in.",
       spreadItem3: "<strong>Share on social media</strong>Instagram-size flyers with QR codes, plus a caption to copy.",
       spreadBtn: "Open the Survey Share Kit →",
+      svTitle: "See how it works",
+      svC1t: "Pick your school",
+      svC1s: "Choose your school from the list and the wording updates to match.",
+      svC2t: "Post to ParentSquare",
+      svC2s: "Copy the ready-made message, links included, and paste it into a new post.",
+      svC3t: "Share on social media",
+      svC3s: "Download the English and Spanish flyers, each with a QR code, and upload them to your account.",
+      svC4t: "That's it",
+      svC4s: "Pick, post, share. Everything is ready to copy or download.",
+      svPlay: "Play",
+      svPause: "Pause",
+      svReplay: "Replay",
+      svSr: "Video walkthrough, about 24 seconds. Step 1: pick your school from the list. Step 2: copy the ready-made ParentSquare message, with the survey links included, and paste it into a new post. Step 3: download the English and Spanish flyers, each with a QR code, and upload them to social media.",
       footer1: "Oxnard Union High School District — Website Redesign Survey.",
       footer2: "Questions about this project? Contact Teo Lopez at <a href=\"mailto:teo.lopez@oxnardunion.org\">teo.lopez@oxnardunion.org</a>."
     },
@@ -386,6 +646,19 @@
       spreadItem2: "<strong>Publique en ParentSquare</strong>Un mensaje listo para usar en inglés y español, con los enlaces de la encuesta incluidos.",
       spreadItem3: "<strong>Comparta en redes sociales</strong>Volantes del tamaño de Instagram con códigos QR y un pie de foto para copiar.",
       spreadBtn: "Abrir el Kit para Compartir la Encuesta →",
+      svTitle: "Mire cómo funciona",
+      svC1t: "Elija su escuela",
+      svC1s: "Elija su escuela de la lista y el texto se actualiza automáticamente.",
+      svC2t: "Publique en ParentSquare",
+      svC2s: "Copie el mensaje listo para usar, con los enlaces incluidos, y péguelo en una nueva publicación.",
+      svC3t: "Comparta en redes sociales",
+      svC3s: "Descargue los volantes en inglés y español, cada uno con un código QR, y súbalos a su cuenta.",
+      svC4t: "Eso es todo",
+      svC4s: "Elija, publique y comparta. Todo está listo para copiar o descargar.",
+      svPlay: "Reproducir",
+      svPause: "Pausar",
+      svReplay: "Repetir",
+      svSr: "Video tutorial de unos 24 segundos. Paso 1: elija su escuela de la lista. Paso 2: copie el mensaje de ParentSquare listo para usar, con los enlaces de la encuesta incluidos, y péguelo en una nueva publicación. Paso 3: descargue los volantes en inglés y español, cada uno con un código QR, y súbalos a las redes sociales.",
       footer1: "Distrito Escolar de la Unión de Oxnard — Encuesta de Rediseño del Sitio Web.",
       footer2: "¿Preguntas sobre este proyecto? Comuníquese con Teo López a <a href=\"mailto:teo.lopez@oxnardunion.org\">teo.lopez@oxnardunion.org</a>."
     }
@@ -433,6 +706,45 @@
       lang = 'es';
     }
     setLanguage(lang);
+  })();
+</script>
+
+<script>
+  // ---------- How-to video: starts once, when scrolled into view ----------
+  (function(){
+    const sv = document.getElementById('sv');
+    if(!sv) return;
+    const frame = sv.querySelector('.sv-frame');
+    const stage = sv.querySelector('.sv-stage');
+    const btn = document.getElementById('svBtn');
+    const prog = sv.querySelector('.sv-prog i');
+    function fit(){ stage.style.setProperty('--svs', String(frame.clientWidth / 960)); }
+    fit();
+    window.addEventListener('resize', fit);
+    if(window.ResizeObserver){ new ResizeObserver(fit).observe(frame); }
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    function setState(s){ sv.setAttribute('data-state', s); }
+    function start(){
+      sv.classList.remove('playing','paused');
+      void sv.offsetWidth;
+      sv.classList.add('playing');
+      setState('playing');
+    }
+    prog.addEventListener('animationend', function(){ setState('ended'); });
+    btn.addEventListener('click', function(){
+      const s = sv.getAttribute('data-state');
+      if(s === 'idle' || s === 'ended'){ start(); }
+      else if(s === 'playing'){ sv.classList.add('paused'); setState('paused'); }
+      else if(s === 'paused'){ sv.classList.remove('paused'); setState('playing'); }
+    });
+    if(!reduce && 'IntersectionObserver' in window){
+      const io = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if(e.isIntersecting && e.intersectionRatio >= 0.5){ io.disconnect(); start(); }
+        });
+      }, { threshold: [0.5] });
+      io.observe(frame);
+    }
   })();
 </script>
 
