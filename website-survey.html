@@ -349,6 +349,16 @@
   .sv.playing .cta .ctabtn{animation:svctapress 24s both}
   .sv.playing .sv-prog i{animation:svprog 24s linear both}
 
+
+  .sv-d{margin-top:28px;border:1px solid var(--line);border-radius:var(--radius);background:rgba(255,255,255,.7);}
+  .sv-d>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px;padding:14px 18px;font-family:'Montserrat',sans-serif;font-weight:700;font-size:17px;color:var(--navy,#001F61);}
+  .sv-d>summary::-webkit-details-marker{display:none;}
+  .sv-d>summary::before{content:"";flex:none;width:0;height:0;border-left:9px solid var(--blue);border-top:6px solid transparent;border-bottom:6px solid transparent;transition:transform .2s;}
+  .sv-d[open]>summary::before{transform:rotate(90deg);}
+  .sv-d>summary:focus-visible{outline:3px solid var(--blue);outline-offset:2px;}
+  .sv-d .sv-hint{margin-left:auto;font-family:'Open Sans',sans-serif;font-weight:600;font-size:14px;color:var(--muted);}
+  .sv-d .sv{margin:0;padding:0 18px 18px;}
+  @media (prefers-reduced-motion:reduce){.sv-d>summary::before{transition:none;}}
   footer{padding:30px 0;background:var(--paper-alt);border-top:1px solid var(--line);}
   footer p{font-size:12.5px;color:var(--muted);margin:0;}
   footer p + p{margin-top:4px;}
@@ -483,8 +493,9 @@
       </div>
     </div>
 
+    <details class="sv-d" id="svD">
+      <summary><span id="svTitle" data-i18n="svTitle">See how it works</span><span class="sv-hint" data-i18n="svHint">Watch a 24 second how-to</span></summary>
     <div class="sv" id="sv" data-state="idle" role="group" aria-labelledby="svTitle" aria-describedby="svSr">
-      <h3 class="sv-title" id="svTitle" data-i18n="svTitle">See how it works</h3>
       <div class="sv-frame">
         <div class="sv-stage" aria-hidden="true">
           <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><linearGradient id="svg1" x1="0" x2="1"><stop offset="0" stop-color="#001F61"/><stop offset=".5" stop-color="#0033A1"/><stop offset="1" stop-color="#E20031"/></linearGradient><linearGradient id="svg2" x1="0" x2="1"><stop offset="0" stop-color="#E20031"/><stop offset="1" stop-color="#0033A1"/></linearGradient><symbol id="svqr" viewBox="0 0 11 11"><path d="M0 0h1v1h-1zM1 0h1v1h-1zM2 0h1v1h-1zM3 0h1v1h-1zM4 0h1v1h-1zM6 0h1v1h-1zM8 0h1v1h-1zM9 0h1v1h-1zM10 0h1v1h-1zM0 1h1v1h-1zM2 1h1v1h-1zM3 1h1v1h-1zM4 1h1v1h-1zM6 1h1v1h-1zM7 1h1v1h-1zM8 1h1v1h-1zM10 1h1v1h-1zM0 2h1v1h-1zM1 2h1v1h-1zM2 2h1v1h-1zM3 2h1v1h-1zM4 2h1v1h-1zM5 2h1v1h-1zM7 2h1v1h-1zM8 2h1v1h-1zM9 2h1v1h-1zM10 2h1v1h-1zM0 3h1v1h-1zM4 3h1v1h-1zM6 3h1v1h-1zM8 3h1v1h-1zM9 3h1v1h-1zM10 3h1v1h-1zM0 4h1v1h-1zM2 4h1v1h-1zM5 4h1v1h-1zM7 4h1v1h-1zM8 4h1v1h-1zM9 4h1v1h-1zM0 5h1v1h-1zM1 5h1v1h-1zM3 5h1v1h-1zM4 5h1v1h-1zM7 5h1v1h-1zM1 6h1v1h-1zM3 6h1v1h-1zM4 6h1v1h-1zM6 6h1v1h-1zM7 6h1v1h-1zM8 6h1v1h-1zM2 7h1v1h-1zM6 7h1v1h-1zM9 7h1v1h-1zM0 8h1v1h-1zM1 8h1v1h-1zM2 8h1v1h-1zM3 8h1v1h-1zM8 8h1v1h-1zM9 8h1v1h-1zM0 9h1v1h-1zM2 9h1v1h-1zM3 9h1v1h-1zM4 9h1v1h-1zM5 9h1v1h-1zM6 9h1v1h-1zM7 9h1v1h-1zM9 9h1v1h-1zM10 9h1v1h-1zM0 10h1v1h-1zM1 10h1v1h-1zM2 10h1v1h-1zM3 10h1v1h-1zM5 10h1v1h-1zM6 10h1v1h-1z" fill="#001F61"/></symbol><symbol id="svfly" viewBox="0 0 150 188"><rect width="150" height="188" fill="#fff"/><rect x="14" y="14" width="56" height="4" rx="2" fill="#8a93a3"/><rect x="14" y="25" width="112" height="9" rx="2" fill="#0033A1"/><rect x="14" y="38" width="78" height="9" rx="2" fill="#0033A1"/><rect x="14" y="52" width="36" height="3" rx="1.5" fill="url(#svg2)"/><rect x="14" y="62" width="122" height="4" rx="2" fill="#c3c9d6"/><rect x="14" y="70" width="116" height="4" rx="2" fill="#c3c9d6"/><rect x="14" y="78" width="88" height="4" rx="2" fill="#c3c9d6"/><rect x="33" y="90" width="84" height="72" rx="2" fill="#f4f6fb" stroke="#d3dae8"/><rect x="33" y="90" width="84" height="4" fill="#E20031"/><rect x="48" y="99" width="54" height="3" rx="1.5" fill="#001F61"/><rect x="47" y="105" width="56" height="52" fill="#fff"/><use href="#svqr" x="50" y="107" width="50" height="48"/><rect x="14" y="166" width="122" height="10" rx="2" fill="#dfe6f3"/><rect y="182" width="150" height="6" fill="url(#svg1)"/></symbol></defs></svg>
@@ -547,6 +558,7 @@
       </div>
       <p class="sv-sr" id="svSr" data-i18n="svSr">Video walkthrough, about 24 seconds. Step 1: pick your school from the list. Step 2: copy the ready-made ParentSquare message, with the survey links included, and paste it into a new post. Step 3: download the English and Spanish flyers, each with a QR code, and upload them to social media.</p>
     </div>
+    </details>
     <p class="spread-cta">
       <a class="btn btn-blue" href="survey-share-kit.html" data-i18n="spreadBtn">Open the Survey Share Kit →</a>
     </p>
@@ -606,6 +618,7 @@
       spreadItem3: "<strong>Share on social media</strong>Instagram-size flyers with QR codes, plus a caption to copy.",
       spreadBtn: "Open the Survey Share Kit →",
       svTitle: "See how it works",
+      svHint: "Watch a 24 second how-to",
       svC1t: "Pick your school",
       svC1s: "Choose your school from the list and the wording updates to match.",
       svC2t: "Post to ParentSquare",
@@ -647,6 +660,7 @@
       spreadItem3: "<strong>Comparta en redes sociales</strong>Volantes del tamaño de Instagram con códigos QR y un pie de foto para copiar.",
       spreadBtn: "Abrir el Kit para Compartir la Encuesta →",
       svTitle: "Mire cómo funciona",
+      svHint: "Vea un video de 24 segundos",
       svC1t: "Elija su escuela",
       svC1s: "Elija su escuela de la lista y el texto se actualiza automáticamente.",
       svC2t: "Publique en ParentSquare",
