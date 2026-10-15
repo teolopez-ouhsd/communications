@@ -453,7 +453,7 @@ button.chip[aria-pressed="true"] { background: var(--tint-strong); border-color:
         </select>
         <label for="school">Your school</label>
       </div>
-      <p class="hint">Skip this to keep the district-wide wording.</p>
+      <p class="hint">Skip this to keep the district-wide wording. Del Sol, Channel Islands and Pacifica also get their mascot as a background watermark on the flyers.</p>
     </div>
   </section>
 
@@ -687,6 +687,22 @@ button.chip[aria-pressed="true"] { background: var(--tint-strong); border-color:
     parts.forEach(function (p) { x.font = p[1] + ' ' + px + 'px ' + BODYF; x.fillStyle = p[2]; x.fillText(p[0], sx, y); sx += x.measureText(p[0]).width; });
   }
 
+  /* School mascots from the brand style guides (served from this site, so the canvas stays exportable). */
+  var LOGOS = {
+    'Del Sol High School': 'brand/logos/schools/del-sol.png',
+    'Channel Islands High School': 'brand/logos/schools/channel-islands.png',
+    'Pacifica High School': 'brand/logos/schools/pacifica.png'
+  };
+  var logoImgs = {};
+  Object.keys(LOGOS).forEach(function (name) {
+    var im = new Image();
+    im.onload = function () { im.ready = true; if (typeof scheduleDraw === 'function') { scheduleDraw(); } };
+    im.onerror = function () { im.ready = false; };
+    im.src = LOGOS[name];
+    logoImgs[name] = im;
+  });
+  function schoolLogo() { var im = logoImgs[school()]; return im && im.ready ? im : null; }
+
   function drawFlyer(lang) {
     var cv = $('fly-' + lang), a = state.aud, T = COPY[lang];
     var W = 1080, H = 1350, M = 72;
@@ -694,6 +710,16 @@ button.chip[aria-pressed="true"] { background: var(--tint-strong); border-color:
     var x = cv.getContext('2d');
     x.textBaseline = 'alphabetic';
     x.fillStyle = '#FFFFFF'; x.fillRect(0, 0, W, H);
+
+    /* school mascot as a large, faint watermark behind everything */
+    var mascot = schoolLogo();
+    if (mascot) {
+      var bw = W - 60, bh = 1000, ms = Math.min(bw / mascot.naturalWidth, bh / mascot.naturalHeight);
+      var mw = mascot.naturalWidth * ms, mh = mascot.naturalHeight * ms;
+      x.save(); x.globalAlpha = 0.13;
+      x.drawImage(mascot, (W - mw) / 2, 690 - mh / 2, mw, mh);
+      x.restore();
+    }
 
     /* header */
     x.textAlign = 'left';
@@ -723,7 +749,7 @@ button.chip[aria-pressed="true"] { background: var(--tint-strong); border-color:
     var qrS = Math.max(240, Math.min(440, avail - over));
     var cardW = qrS + 2 * 44, cardH = over + qrS;
     var cx = (W - cardW) / 2, cy = cardTop + Math.max(0, (avail - cardH) / 2);
-    x.fillStyle = '#F6F8FC'; rr(x, cx, cy, cardW, cardH, 4); x.fill();
+    x.fillStyle = 'rgba(246, 248, 252, 0.92)'; rr(x, cx, cy, cardW, cardH, 4); x.fill();
     x.lineWidth = 2; x.strokeStyle = '#D3DAE8'; rr(x, cx + 1, cy + 1, cardW - 2, cardH - 2, 4); x.stroke();
     x.save(); rr(x, cx, cy, cardW, cardH, 4); x.clip(); x.fillStyle = C.RED; x.fillRect(cx, cy, cardW, 8); x.restore();
 
