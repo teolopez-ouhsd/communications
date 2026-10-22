@@ -464,7 +464,7 @@ button.chip[aria-pressed="true"] { background: var(--tint-strong); border-color:
       <div>
         <span class="step-label">Step 2</span>
         <h2 id="s2h">Post to ParentSquare</h2>
-        <p>Copy the subject line and message, then paste them into a new ParentSquare post. The survey links are hyperlinks, so no long web addresses show.</p>
+        <p>Copy the subject line and message, then paste them into a new ParentSquare post. The survey link is a hyperlink, so no long web address shows, and it opens the survey page where families pick the survey that fits them.</p>
       </div>
     </div>
     <div class="card">
@@ -482,7 +482,7 @@ button.chip[aria-pressed="true"] { background: var(--tint-strong); border-color:
           <div class="msg rich" id="ps-message"></div>
         </div>
       </div>
-      <div class="tip"><span><b>Tip:</b> after pasting, check that the survey lines show as links. If ParentSquare drops them, highlight each line and use its link button to add the web address. You can also attach a flyer from Step 3 to the same post.</span></div>
+      <div class="tip"><span><b>Tip:</b> after pasting, check that the survey line shows as a link. If ParentSquare drops it, highlight the line and use its link button to add https://teolopez-ouhsd.github.io/communications/website-survey.html. You can also attach a flyer from Step 3 to the same post.</span></div>
     </div>
   </section>
 
@@ -537,11 +537,9 @@ button.chip[aria-pressed="true"] { background: var(--tint-strong); border-color:
 (function () {
   'use strict';
   var $ = function (id) { return document.getElementById(id); };
-  var LINKS = {
-    parents: { en: 'https://forms.gle/wrsuWLLcN3ZEKNJ48', es: 'https://docs.google.com/forms/d/e/1FAIpQLSdu07EG1e6vj1VvNsPltquR-Zek1_DcmwjhSte_rlcS-punUA/viewform' },
-    students: { en: 'https://forms.gle/Zd71AzQeNYxypu6A9', es: 'https://docs.google.com/forms/d/e/1FAIpQLScHxAUzWoJZZ0Onv_SljMHnLL31qt8Artyj2fbEXYmxDLAVmA/viewform' },
-    staff: { en: 'https://forms.gle/XDwEuPD8Dd9o6o7n9', es: 'https://docs.google.com/forms/d/e/1FAIpQLSea88iof_jIcOKyev9Bj0WtEXmddnqs3MRKoABu8EM3ZZ-OVQ/viewform' }
-  };
+  /* Everything points to the survey landing page, where each person picks the survey that matches them. ?lang=es opens it in Spanish. */
+  var LANDING = 'https://teolopez-ouhsd.github.io/communications/website-survey.html';
+  function landingUrl(lang) { return LANDING + (lang === 'es' ? '?lang=es' : ''); }
   var state = { lang: 'en', aud: 'parents' };
 
   /* ---------- toast + copy ---------- */
@@ -571,21 +569,21 @@ button.chip[aria-pressed="true"] { background: var(--tint-strong); border-color:
     if (lang === 'es') {
       return {
         subject: 'Ayúdenos a dar forma a nuestro nuevo sitio web' + (s ? ' de ' + s : '') + ': encuesta abierta hasta el 21 de octubre',
-        links: [{ label: 'Realizar la Encuesta para Padres y Tutores en español', url: LINKS.parents.es }, { label: 'Realizar la encuesta en inglés (English)', url: LINKS.parents.en }],
+        links: [{ label: 'Realizar la encuesta', url: landingUrl('es') }],
         body: 'Estimadas familias' + (s ? ' de ' + s : '') + ':\n\n' +
           'Estamos rediseñando los sitios web del distrito y de nuestras escuelas, y necesitamos su opinión. Cuéntenos qué es difícil de encontrar, qué falta y cómo sería un mejor sitio web para usted. Sus respuestas darán forma directamente a la navegación, el contenido y el diseño del nuevo sitio.\n\n' +
           'La encuesta toma de 5 a 10 minutos. Por favor responda a más tardar el miércoles 21 de octubre.\n\n' +
-          '[[L1]]\n[[L2]]\n\n' +
+          '[[L1]]\n\n' +
           'Gracias por ayudarnos a crear un sitio web que funcione mejor para nuestros estudiantes y familias.'
       };
     }
     return {
       subject: 'Help Shape the New ' + (s ? s + ' ' : '') + 'Website: Survey Open Through Oct. 21',
-      links: [{ label: 'Take the Parent & Guardian Survey in English', url: LINKS.parents.en }, { label: 'Take the survey in Spanish (Español)', url: LINKS.parents.es }],
+      links: [{ label: 'Take the survey', url: landingUrl('en') }],
       body: 'Dear ' + (s ? s + ' ' : '') + 'Families,\n\n' +
         'Our district and school websites are getting a redesign, and we need your input. Tell us what is hard to find, what is missing, and what a better website looks like to you. Your answers will directly shape the new site\'s navigation, content, and design.\n\n' +
         'The survey takes about 5 to 10 minutes. Please respond by Wednesday, October 21.\n\n' +
-        '[[L1]]\n[[L2]]\n\n' +
+        '[[L1]]\n\n' +
         'Thank you for helping us build a website that works better for our students and families.'
     };
   }
@@ -784,7 +782,7 @@ button.chip[aria-pressed="true"] { background: var(--tint-strong); border-color:
     var qx = (W - qrS) / 2;
     x.fillStyle = '#FFFFFF'; x.fillRect(qx, qy, qrS, qrS);
     try {
-      var q = qrcode(0, 'M'); q.addData(LINKS[a][lang]); q.make();
+      var q = qrcode(0, 'M'); q.addData(landingUrl(lang)); q.make();
       var n = q.getModuleCount();
       var m = Math.floor(qrS / (n + 6));
       var size = m * (n + 6);

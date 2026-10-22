@@ -712,9 +712,12 @@
 
   (function initLanguage(){
     let lang = 'en';
-    let saved = null;
+    let saved = null, fromUrl = null;
+    try{ fromUrl = new URLSearchParams(window.location.search).get('lang'); }catch(e){}
     try{ saved = localStorage.getItem('ouhsd-survey-lang'); }catch(e){}
-    if(saved === 'en' || saved === 'es'){
+    if(fromUrl === 'en' || fromUrl === 'es'){
+      lang = fromUrl;
+    } else if(saved === 'en' || saved === 'es'){
       lang = saved;
     } else if(navigator.language && navigator.language.toLowerCase().indexOf('es') === 0){
       lang = 'es';
