@@ -1,0 +1,15 @@
+/* OUHSD Design System v1.0 | Theme: Del Sol High School (Jaguars)
+   Source: Del Sol Brand Style Guide. Orange #FF671F, Gold #FFB81C.
+   Usage: link AFTER ouhsd.css, then add data-school="del-sol" to <html>.
+   Orange fails as text on white (2.9:1), so --ou-school-primary-text uses the
+   darker #993E13 (6.9:1). Use the bright orange only as a fill, with dark ink on top. */
+[data-school="del-sol"] {
+  --ou-school-primary: #FF671F;
+  --ou-school-primary-text: #993E13;
+  --ou-on-school-primary: #14161B;       /* ink on orange: 6.2:1 */
+  --ou-school-secondary: #FFB81C;
+  --ou-on-school-secondary: #14161B;     /* ink on gold: 10.4:1 */
+  --ou-school-container: #FFEDE4;
+  --ou-on-school-container: #6E2C0D;
+  --ou-stripe: linear-gradient(90deg, #FF671F 0 60%, #FFB81C 60% 100%);
+}

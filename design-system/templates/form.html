@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>New request | App name | Oxnard Union High School District</title>
+<!--
+  OUHSD TEMPLATE: Form page
+  Change content only. Search this file for TODO to find every place that needs your information.
+  The script at the bottom shows the required validation pattern: error summary first, message next to each
+  field, focus moves to the summary, and what the person typed is kept. Replace the demo submit with real code.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://teolopez-ouhsd.github.io/communications/design-system/v1/ouhsd.css">
+<script src="https://teolopez-ouhsd.github.io/communications/design-system/v1/ouhsd-ui.js" defer></script>
+</head>
+<body>
+
+<a class="ou-skip-link" href="#main">Skip to main content</a>
+
+<header class="ou-header">
+  <div class="ou-container ou-header__inner">
+    <a class="ou-header__brand" href="#">
+      <img src="https://teolopez-ouhsd.github.io/communications/brand/logos/svg/ouhsd-logo-horizontal-color.svg" alt="Oxnard Union High School District">
+    </a>
+    <button class="ou-btn ou-btn--outline ou-btn--sm ou-header__toggle" type="button" data-ou-nav-toggle aria-controls="main-nav" aria-expanded="false">Menu</button>
+    <nav class="ou-header__nav" id="main-nav" aria-label="Main">
+      <ul class="ou-nav">
+        <li><a href="#">Dashboard</a></li>
+        <li><a href="#" aria-current="page">Requests</a></li>
+        <li><a href="#">Reports</a></li>
+        <li><a href="#">Help</a></li>
+      </ul>
+    </nav>
+    <div class="ou-header__end">
+      <a class="ou-btn ou-btn--text ou-btn--sm" href="#" lang="es" hreflang="es">Español</a>
+      <span class="ou-avatar" title="TODO name">TN</span>
+    </div>
+  </div>
+</header>
+
+<main id="main" class="ou-container ou-container--narrow" style="padding-block: var(--ou-space-6) var(--ou-space-8);">
+
+  <nav class="ou-breadcrumb" aria-label="Breadcrumb">
+    <ol>
+      <li><a href="#">Requests</a></li>
+      <li><span aria-current="page">New request</span></li>
+    </ol>
+  </nav>
+
+  <div class="ou-page-header" style="padding-inline: 0;">
+    <div class="ou-page-header__text">
+      <h1>New request</h1>
+      <p class="ou-muted">Tell us what you need. Fields marked optional can be left blank.</p>
+    </div>
+  </div>
+
+  <div id="done" class="ou-alert ou-alert--success" role="status" hidden>
+    <div><span class="ou-alert__title">Your request was sent</span>We will reply within one school day. You can close this page.</div>
+  </div>
+
+  <!-- novalidate turns off the browser's own pop-up messages so our accessible messages are used instead -->
+  <form id="request-form" class="ou-stack ou-stack--lg" novalidate>
+
+    <!-- Error summary: hidden until a submit fails. tabindex="-1" lets script move focus here. -->
+    <div class="ou-alert ou-alert--error" id="summary" role="alert" tabindex="-1" hidden>
+      <div>
+        <span class="ou-alert__title" id="summary-title">Fix the problems below to continue</span>
+        <ul id="summary-list" style="padding-left: 1.2rem;"></ul>
+      </div>
+    </div>
+
+    <fieldset class="ou-fieldset ou-card ou-stack">
+      <legend class="ou-visually-hidden">About the request</legend>
+      <h2>About the request</h2>
+      <div class="ou-field">
+        <label class="ou-label" for="title">Request title</label>
+        <input class="ou-input" id="title" name="title" type="text" required data-msg="Enter a short title for the request.">
+      </div>
+      <div class="ou-form-grid ou-form-grid--2">
+        <div class="ou-field">
+          <label class="ou-label" for="school">School or site</label>
+          <select class="ou-select" id="school" name="school" required data-msg="Choose the school or site this request is for.">
+            <option value="">Choose a school</option>
+            <option>Adolfo Camarillo High School</option>
+            <option>Channel Islands High School</option>
+            <option>Del Sol High School</option>
+            <option>Hueneme High School</option>
+            <option>Oxnard High School</option>
+            <option>Pacifica High School</option>
+            <option>Rio Mesa High School</option>
+            <option>District Office</option>
+          </select>
+        </div>
+        <div class="ou-field">
+          <label class="ou-label" for="needed">Needed by <span class="ou-label__note">(optional)</span></label>
+          <input class="ou-input" id="needed" name="needed" type="date">
+        </div>
+      </div>
+      <fieldset class="ou-fieldset" id="category-group" data-required-group data-msg="Choose a category.">
+        <legend>Category</legend>
+        <label class="ou-check"><input type="radio" name="category" value="facilities"> <span>Facilities</span></label>
+        <label class="ou-check"><input type="radio" name="category" value="technology"> <span>Technology</span></label>
+        <label class="ou-check"><input type="radio" name="category" value="transportation"> <span>Transportation</span></label>
+      </fieldset>
+      <div class="ou-field">
+        <label class="ou-label" for="details">Details <span class="ou-label__note">(optional)</span></label>
+        <textarea class="ou-textarea" id="details" name="details" aria-describedby="details-hint"></textarea>
+        <span class="ou-hint" id="details-hint">Include room numbers, dates, or anything that helps us act quickly.</span>
+      </div>
+    </fieldset>
+
+    <fieldset class="ou-fieldset ou-card ou-stack">
+      <legend class="ou-visually-hidden">Contact information</legend>
+      <h2>Contact information</h2>
+      <div class="ou-form-grid ou-form-grid--2">
+        <div class="ou-field">
+          <label class="ou-label" for="email">District email</label>
+          <input class="ou-input" id="email" name="email" type="email" autocomplete="email" required data-msg="Enter your district email, like name@oxnardunion.org.">
+        </div>
+        <div class="ou-field">
+          <label class="ou-label" for="phone">Phone <span class="ou-label__note">(optional)</span></label>
+          <input class="ou-input" id="phone" name="phone" type="tel" autocomplete="tel" aria-describedby="phone-hint">
+          <span class="ou-hint" id="phone-hint">Example: 805 555 0114</span>
+        </div>
+      </div>
+      <label class="ou-check ou-switch"><input type="checkbox" role="switch" name="notify" checked> <span>Email me when the status changes</span></label>
+    </fieldset>
+
+    <div class="ou-cluster ou-cluster--end">
+      <a class="ou-btn ou-btn--text" href="#">Cancel</a>
+      <button class="ou-btn ou-btn--tonal" type="button" id="save-draft">Save draft</button>
+      <!-- The ONE red Action button on this screen. -->
+      <button class="ou-btn ou-btn--action" type="submit">Send request</button>
+    </div>
+  </form>
+</main>
+
+<footer class="ou-footer ou-on-dark">
+  <div class="ou-container">
+    <div class="ou-cluster ou-cluster--between">
+      <img src="https://teolopez-ouhsd.github.io/communications/brand/logos/svg/ouhsd-logo-horizontal-white.svg" alt="Oxnard Union High School District" style="height: 2.25rem;">
+      <ul class="ou-cluster" style="list-style: none; padding: 0;">
+        <li><a href="#">Privacy</a></li>
+        <li><a href="#">Accessibility</a></li>
+        <li><a href="#">Help</a></li>
+      </ul>
+    </div>
+    <p class="ou-footer__legal">Oxnard Union High School District</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+  var form = document.getElementById('request-form');
+  var summary = document.getElementById('summary');
+  var list = document.getElementById('summary-list');
+
+  function clearErrors() {
+    list.innerHTML = '';
+    summary.hidden = true;
+    form.querySelectorAll('.ou-field--error').forEach(function (f) { f.classList.remove('ou-field--error'); });
+    form.querySelectorAll('.ou-error-text').forEach(function (e) { e.remove(); });
+    form.querySelectorAll('[aria-invalid]').forEach(function (i) { i.removeAttribute('aria-invalid'); });
+  }
+
+  function addError(target, anchor, message) {
+    var id = (target.id || target.name) + '-err';
+    var msg = document.createElement('span');
+    msg.className = 'ou-error-text';
+    msg.id = id;
+    msg.textContent = message;
+    var holder = target.closest('.ou-field') || target;
+    holder.classList.add('ou-field--error');
+    holder.appendChild(msg);
+    var input = target.matches('input, select, textarea') ? target : null;
+    if (input) {
+      input.setAttribute('aria-invalid', 'true');
+      var described = input.getAttribute('aria-describedby');
+      input.setAttribute('aria-describedby', described ? described + ' ' + id : id);
+    }
+    var li = document.createElement('li');
+    var a = document.createElement('a');
+    a.href = '#' + anchor;
+    a.textContent = message;
+    li.appendChild(a);
+    list.appendChild(li);
+  }
+
+  function validate() {
+    clearErrors();
+    form.querySelectorAll('[required]').forEach(function (el) {
+      var empty = !el.value.trim();
+      var badEmail = el.type === 'email' && !empty && !/^\S+@\S+\.\S+$/.test(el.value);
+      if (empty || badEmail) addError(el, el.id, el.dataset.msg);
+    });
+    var group = document.getElementById('category-group');
+    if (!form.querySelector('input[name="category"]:checked')) {
+      var first = group.querySelector('input');
+      first.id = first.id || 'category-first';
+      addError(group, first.id, group.dataset.msg);
+    }
+    return list.children.length === 0;
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!validate()) {
+      summary.hidden = false;
+      summary.focus();
+      return;
+    }
+    /* TODO: send the form data to your server or Google Apps Script here. */
+    form.hidden = true;
+    var done = document.getElementById('done');
+    done.hidden = false;
+    done.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+
+  document.getElementById('save-draft').addEventListener('click', function () {
+    /* TODO: save the draft. */
+    OUHSD.toast('Draft saved.', { type: 'success' });
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+/* OUHSD Design System v1.0 | Theme: Channel Islands High School (Raiders)
+   Source: Channel Islands Brand Style Guide. Blue #003DA5, Gold #F2A900, Light Blue #0072CE.
+   Usage: link AFTER ouhsd.css, then add data-school="channel-islands" to <html>.
+   Gold fails as text on white (2.0:1). Use it as a fill with dark ink on top only. */
+[data-school="channel-islands"] {
+  --ou-school-primary: #003DA5;          /* white text on it: 9.5:1 */
+  --ou-school-primary-text: #003DA5;
+  --ou-on-school-primary: #FFFFFF;
+  --ou-school-secondary: #F2A900;
+  --ou-on-school-secondary: #14161B;     /* ink on gold: 9.0:1 */
+  --ou-school-container: #E0E8F4;
+  --ou-on-school-container: #00266A;
+  --ou-stripe: linear-gradient(90deg, #003DA5 0 60%, #F2A900 60% 85%, #0072CE 85% 100%);
+}

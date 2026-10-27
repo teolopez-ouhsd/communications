@@ -1,0 +1,22 @@
+/* OUHSD Design System v1.0 | Theme template
+   Copy this file to themes/{school-slug}.css and fill in the school's official colors
+   from its brand style guide. Then check every pair below with a contrast checker.
+
+   Rules for a valid theme:
+   1. Change ONLY the variables in this block. Never override action red, status
+      colors, link blue, or focus color. They carry meaning on every school app.
+   2. --ou-school-primary-text must reach 4.5:1 against white (#FFFFFF).
+   3. --ou-on-school-primary must reach 4.5:1 against --ou-school-primary.
+   4. --ou-on-school-secondary must reach 4.5:1 against --ou-school-secondary.
+   5. --ou-on-school-container must reach 4.5:1 against --ou-school-container.
+   6. A bright color (gold, orange, yellow) is a FILL with dark ink on top. It is never text on white. */
+[data-school="school-slug"] {
+  --ou-school-primary: #000000;
+  --ou-school-primary-text: #000000;
+  --ou-on-school-primary: #FFFFFF;
+  --ou-school-secondary: #000000;
+  --ou-on-school-secondary: #FFFFFF;
+  --ou-school-container: #F0F0F0;
+  --ou-on-school-container: #000000;
+  --ou-stripe: linear-gradient(90deg, #000000 0 60%, #666666 60% 100%);
+}

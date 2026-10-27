@@ -1,0 +1,15 @@
+/* OUHSD Design System v1.0 | Theme: Pacifica High School (Tritons)
+   Source: Pacifica Brand Style Guide. Green #006747, Gold #CC8A00, Silver #A2AAAD.
+   Usage: link AFTER ouhsd.css, then add data-school="pacifica" to <html>.
+   Themes change ONLY the school accent slots. Action red, status colors, and the
+   district blue used for links and focus stay the same on every school app. */
+[data-school="pacifica"] {
+  --ou-school-primary: #006747;          /* white text on it: 6.9:1 */
+  --ou-school-primary-text: #006747;     /* on white: 6.9:1 */
+  --ou-on-school-primary: #FFFFFF;
+  --ou-school-secondary: #CC8A00;        /* ink text on it: 6.2:1. Never use as text on white. */
+  --ou-on-school-secondary: #14161B;
+  --ou-school-container: #E0EDE9;
+  --ou-on-school-container: #004D35;
+  --ou-stripe: linear-gradient(90deg, #006747 0 60%, #CC8A00 60% 85%, #A2AAAD 85% 100%);
+}

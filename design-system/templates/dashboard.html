@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard | App name | Oxnard Union High School District</title>
+<!--
+  OUHSD TEMPLATE: Dashboard
+  Change content only. Search this file for TODO to find every place that needs your information.
+  For a school app, add the theme file after ouhsd.css and put data-school="..." on the html tag.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://teolopez-ouhsd.github.io/communications/design-system/v1/ouhsd.css">
+<script src="https://teolopez-ouhsd.github.io/communications/design-system/v1/ouhsd-ui.js" defer></script>
+</head>
+<body>
+
+<a class="ou-skip-link" href="#main">Skip to main content</a>
+
+<header class="ou-header">
+  <div class="ou-container ou-header__inner">
+    <a class="ou-header__brand" href="#">
+      <img src="https://teolopez-ouhsd.github.io/communications/brand/logos/svg/ouhsd-logo-horizontal-color.svg" alt="Oxnard Union High School District">
+    </a>
+    <button class="ou-btn ou-btn--outline ou-btn--sm ou-header__toggle" type="button" data-ou-nav-toggle aria-controls="main-nav" aria-expanded="false">Menu</button>
+    <nav class="ou-header__nav" id="main-nav" aria-label="Main">
+      <ul class="ou-nav">
+        <li><a href="#" aria-current="page">Dashboard</a></li>
+        <li><a href="#">Requests</a></li>
+        <li><a href="#">Reports</a></li>
+        <li><a href="#">Help</a></li>
+      </ul>
+    </nav>
+    <div class="ou-header__end">
+      <a class="ou-btn ou-btn--text ou-btn--sm" href="#" lang="es" hreflang="es">Español</a>
+      <span class="ou-avatar" aria-label="Signed in as TODO name" title="TODO name">TN</span>
+    </div>
+  </div>
+</header>
+
+<div class="ou-container">
+  <div class="ou-app-shell" style="padding-block: var(--ou-space-6) var(--ou-space-8);">
+
+    <nav aria-label="Section">
+      <ul class="ou-sidenav">
+        <li><a href="#" aria-current="page"><span class="ou-icon ou-icon--home" aria-hidden="true"></span> Overview</a></li>
+        <li><a href="#"><span class="ou-icon ou-icon--calendar" aria-hidden="true"></span> Calendar</a></li>
+        <li><a href="#"><span class="ou-icon ou-icon--mail" aria-hidden="true"></span> Messages</a></li>
+        <li><a href="#"><span class="ou-icon ou-icon--user" aria-hidden="true"></span> My account</a></li>
+      </ul>
+    </nav>
+
+    <main id="main" class="ou-stack ou-stack--lg">
+
+      <div class="ou-page-header" style="padding-block: 0;">
+        <div class="ou-page-header__text">
+          <h1>Dashboard</h1>
+          <p class="ou-muted">A quick look at what needs your attention today.</p>
+        </div>
+        <!-- One red Action button per screen, for the main thing people come here to do. -->
+        <a class="ou-btn ou-btn--action" href="#"><span class="ou-icon ou-icon--plus" aria-hidden="true"></span> New request</a>
+      </div>
+
+      <div class="ou-alert ou-alert--warning" role="status">
+        <div><span class="ou-alert__title">3 requests are waiting for your review</span>Review them before Friday so they are not delayed. <a href="#">Go to requests</a></div>
+      </div>
+
+      <section aria-labelledby="stats-h" class="ou-stack">
+        <h2 class="ou-visually-hidden" id="stats-h">Key numbers</h2>
+        <div class="ou-grid" style="--ou-grid-min: 11rem;">
+          <div class="ou-card"><div class="ou-stat"><span class="ou-stat__value">24</span><span class="ou-stat__label">Open requests</span></div></div>
+          <div class="ou-card"><div class="ou-stat"><span class="ou-stat__value">3</span><span class="ou-stat__label">Need review</span></div></div>
+          <div class="ou-card"><div class="ou-stat"><span class="ou-stat__value">112</span><span class="ou-stat__label">Completed this month</span></div></div>
+          <div class="ou-card"><div class="ou-stat"><span class="ou-stat__value">2.4</span><span class="ou-stat__label">Average days to finish</span></div></div>
+        </div>
+      </section>
+
+      <section aria-labelledby="recent-h" class="ou-stack">
+        <div class="ou-cluster ou-cluster--between">
+          <h2 id="recent-h">Recent activity</h2>
+          <a class="ou-btn ou-btn--text ou-btn--sm" href="#">View all <span class="ou-icon ou-icon--arrow-right" aria-hidden="true"></span></a>
+        </div>
+        <div class="ou-table-wrap">
+          <table class="ou-table ou-table--hover ou-table--stack">
+            <caption class="ou-visually-hidden">Most recent requests</caption>
+            <thead><tr><th scope="col">Request</th><th scope="col">School</th><th scope="col">Updated</th><th scope="col">Status</th></tr></thead>
+            <tbody>
+              <!-- TODO: replace this sample data with real records. -->
+              <tr><th scope="row" data-label="Request"><a href="#">Gym lighting repair</a></th><td data-label="School">Pacifica High School</td><td data-label="Updated">Oct 24</td><td data-label="Status"><span class="ou-badge ou-badge--warning">Needs review</span></td></tr>
+              <tr><th scope="row" data-label="Request"><a href="#">New student laptops</a></th><td data-label="School">Del Sol High School</td><td data-label="Updated">Oct 23</td><td data-label="Status"><span class="ou-badge ou-badge--success">Approved</span></td></tr>
+              <tr><th scope="row" data-label="Request"><a href="#">Bus route change</a></th><td data-label="School">Channel Islands High School</td><td data-label="Updated">Oct 22</td><td data-label="Status"><span class="ou-badge">Draft</span></td></tr>
+              <tr><th scope="row" data-label="Request"><a href="#">Cafeteria equipment</a></th><td data-label="School">Oxnard High School</td><td data-label="Updated">Oct 20</td><td data-label="Status"><span class="ou-badge ou-badge--error">Overdue</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section aria-labelledby="links-h" class="ou-stack">
+        <h2 id="links-h">Quick links</h2>
+        <div class="ou-grid" style="--ou-grid-min: 15rem;">
+          <article class="ou-card ou-card--accent ou-card--interactive">
+            <h3 class="ou-card__title"><a class="ou-card__link" href="#">Request guidelines</a></h3>
+            <p class="ou-card__body">What to include so a request moves quickly.</p>
+          </article>
+          <article class="ou-card ou-card--accent ou-card--interactive">
+            <h3 class="ou-card__title"><a class="ou-card__link" href="#">Monthly report</a></h3>
+            <p class="ou-card__body">Download the latest summary for your school.</p>
+          </article>
+          <article class="ou-card ou-card--accent ou-card--interactive">
+            <h3 class="ou-card__title"><a class="ou-card__link" href="#">Contact the team</a></h3>
+            <p class="ou-card__body">Questions about a request? We reply within one school day.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<footer class="ou-footer ou-on-dark">
+  <div class="ou-container">
+    <div class="ou-cluster ou-cluster--between">
+      <img src="https://teolopez-ouhsd.github.io/communications/brand/logos/svg/ouhsd-logo-horizontal-white.svg" alt="Oxnard Union High School District" style="height: 2.25rem;">
+      <ul class="ou-cluster" style="list-style: none; padding: 0;">
+        <li><a href="#">Privacy</a></li>
+        <li><a href="#">Accessibility</a></li>
+        <li><a href="#">Help</a></li>
+      </ul>
+    </div>
+    <p class="ou-footer__legal">Oxnard Union High School District</p>
+  </div>
+</footer>
+</body>
+</html>

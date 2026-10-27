@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign in | App name | Oxnard Union High School District</title>
+<!--
+  OUHSD TEMPLATE: Sign in
+  Change content only. Search this file for TODO to find every place that needs your information.
+  To use a local copy of the design system, replace the https://teolopez-ouhsd.github.io/communications/ URLs below.
+  For a school app, add the theme file after ouhsd.css and put data-school="..." on the html tag.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://teolopez-ouhsd.github.io/communications/design-system/v1/ouhsd.css">
+<script src="https://teolopez-ouhsd.github.io/communications/design-system/v1/ouhsd-ui.js" defer></script>
+<style>
+  /* Page layout only. Colors, type, and spacing all come from the design system tokens. */
+  body { min-height: 100dvh; display: flex; flex-direction: column; }
+  main { flex: 1; display: grid; place-items: center; padding-block: var(--ou-space-7); }
+  .signin { width: min(26rem, 100%); }
+</style>
+</head>
+<body>
+
+<a class="ou-skip-link" href="#main">Skip to main content</a>
+
+<header class="ou-header">
+  <div class="ou-container ou-header__inner">
+    <a class="ou-header__brand" href="#">
+      <img src="https://teolopez-ouhsd.github.io/communications/brand/logos/svg/ouhsd-logo-horizontal-color.svg" alt="Oxnard Union High School District">
+    </a>
+    <div class="ou-header__end">
+      <!-- Always offer the other language. Point this at your Spanish version. -->
+      <a class="ou-btn ou-btn--text ou-btn--sm" href="#" lang="es" hreflang="es">Español</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <div class="ou-container">
+    <div class="signin ou-stack ou-stack--lg" style="margin-inline: auto;">
+      <div class="ou-card ou-card--raised ou-stack" style="padding: var(--ou-space-6);">
+        <div class="ou-stack ou-stack--sm">
+          <p class="ou-eyebrow">TODO App name</p>
+          <h1>Sign in</h1>
+          <p class="ou-muted">Use your district Google account to continue.</p>
+        </div>
+
+        <!-- Show this alert only when sign-in fails. role="alert" announces it to screen readers. -->
+        <div class="ou-alert ou-alert--error" role="alert" id="signin-error" hidden>
+          <div><span class="ou-alert__title">We could not sign you in</span>Check that you chose your @oxnardunion.org account, then try again.</div>
+        </div>
+
+        <!-- TODO: connect this button to your sign-in code (for example Google Identity Services). -->
+        <button class="ou-btn ou-btn--primary ou-btn--lg ou-btn--block" type="button" id="signin-btn">
+          <span class="ou-icon ou-icon--lock" aria-hidden="true"></span> Sign in with Google
+        </button>
+
+        <p class="ou-hint">By signing in you agree to the district's <a href="#">acceptable use policy</a>.</p>
+      </div>
+
+      <div class="ou-alert" role="note">
+        <div><span class="ou-alert__title">Need help?</span>Contact the district Help Desk at <a href="#">TODO help desk email</a> or call TODO phone number.</div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="ou-footer ou-on-dark">
+  <div class="ou-container">
+    <div class="ou-cluster ou-cluster--between">
+      <img src="https://teolopez-ouhsd.github.io/communications/brand/logos/svg/ouhsd-logo-horizontal-white.svg" alt="Oxnard Union High School District" style="height: 2.25rem;">
+      <ul class="ou-cluster" style="list-style: none; padding: 0;">
+        <li><a href="#">Privacy</a></li>
+        <li><a href="#">Accessibility</a></li>
+        <li><a href="#">Help</a></li>
+      </ul>
+    </div>
+    <p class="ou-footer__legal">Oxnard Union High School District</p>
+  </div>
+</footer>
+
+<script>
+  /* Demo only: shows the error state. Remove this block when you connect real sign-in. */
+  document.getElementById('signin-btn').addEventListener('click', function () {
+    document.getElementById('signin-error').hidden = false;
+  });
+</script>
+</body>
+</html>

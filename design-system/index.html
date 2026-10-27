@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team guide | OUHSD Design System</title>
+<meta name="description" content="What the OUHSD design system is, why it matters, and how a team starts using it in about ten minutes.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="v1/ouhsd.css">
+<style>
+  .tg-compare { display: grid; gap: var(--ou-space-5); }
+  @media (min-width: 760px) { .tg-compare { grid-template-columns: 1fr 1fr; } }
+  .tg-panel { padding: var(--ou-space-5); background: var(--ou-color-surface); border: 1px solid var(--ou-color-border); border-radius: var(--ou-radius-lg); }
+  .tg-panel > h3 { margin-bottom: var(--ou-space-3); }
+  .tg-mock { display: flex; flex-wrap: wrap; gap: var(--ou-space-3); padding: var(--ou-space-4); margin-block: var(--ou-space-3); background: var(--ou-color-bg); border-radius: var(--ou-radius-md); }
+  /* The "without" examples intentionally use raw values to show the problem. They are illustrations, not app code. */
+  .tg-bad { border: 0; color: #fff; font: 600 14px Georgia, serif; padding: 10px 18px; }
+  .tg-step { counter-increment: tg; }
+  .tg-steps { counter-reset: tg; list-style: none; padding: 0; display: grid; gap: var(--ou-space-4); }
+  .tg-steps li { margin: 0; display: grid; grid-template-columns: 2.5rem 1fr; gap: var(--ou-space-4); align-items: start; }
+  .tg-steps li::before { counter-increment: tg; content: counter(tg); display: grid; place-items: center; width: 2.5rem; height: 2.5rem; font-family: var(--ou-font-display); font-weight: var(--ou-weight-extrabold); color: var(--ou-color-on-brand); background: var(--ou-color-brand); border-radius: var(--ou-radius-sm); }
+  .tg-prompt { margin: 0; padding: var(--ou-space-4); background: var(--ou-neutral-900); color: #E6E9EE; border-radius: var(--ou-radius-md); font-family: var(--ou-font-mono); font-size: var(--ou-text-sm); line-height: 1.6; white-space: pre-wrap; }
+  @media print {
+    .ou-header, .ou-footer, .no-print { display: none !important; }
+    section { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<a class="ou-skip-link" href="#main">Skip to main content</a>
+
+<header class="ou-header">
+  <div class="ou-container ou-header__inner">
+    <a class="ou-header__brand" href="../index.html">
+      <img src="../brand/logos/svg/ouhsd-logo-horizontal-color.svg" alt="Oxnard Union High School District">
+      <span><small>Communications and Marketing</small>Design System</span>
+    </a>
+    <div class="ou-header__end">
+      <a class="ou-btn ou-btn--primary ou-btn--sm" href="../ui-components.html">Open the reference</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="ou-hero ou-on-dark">
+    <div class="ou-container">
+      <p class="ou-eyebrow">Team guide</p>
+      <h1 style="margin-top: var(--ou-space-3);">One district. One look. Built once, used everywhere.</h1>
+      <p class="ou-lead">A design system is a shared kit of ready-made parts and written rules, so every tool the district builds looks and works like it came from the same place. This page explains what that means and how your team starts in about ten minutes.</p>
+      <div class="ou-btn-group">
+        <a class="ou-btn ou-btn--inverse" href="#start">Start in 10 minutes</a>
+        <a class="ou-btn ou-btn--inverse-outline" href="../ui-components.html">See the components</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="ou-section">
+    <div class="ou-container ou-stack ou-stack--lg">
+      <div class="ou-stack">
+        <h2>What a design system is</h2>
+        <p class="ou-lead">Think of a classroom setup. A teacher can walk into any room at any school and know where the board, the outlets, and the exits are. Nobody redesigned the room for that teacher, and no teacher had to figure it out alone.</p>
+        <p style="max-width: var(--ou-measure);">A design system does the same for software. Instead of every team choosing its own colors, buttons, and form layouts, the district provides one set that is already designed, tested for accessibility, and approved. Your team builds the part that is unique to your app, and the system handles how it looks and behaves.</p>
+      </div>
+
+      <div class="tg-compare" aria-label="Without and with a design system">
+        <div class="tg-panel">
+          <h3>Without a shared system</h3>
+          <div class="tg-mock" aria-hidden="true">
+            <span class="tg-bad" style="background:#d62828; border-radius:20px;">Submit</span>
+            <span class="tg-bad" style="background:#1d6fa5; border-radius:0; font-family: 'Comic Sans MS', cursive;">Save</span>
+            <span class="tg-bad" style="background:#1f7a70; border-radius:6px; text-transform:uppercase;">Send it!</span>
+          </div>
+          <ul>
+            <li>Three apps, three looks. Families wonder if each one is really from the district.</li>
+            <li>Each team solves accessibility on its own, or misses it.</li>
+            <li>Every new project starts from a blank page.</li>
+          </ul>
+        </div>
+        <div class="tg-panel" style="border-top: 4px solid var(--ou-color-brand);">
+          <h3>With the OUHSD design system</h3>
+          <div class="tg-mock" aria-hidden="true">
+            <span class="ou-btn ou-btn--action" style="pointer-events:none;">Submit</span>
+            <span class="ou-btn ou-btn--primary" style="pointer-events:none;">Save</span>
+            <span class="ou-btn ou-btn--tonal" style="pointer-events:none;">Send message</span>
+          </div>
+          <ul>
+            <li>Every app feels familiar. Trust carries from one tool to the next.</li>
+            <li>Accessibility is built into each part and checked once.</li>
+            <li>Teams start from finished pages and spend time on what makes their app useful.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ou-section" style="background: var(--ou-color-surface); border-block: 1px solid var(--ou-color-border);">
+    <div class="ou-container ou-stack ou-stack--lg">
+      <div class="ou-stack ou-stack--sm">
+        <h2>Why it matters</h2>
+        <p class="ou-muted" style="max-width: var(--ou-measure);">Four reasons, and the first one is for families.</p>
+      </div>
+      <div class="ou-grid" style="--ou-grid-min: 15rem;">
+        <article class="ou-card ou-card--accent"><h3 class="ou-card__title">Trust</h3><p class="ou-card__body">A parent who sees the same look and the same behavior in every district tool knows it is real. A different look every time looks like a scam.</p></article>
+        <article class="ou-card ou-card--accent"><h3 class="ou-card__title">Speed</h3><p class="ou-card__body">Buttons, forms, tables, and pages already exist. Teams skip hundreds of small decisions and ship sooner.</p></article>
+        <article class="ou-card ou-card--accent"><h3 class="ou-card__title">Accessibility and compliance</h3><p class="ou-card__body">The district must meet WCAG 2.1 AA. Every part in the system is built and checked for it, so each team does not carry that risk alone.</p></article>
+        <article class="ou-card ou-card--accent"><h3 class="ou-card__title">Consistency with AI</h3><p class="ou-card__body">AI assistants will happily invent a new style every time. A written system, with rules the AI can read, keeps what they build on brand.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="ou-section">
+    <div class="ou-container ou-stack ou-stack--lg">
+      <div class="ou-stack ou-stack--sm">
+        <h2>What is in the kit</h2>
+        <p class="ou-muted" style="max-width: var(--ou-measure);">Four layers. You will mostly touch the last two.</p>
+      </div>
+      <div class="ou-table-wrap">
+        <table class="ou-table ou-table--stack">
+          <caption class="ou-visually-hidden">Parts of the design system</caption>
+          <thead><tr><th scope="col">Part</th><th scope="col">What it is</th><th scope="col">Where it lives</th></tr></thead>
+          <tbody>
+            <tr><th scope="row" data-label="Part">Tokens</th><td data-label="What it is">Named values for every color, font size, space, and corner. Change one and everything updates.</td><td data-label="Where it lives"><code>v1/tokens.css</code></td></tr>
+            <tr><th scope="row" data-label="Part">Components</th><td data-label="What it is">Ready-made buttons, forms, tables, alerts, navigation, and more, with their behavior and accessibility built in.</td><td data-label="Where it lives"><code>v1/ouhsd.css</code>, <code>v1/ouhsd-ui.js</code></td></tr>
+            <tr><th scope="row" data-label="Part">Templates</th><td data-label="What it is">Complete starter pages: sign in, dashboard, form, and list with details.</td><td data-label="Where it lives"><code>templates/</code></td></tr>
+            <tr><th scope="row" data-label="Part">Rules for AI</th><td data-label="What it is">A plain-language file that tells any AI assistant exactly how to build with the system.</td><td data-label="Where it lives"><code>DESIGN.md</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="ou-section" id="start" style="background: var(--ou-color-surface); border-block: 1px solid var(--ou-color-border);">
+    <div class="ou-container ou-stack ou-stack--lg">
+      <div class="ou-stack ou-stack--sm">
+        <h2>Start in ten minutes</h2>
+        <p class="ou-muted" style="max-width: var(--ou-measure);">You do not need to be a designer. You need these four steps.</p>
+      </div>
+      <ol class="tg-steps">
+        <li><div><h3 style="font-size: var(--ou-text-lg);">Download the rules for AI</h3><p class="ou-muted">Save <a href="DESIGN.md" download>DESIGN.md</a> into the root folder of your project.</p></div></li>
+        <li><div><h3 style="font-size: var(--ou-text-lg);">Pick the closest template</h3><p class="ou-muted">Open the <a href="templates/login.html">sign in</a>, <a href="templates/dashboard.html">dashboard</a>, <a href="templates/form.html">form</a>, or <a href="templates/list-detail.html">list and detail</a> template, and save it as your starting page.</p></div></li>
+        <li><div><h3 style="font-size: var(--ou-text-lg);">Give your AI assistant this prompt</h3><p class="ou-muted" style="margin-bottom: var(--ou-space-3);">Replace the bracket with what you are building.</p>
+          <pre class="tg-prompt" id="prompt" tabindex="0" aria-label="Starter prompt">Read DESIGN.md in this project and follow it exactly. Build [describe your app and who uses it]. Start from the closest template in design-system/templates. Use only OUHSD design system classes and tokens, and never invent colors, fonts, or sizes. When you finish, run the self-check at the end of DESIGN.md and tell me anything the system could not cover.</pre>
+          <div style="margin-top: var(--ou-space-3);"><button class="ou-btn ou-btn--tonal ou-btn--sm" type="button" data-ou-copy="#prompt" data-ou-copied="Prompt copied"><span class="ou-icon ou-icon--check" aria-hidden="true"></span> Copy prompt</button></div></div></li>
+        <li><div><h3 style="font-size: var(--ou-text-lg);">Check before you launch</h3><p class="ou-muted">Run through the <a href="../ui-components.html#governance">ready to ship checklist</a>. It takes five minutes and covers keyboard use, phone width, and Spanish.</p></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="ou-section">
+    <div class="ou-container ou-stack ou-stack--lg">
+      <div class="ou-stack ou-stack--sm">
+        <h2>What we ask of every team</h2>
+        <p class="ou-muted" style="max-width: var(--ou-measure);">Three commitments keep the system working for everyone.</p>
+      </div>
+      <div class="ou-grid" style="--ou-grid-min: 15rem;">
+        <article class="ou-card ou-card--raised"><span class="ou-eyebrow ou-card__eyebrow">One</span><h3 class="ou-card__title">Link, do not copy</h3><p class="ou-card__body">Use the published stylesheet at a versioned address, so fixes and improvements reach you safely.</p></article>
+        <article class="ou-card ou-card--raised"><span class="ou-eyebrow ou-card__eyebrow">Two</span><h3 class="ou-card__title">Use the parts, do not invent</h3><p class="ou-card__body">Use the provided classes and tokens. No custom colors, fonts, or sizes, including when AI suggests them.</p></article>
+        <article class="ou-card ou-card--raised"><span class="ou-eyebrow ou-card__eyebrow">Three</span><h3 class="ou-card__title">Ask when something is missing</h3><p class="ou-card__body">If you need a part that does not exist, ask Communications and Marketing. A good request becomes a component for every team.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="ou-section" style="background: var(--ou-color-surface); border-block: 1px solid var(--ou-color-border);">
+    <div class="ou-container ou-container--narrow ou-stack">
+      <h2>Common questions</h2>
+      <div>
+        <details class="ou-accordion" name="faq">
+          <summary>Do we have to use it?</summary>
+          <div class="ou-accordion__body">Yes, for any web app that families, students, or staff use on behalf of the district. This is how the district stays consistent and accessible. Internal experiments and prototypes are welcome to start from it too.</div>
+        </details>
+        <details class="ou-accordion" name="faq">
+          <summary>What if our app needs something the system does not have?</summary>
+          <div class="ou-accordion__body">Use the closest existing component for now and ask Communications and Marketing. Please do not build a one-off. If the need is real, it joins the next version and every team benefits.</div>
+        </details>
+        <details class="ou-accordion" name="faq">
+          <summary>Will an update break our live app?</summary>
+          <div class="ou-accordion__body">No. Your app links to a versioned address (v1). Small fixes arrive automatically. Anything that changes how existing markup looks is published as a new version (v2), and you move when you are ready.</div>
+        </details>
+        <details class="ou-accordion" name="faq">
+          <summary>Can a school have its own colors?</summary>
+          <div class="ou-accordion__body">Yes, through a school theme. A theme swaps only the school accent: the header stripe, accent cards, and school badges. Action red, links, focus rings, and status colors stay the same everywhere so every app behaves alike. Themes exist for Pacifica, Del Sol, and Channel Islands, with a template for the rest.</div>
+        </details>
+        <details class="ou-accordion" name="faq">
+          <summary>Does it work with Wix, Google Sites, or Apps Script?</summary>
+          <div class="ou-accordion__body">It works anywhere you can add a stylesheet link or paste a style block, including Google Apps Script web apps and custom HTML embeds. Platforms that block external CSS can paste the contents of the stylesheet instead.</div>
+        </details>
+        <details class="ou-accordion" name="faq">
+          <summary>Does the system replace accessibility testing?</summary>
+          <div class="ou-accordion__body">No. It removes the hardest problems, but your content and layout choices still matter. Every app still needs the keyboard, zoom, and screen reader checks in the ready to ship checklist.</div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="ou-section">
+    <div class="ou-container">
+      <div class="ou-cta">
+        <div>
+          <h2 style="font-size: var(--ou-text-2xl);">Ready to build?</h2>
+          <p>Browse every component with live examples and copy-ready code.</p>
+        </div>
+        <a class="ou-btn ou-btn--inverse" href="../ui-components.html">Open the reference</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="ou-footer ou-on-dark">
+  <div class="ou-container">
+    <div class="ou-cluster ou-cluster--between">
+      <img src="../brand/logos/svg/ouhsd-logo-horizontal-white.svg" alt="Oxnard Union High School District" style="height: 2.25rem;">
+      <a href="../index.html">Communications and Marketing Hub</a>
+    </div>
+    <p class="ou-footer__legal">Oxnard Union High School District. Design System v1.0. Maintained by Communications and Marketing.</p>
+  </div>
+</footer>
+
+<script src="v1/ouhsd-ui.js" defer></script>
+</body>
+</html>

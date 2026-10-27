@@ -1,0 +1,185 @@
+/* ==========================================================================
+   OUHSD Design System v1.0  |  tokens.css
+   This file is the single source of truth for every design decision.
+   Components read these variables. Apps should never hard-code a color,
+   size, radius, or shadow that has a token here.
+
+   Naming: --ou-{category}-{name}. Two layers:
+     1. Palette   (--ou-blue-500)      raw values, do not use in app code
+     2. Semantic  (--ou-color-brand)   meaning, use these in app code
+   After editing, run: node design-system/tools/build.mjs
+   ========================================================================== */
+
+:root {
+  color-scheme: light;
+
+  /* ---------- 1. Palette (raw values) ---------- */
+
+  /* Oxnard Red, from the official brand guide */
+  --ou-red-100: #FCE0E6;
+  --ou-red-500: #E20031;
+  --ou-red-600: #B50027;
+  --ou-red-800: #88001D;
+
+  /* Oxnard Blue, from the official brand guide */
+  --ou-blue-100: #E0E7F4;
+  --ou-blue-200: #CCD6EC;
+  --ou-blue-300: #99ADD9;
+  --ou-blue-500: #0033A1;
+  --ou-blue-600: #002981;
+  --ou-blue-800: #001F61;
+
+  /* Quiet supporting neutrals */
+  --ou-neutral-0: #FFFFFF;
+  --ou-neutral-50: #F7F7F5;
+  --ou-neutral-100: #EFEFEC;
+  --ou-neutral-200: #E3E4E0;
+  --ou-neutral-300: #CBCDC8;
+  --ou-neutral-500: #80858D;
+  --ou-neutral-600: #5A626D;
+  --ou-neutral-700: #454D57;
+  --ou-neutral-800: #2E3742;
+  --ou-neutral-900: #14161B;
+
+  /* Status colors (always paired with an icon and words, never color alone) */
+  --ou-green-700: #1B6B3A;
+  --ou-green-100: #E3F3E8;
+  --ou-amber-700: #7A5300;
+  --ou-amber-100: #FFF1CC;
+  --ou-brick-700: #A3241B;
+  --ou-brick-100: #FBE4E1;
+
+  /* ---------- 2. Semantic colors (use these in app code) ---------- */
+
+  /* Surfaces and text */
+  --ou-color-bg: var(--ou-neutral-50);            /* page background */
+  --ou-color-surface: var(--ou-neutral-0);        /* cards, dialogs, inputs */
+  --ou-color-surface-muted: var(--ou-neutral-100);/* table headers, wells */
+  --ou-color-text: var(--ou-neutral-900);         /* 18.1:1 on white */
+  --ou-color-text-muted: var(--ou-neutral-600);   /* 5.4:1 or better on every surface */
+  --ou-color-border: var(--ou-neutral-300);       /* decorative dividers */
+  --ou-color-border-strong: var(--ou-neutral-500);/* inputs and controls, 3:1 or better */
+
+  /* Brand: Oxnard Blue is the strongest presence on every screen */
+  --ou-color-brand: var(--ou-blue-500);
+  --ou-color-brand-hover: var(--ou-blue-600);
+  --ou-color-brand-container: var(--ou-blue-100);
+  --ou-color-on-brand: var(--ou-neutral-0);
+  --ou-color-on-brand-container: var(--ou-blue-800);
+  --ou-color-brand-deep: var(--ou-blue-800);      /* footer, dark bands */
+
+  /* Action: Oxnard Red is the accent for the one thing that needs attention */
+  --ou-color-action: var(--ou-red-500);
+  --ou-color-action-hover: var(--ou-red-600);
+  --ou-color-action-container: var(--ou-red-100);
+  --ou-color-on-action: var(--ou-neutral-0);
+  --ou-color-on-action-container: var(--ou-red-800);
+
+  /* Links and focus */
+  --ou-color-link: var(--ou-blue-500);
+  --ou-color-link-hover: var(--ou-blue-800);
+  --ou-color-focus: var(--ou-blue-500);
+  --ou-color-focus-inverse: var(--ou-neutral-0);
+
+  /* Status */
+  --ou-color-success: var(--ou-green-700);
+  --ou-color-success-container: var(--ou-green-100);
+  --ou-color-warning: var(--ou-amber-700);
+  --ou-color-warning-container: var(--ou-amber-100);
+  --ou-color-error: var(--ou-brick-700);
+  --ou-color-error-container: var(--ou-brick-100);
+  --ou-color-info: var(--ou-blue-500);
+  --ou-color-info-container: var(--ou-blue-100);
+
+  /* ---------- School theme slots (district defaults, overridden by themes/*.css) ---------- */
+  --ou-school-primary: var(--ou-blue-500);        /* decorative fill */
+  --ou-school-primary-text: var(--ou-blue-500);   /* text-safe on white */
+  --ou-on-school-primary: var(--ou-neutral-0);    /* text on the fill */
+  --ou-school-secondary: var(--ou-blue-300);
+  --ou-on-school-secondary: var(--ou-neutral-900);
+  --ou-school-container: var(--ou-blue-100);
+  --ou-on-school-container: var(--ou-blue-800);
+  --ou-stripe: var(--ou-blue-500);                /* 4px bar at the top of the header */
+
+  /* ---------- Typography ---------- */
+  --ou-font-display: "Montserrat", "Arial Black", "Segoe UI", system-ui, sans-serif;
+  --ou-font-body: "Open Sans", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --ou-font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  --ou-text-xs: 0.75rem;     /* 12px captions, legal */
+  --ou-text-sm: 0.875rem;    /* 14px labels, table text, helper text */
+  --ou-text-md: 1rem;        /* 16px body, the minimum for reading text */
+  --ou-text-lg: 1.125rem;    /* 18px lead paragraphs, h4 */
+  --ou-text-xl: 1.25rem;     /* 20px h3 */
+  --ou-text-2xl: 1.5rem;     /* 24px h2 */
+  --ou-text-3xl: 2rem;       /* 32px h1 */
+  --ou-text-4xl: 2.5rem;     /* 40px page titles on landing pages */
+  --ou-text-5xl: 3.25rem;    /* 52px display, hero only */
+
+  --ou-weight-regular: 400;
+  --ou-weight-medium: 500;
+  --ou-weight-semibold: 600;
+  --ou-weight-bold: 700;
+  --ou-weight-extrabold: 800;
+
+  --ou-leading-tight: 1.2;
+  --ou-leading-snug: 1.35;
+  --ou-leading-normal: 1.55;
+  --ou-leading-loose: 1.7;
+
+  --ou-measure: 68ch;        /* comfortable line length for reading text */
+
+  /* ---------- Spacing (4px base) ---------- */
+  --ou-space-0: 0;
+  --ou-space-1: 0.25rem;     /* 4px */
+  --ou-space-2: 0.5rem;      /* 8px */
+  --ou-space-3: 0.75rem;     /* 12px */
+  --ou-space-4: 1rem;        /* 16px */
+  --ou-space-5: 1.5rem;      /* 24px */
+  --ou-space-6: 2rem;        /* 32px */
+  --ou-space-7: 3rem;        /* 48px */
+  --ou-space-8: 4rem;        /* 64px */
+  --ou-space-9: 6rem;        /* 96px */
+
+  /* ---------- Shape: hard edges, only very slightly rounded ---------- */
+  --ou-radius-sm: 2px;
+  --ou-radius-md: 3px;
+  --ou-radius-lg: 4px;
+  --ou-radius-round: 999px;  /* avatars, radio buttons, spinners only */
+
+  --ou-border-width: 1px;
+  --ou-border-width-thick: 2px;
+  --ou-focus-ring-width: 3px;
+  --ou-focus-ring-offset: 2px;
+
+  /* ---------- Elevation (quiet, flat-first) ---------- */
+  --ou-shadow-0: none;
+  --ou-shadow-1: 0 1px 2px rgba(20, 22, 27, 0.10), 0 0 0 1px rgba(20, 22, 27, 0.04);
+  --ou-shadow-2: 0 2px 8px rgba(20, 22, 27, 0.12), 0 0 0 1px rgba(20, 22, 27, 0.04);
+  --ou-shadow-3: 0 6px 18px rgba(20, 22, 27, 0.16), 0 0 0 1px rgba(20, 22, 27, 0.05);
+  --ou-shadow-4: 0 14px 40px rgba(20, 22, 27, 0.24), 0 0 0 1px rgba(20, 22, 27, 0.06);
+
+  /* ---------- Motion ---------- */
+  --ou-duration-fast: 120ms;
+  --ou-duration-base: 200ms;
+  --ou-duration-slow: 320ms;
+  --ou-ease: cubic-bezier(0.2, 0, 0, 1);
+
+  /* ---------- Layout ---------- */
+  --ou-container: 1200px;
+  --ou-container-narrow: 760px;
+  --ou-gutter: clamp(1rem, 4vw, 2rem);
+  --ou-target-min: 2.75rem;  /* 44px minimum touch target */
+  --ou-target-dense: 2.25rem;/* 36px, dense desktop tables and toolbars only */
+
+  /* Breakpoints are documented here but CSS cannot read variables inside
+     @media queries, so components use these literal values:
+     sm 600px | md 840px | lg 1100px | xl 1440px */
+
+  /* ---------- Stacking order ---------- */
+  --ou-z-sticky: 20;
+  --ou-z-dropdown: 30;
+  --ou-z-overlay: 40;
+  --ou-z-dialog: 50;
+  --ou-z-toast: 60;
+}

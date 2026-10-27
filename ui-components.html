@@ -3,12 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OUHSD — UI Components &amp; Style Guide</title>
+<title>OUHSD Design System: UI Components and Style Guide</title>
+<meta name="description" content="The shared design system for web applications built across Oxnard Union High School District: tokens, components, patterns, and guidance.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:ital,wght@0,400;0,500;0,600;1,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="design-system/v1/ouhsd.css">
 
-<!-- Google Analytics (GA4) — replace G-XXXXXXXXXX with the real Measurement ID from your GA4 property, in BOTH places below -->
+<!-- Google Analytics (GA4): replace G-XXXXXXXXXX with the real Measurement ID from your GA4 property, in BOTH places below -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -16,677 +18,1107 @@
   gtag('js', new Date());
   gtag('config', 'G-XXXXXXXXXX');
 </script>
+
 <style>
-  :root{
-    /* ---- OUHSD brand tones mapped to Material color roles ---- */
-    --md-primary:#E20031;            --md-on-primary:#ffffff;
-    --md-primary-container:#FCE0E6;  --md-on-primary-container:#88001D;
-    --md-secondary:#0033A1;          --md-on-secondary:#ffffff;
-    --md-secondary-container:#E0E7F4;--md-on-secondary-container:#001F61;
-    --md-surface:#ffffff;            --md-on-surface:#1b2430;
-    --md-surface-variant:#F4F4F5;    --md-on-surface-variant:#5b6472;
-    --md-background:#FAFAFA;
-    --md-outline:#C7C9CE;
-    --md-outline-variant:#E2E6EC;
+  /* Page-only styles for this documentation site. They use tokens, never raw values. */
+  .ds-layout { display: grid; gap: var(--ou-space-6); padding-block: var(--ou-space-6) var(--ou-space-8); }
+  @media (min-width: 960px) { .ds-layout { grid-template-columns: 15rem minmax(0, 1fr); align-items: start; } }
+  .ds-side { position: sticky; top: 5.5rem; max-height: calc(100dvh - 7rem); overflow-y: auto; }
+  .ds-side > details > summary { display: none; }
+  @media (max-width: 959px) {
+    .ds-side { position: static; max-height: none; }
+    .ds-side > details > summary {
+      display: flex; align-items: center; min-height: var(--ou-target-min); padding: 0 var(--ou-space-4);
+      font-family: var(--ou-font-display); font-weight: var(--ou-weight-bold); font-size: var(--ou-text-sm);
+      background: var(--ou-color-surface); border: 1px solid var(--ou-color-border-strong); border-radius: var(--ou-radius-md); cursor: pointer;
+    }
+    .ds-side > details[open] > summary { margin-bottom: var(--ou-space-3); }
+  }
+  .ds-main > section { padding-block: var(--ou-space-7); border-top: 1px solid var(--ou-color-border); scroll-margin-top: 5.5rem; }
+  .ds-main > section:first-child { border-top: 0; padding-top: 0; }
+  .ds-main h2 { margin-bottom: var(--ou-space-3); }
+  .ds-main section > h3 { margin-top: var(--ou-space-6); margin-bottom: var(--ou-space-3); scroll-margin-top: 5.5rem; }
+  .ds-main section > p, .ds-intro { max-width: var(--ou-measure); }
+  .ds-main section > p + p { margin-top: var(--ou-space-3); }
 
-    /* Material shape scale — sharper, still rounded */
-    --shape-xs:3px; --shape-sm:5px; --shape-md:7px; --shape-lg:9px; --shape-xl:12px; --shape-full:999px;
-    --shape-btn:7px; --shape-chip:6px;
+  .ds-example { margin-top: var(--ou-space-4); border: 1px solid var(--ou-color-border); border-radius: var(--ou-radius-lg); background: var(--ou-color-surface); overflow: hidden; }
+  .ds-stage { padding: var(--ou-space-5); }
+  .ds-stage[data-bg="muted"] { background: var(--ou-color-bg); }
+  .ds-stage[data-bg="blue"] { background: var(--ou-color-brand); color: var(--ou-color-on-brand); --ou-color-focus: var(--ou-color-focus-inverse); }
+  .ds-stage[data-pad="none"] { padding: 0; }
+  .ds-code { border-top: 1px solid var(--ou-color-border); background: var(--ou-color-bg); }
+  .ds-code > summary { display: flex; align-items: center; justify-content: space-between; min-height: var(--ou-target-min); padding: 0 var(--ou-space-4); font-size: var(--ou-text-sm); font-weight: var(--ou-weight-semibold); color: var(--ou-color-brand); cursor: pointer; list-style: none; }
+  .ds-code > summary::-webkit-details-marker { display: none; }
+  .ds-code > summary::after { content: ""; width: 1rem; height: 1rem; background: currentColor; -webkit-mask: var(--ou-icon-chevron-down) center / contain no-repeat; mask: var(--ou-icon-chevron-down) center / contain no-repeat; }
+  .ds-code[open] > summary::after { transform: rotate(180deg); }
+  .ds-code pre { margin: 0; padding: var(--ou-space-4); overflow-x: auto; font-size: var(--ou-text-sm); line-height: 1.6; background: var(--ou-neutral-900); color: #E6E9EE; }
+  .ds-code pre code { background: none; padding: 0; color: inherit; }
+  .ds-code__bar { display: flex; justify-content: flex-end; padding: var(--ou-space-2) var(--ou-space-3); background: var(--ou-neutral-800); }
 
-    /* Material elevation (approximate M3 shadow tiers) */
-    --el-1:0 1px 2px rgba(0,0,0,.30), 0 1px 3px 1px rgba(0,0,0,.15);
-    --el-2:0 1px 2px rgba(0,0,0,.30), 0 2px 6px 2px rgba(0,0,0,.15);
-    --el-3:0 1px 3px rgba(0,0,0,.30), 0 4px 8px 3px rgba(0,0,0,.15);
-    --el-4:0 2px 3px rgba(0,0,0,.30), 0 6px 10px 4px rgba(0,0,0,.15);
-    --el-5:0 4px 4px rgba(0,0,0,.30), 0 8px 12px 6px rgba(0,0,0,.15);
-  }
-  *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{margin:0;font-family:'Open Sans',sans-serif;color:var(--md-on-surface);background:var(--md-background);line-height:1.55;}
-  h1,h2,h3,h4,h5,h6{font-family:'Montserrat',sans-serif;font-weight:700;margin:0;letter-spacing:-0.01em;}
-  .wrap{max-width:1080px;margin:0 auto;padding:0 28px;}
-  a{color:inherit;}
-  code{font-family:monospace;background:var(--md-surface-variant);padding:1px 5px;border-radius:var(--shape-xs);font-size:.92em;}
+  .ds-rules { display: grid; gap: var(--ou-space-4); margin-top: var(--ou-space-4); }
+  @media (min-width: 700px) { .ds-rules { grid-template-columns: 1fr 1fr; } }
+  .ds-rule { padding: var(--ou-space-4) var(--ou-space-5); background: var(--ou-color-surface); border: 1px solid var(--ou-color-border); border-top-width: 4px; border-radius: var(--ou-radius-md); font-size: var(--ou-text-sm); }
+  .ds-rule--do { border-top-color: var(--ou-color-success); }
+  .ds-rule--dont { border-top-color: var(--ou-color-error); }
+  .ds-rule__title { font-family: var(--ou-font-display); font-weight: var(--ou-weight-bold); font-size: var(--ou-text-sm); margin-bottom: var(--ou-space-2); text-transform: uppercase; letter-spacing: 0.06em; }
+  .ds-rule--do .ds-rule__title { color: var(--ou-color-success); }
+  .ds-rule--dont .ds-rule__title { color: var(--ou-color-error); }
+  .ds-rule ul { padding-left: 1.2rem; }
+  .ds-rule li + li { margin-top: var(--ou-space-1); }
 
-  /* ---------- Top app bar ---------- */
-  .appbar{
-    position:sticky;top:0;z-index:20;background:var(--md-surface);box-shadow:var(--el-1);
-  }
-  .appbar-inner{
-    max-width:1080px;margin:0 auto;padding:0 28px;height:64px;display:flex;align-items:center;gap:14px;
-  }
-  .appbar-mark{width:30px;height:30px;border-radius:var(--shape-sm);background:var(--md-primary);display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Montserrat';font-weight:800;font-size:14px;flex-shrink:0;}
-  .appbar-title{font-family:'Montserrat';font-weight:700;font-size:17px;}
-  .appbar-right{margin-left:auto;display:flex;align-items:center;gap:16px;}
-  .appbar-sub{font-size:12px;color:var(--md-on-surface-variant);font-family:'Montserrat';font-weight:600;letter-spacing:.04em;text-transform:uppercase;}
-  .appbar-back{font-family:'Montserrat';font-weight:600;font-size:12.5px;color:var(--md-on-surface-variant);text-decoration:none;white-space:nowrap;}
-  .appbar-back:hover{color:var(--md-on-surface);text-decoration:underline;}
+  .ds-swatches { display: grid; gap: var(--ou-space-4); grid-template-columns: repeat(auto-fill, minmax(13.5rem, 1fr)); margin-top: var(--ou-space-4); }
+  .ds-swatch { border: 1px solid var(--ou-color-border); border-radius: var(--ou-radius-md); overflow: hidden; background: var(--ou-color-surface); font-size: var(--ou-text-sm); }
+  .ds-swatch__chip { display: flex; align-items: flex-end; justify-content: space-between; min-height: 5rem; padding: var(--ou-space-3); font-family: var(--ou-font-display); font-weight: var(--ou-weight-bold); }
+  .ds-swatch__meta { padding: var(--ou-space-3); display: grid; gap: 2px; }
+  .ds-swatch__meta b { font-family: var(--ou-font-display); }
+  .ds-swatch__meta code { background: none; padding: 0; color: var(--ou-color-text-muted); font-size: var(--ou-text-xs); }
+  .ds-ratio { font-size: var(--ou-text-xs); color: var(--ou-color-text-muted); }
 
-  /* ---------- Jump-to subnav ---------- */
-  .subnav{position:sticky;top:64px;z-index:19;background:rgba(250,250,250,.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--md-outline-variant);}
-  .subnav-inner{
-    max-width:1080px;margin:0 auto;padding:10px 28px;display:flex;gap:6px;overflow-x:auto;
-    scrollbar-width:none;
-  }
-  .subnav-inner::-webkit-scrollbar{display:none;}
-  .subnav a{
-    flex-shrink:0;font-family:'Montserrat';font-weight:600;font-size:12px;color:var(--md-on-surface-variant);
-    padding:6px 12px;border-radius:var(--shape-full);text-decoration:none;white-space:nowrap;transition:background .12s ease,color .12s ease;
-  }
-  .subnav a:hover{background:var(--md-surface-variant);color:var(--md-on-surface);}
-  .subnav .grp{flex-shrink:0;width:1px;background:var(--md-outline-variant);margin:4px 6px;}
+  .ds-scale { display: grid; }
+  .ds-scale__row { display: grid; gap: var(--ou-space-2) var(--ou-space-5); padding: var(--ou-space-4) 0; border-bottom: 1px solid var(--ou-color-border); align-items: baseline; }
+  @media (min-width: 700px) { .ds-scale__row { grid-template-columns: 12rem 1fr; } }
+  .ds-scale__label { font-size: var(--ou-text-xs); color: var(--ou-color-text-muted); }
+  .ds-scale__label b { display: block; font-family: var(--ou-font-display); font-size: var(--ou-text-sm); color: var(--ou-color-text); }
+  .ds-space-bar { height: 1rem; background: var(--ou-color-brand); border-radius: var(--ou-radius-sm); }
+  .ds-shape { width: 5.5rem; height: 3.5rem; background: var(--ou-color-brand-container); border: 2px solid var(--ou-color-brand); }
+  .ds-elev { width: 9rem; height: 6rem; display: grid; place-items: center; background: var(--ou-color-surface); border-radius: var(--ou-radius-md); font-size: var(--ou-text-sm); font-weight: var(--ou-weight-semibold); }
+  .ds-icons { display: grid; gap: var(--ou-space-2); grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr)); margin-top: var(--ou-space-4); }
+  .ds-icon { display: grid; justify-items: center; gap: var(--ou-space-2); padding: var(--ou-space-3); background: var(--ou-color-surface); border: 1px solid var(--ou-color-border); border-radius: var(--ou-radius-md); font: inherit; font-size: var(--ou-text-xs); color: var(--ou-color-text); cursor: pointer; }
+  .ds-icon:hover { border-color: var(--ou-color-brand); background: var(--ou-color-brand-container); }
+  .ds-icon .ou-icon { font-size: 1.5rem; }
 
-  /* ---------- Hero ---------- */
-  .hero{padding:56px 0 8px;}
-  .hero .eyebrow{font-family:'Montserrat';font-weight:700;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--md-primary);margin-bottom:12px;}
-  .hero h1{font-size:32px;margin-bottom:14px;max-width:760px;}
-  .hero p{font-size:15px;max-width:680px;color:var(--md-on-surface-variant);margin:0;}
-
-  main{padding:8px 0 90px;}
-  section{padding:46px 0;border-top:1px solid var(--md-outline-variant);scroll-margin-top:120px;}
-  section:first-of-type{border-top:none;}
-  .section-kicker{font-family:'Montserrat';font-weight:700;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--md-on-surface-variant);margin-bottom:8px;}
-  section h2{font-size:22px;margin-bottom:8px;}
-  section > p.desc{font-size:14px;color:var(--md-on-surface-variant);max-width:680px;margin:0 0 28px 0;}
-
-  /* ---------- Color roles ---------- */
-  .role-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;}
-  .role-card{border-radius:var(--shape-md);overflow:hidden;border:1px solid var(--md-outline-variant);}
-  .role-swatch{height:76px;display:flex;align-items:flex-end;padding:10px 12px;}
-  .role-swatch span{font-family:'Montserrat';font-weight:700;font-size:11px;}
-  .role-meta{background:var(--md-surface);padding:10px 12px;}
-  .role-meta .name{font-family:'Montserrat';font-weight:700;font-size:12.5px;}
-  .role-meta .hex{font-size:11.5px;color:var(--md-on-surface-variant);font-family:monospace;}
-
-  /* ---------- Typography scale ---------- */
-  .type-row{display:flex;align-items:baseline;gap:22px;padding:14px 0;border-bottom:1px solid var(--md-outline-variant);}
-  .type-row:last-child{border-bottom:none;}
-  .type-label{width:150px;flex-shrink:0;font-family:'Montserrat';font-weight:700;font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--md-on-surface-variant);}
-  .type-sample-display{font-family:'Montserrat';font-weight:800;font-size:40px;letter-spacing:-0.01em;}
-  .type-sample-headline{font-family:'Montserrat';font-weight:700;font-size:28px;}
-  .type-sample-title{font-family:'Montserrat';font-weight:700;font-size:19px;}
-  .type-sample-body{font-family:'Open Sans';font-weight:400;font-size:15px;}
-  .type-sample-label{font-family:'Open Sans';font-weight:600;font-size:12.5px;letter-spacing:.02em;text-transform:uppercase;}
-
-  /* ---------- Headings (real h1–h6, semantic sizes) ---------- */
-  .heading-row{display:flex;align-items:baseline;gap:22px;padding:16px 0;border-bottom:1px solid var(--md-outline-variant);}
-  .heading-row:last-child{border-bottom:none;}
-  .h-tag{
-    width:44px;flex-shrink:0;font-family:monospace;font-weight:700;font-size:11px;color:var(--md-on-surface-variant);
-    background:var(--md-surface-variant);border-radius:var(--shape-xs);padding:3px 0;text-align:center;
-  }
-  .h-sample{margin:0;}
-  h1.h-sample{font-size:36px;}
-  h2.h-sample{font-size:28px;}
-  h3.h-sample{font-size:22px;}
-  h4.h-sample{font-size:18px;}
-  h5.h-sample{font-size:15px;}
-  h6.h-sample{font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--md-on-surface-variant);}
-
-  /* ---------- Lists ---------- */
-  .list-row{display:grid;grid-template-columns:1fr 1fr;gap:32px;}
-  @media(max-width:700px){.list-row{grid-template-columns:1fr;}}
-  .list-block h4{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--md-on-surface-variant);margin-bottom:14px;}
-  .m-ul,.m-ol{margin:0;padding-left:22px;font-size:14.5px;line-height:1.7;}
-  .m-ul li,.m-ol li{padding-left:4px;margin-bottom:8px;}
-  .m-ul li::marker{color:var(--md-primary);font-size:1.1em;}
-  .m-ol li::marker{color:var(--md-secondary);font-weight:700;font-family:'Montserrat';}
-  .m-ul .m-ul, .m-ol .m-ol{margin-top:8px;}
-  .m-ul .m-ul li::marker{color:var(--md-on-surface-variant);font-size:1em;}
-
-  /* ---------- Tables ---------- */
-  .table-wrap{border:1px solid var(--md-outline-variant);border-radius:var(--shape-md);overflow:hidden;box-shadow:var(--el-1);}
-  table.m-table{width:100%;border-collapse:collapse;font-size:13.5px;}
-  table.m-table thead th{
-    background:var(--md-primary);color:#fff;text-align:left;font-family:'Montserrat';font-weight:700;
-    font-size:12px;letter-spacing:.04em;text-transform:uppercase;padding:12px 16px;
-  }
-  table.m-table tbody td{padding:12px 16px;border-top:1px solid var(--md-outline-variant);color:var(--md-on-surface);}
-  table.m-table tbody tr:nth-child(even){background:var(--md-surface-variant);}
-  table.m-table tbody tr:hover{background:var(--md-secondary-container);}
-  table.m-table td.muted{color:var(--md-on-surface-variant);font-family:monospace;font-size:12.5px;}
-
-  /* ---------- Quotes ---------- */
-  .blockquote{
-    border-left:4px solid var(--md-secondary);background:var(--md-surface-variant);border-radius:0 var(--shape-md) var(--shape-md) 0;
-    padding:18px 22px;font-size:15.5px;font-style:italic;color:var(--md-on-surface);margin:0 0 26px 0;
-  }
-  .blockquote .bq-cite{display:block;margin-top:10px;font-family:'Montserrat';font-style:normal;font-weight:700;font-size:12.5px;color:var(--md-on-surface-variant);}
-  .blockquote .bq-cite::before{content:"— ";}
-  .pull-quote{
-    position:relative;max-width:640px;margin:0 auto;padding:8px 20px 4px;text-align:center;
-  }
-  .pull-quote .mark{font-family:'Montserrat';font-weight:800;font-size:52px;line-height:1;color:var(--md-primary-container);display:block;margin-bottom:-14px;}
-  .pull-quote p{font-family:'Montserrat';font-weight:700;font-size:26px;line-height:1.3;color:var(--md-on-surface);margin:0;letter-spacing:-0.01em;}
-  .pull-quote cite{display:block;font-style:normal;font-family:'Open Sans';font-weight:600;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--md-on-surface-variant);margin-top:16px;}
-
-  /* ---------- Elevation ---------- */
-  .elev-row{display:flex;gap:22px;flex-wrap:wrap;}
-  .elev-tile{
-    width:150px;height:110px;border-radius:var(--shape-md);background:var(--md-surface);
-    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
-    font-family:'Montserrat';font-weight:700;font-size:12.5px;color:var(--md-on-surface-variant);
-  }
-  .elev-tile span{color:var(--md-on-surface);font-size:15px;}
-  .elev-0{box-shadow:none;border:1px solid var(--md-outline-variant);}
-  .elev-1{box-shadow:var(--el-1);}
-  .elev-2{box-shadow:var(--el-2);}
-  .elev-3{box-shadow:var(--el-3);}
-  .elev-4{box-shadow:var(--el-4);}
-
-  /* ---------- Buttons ---------- */
-  .btn-row{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
-  .m-btn{
-    position:relative;overflow:hidden;border:none;cursor:pointer;font-family:'Montserrat';font-weight:600;font-size:14px;
-    padding:10px 24px;border-radius:var(--shape-btn);display:inline-flex;align-items:center;gap:8px;
-    transition:box-shadow .15s ease;
-  }
-  .m-btn:focus-visible{outline:2px solid var(--md-secondary);outline-offset:2px;}
-  .m-btn .state-layer{position:absolute;inset:0;background:currentColor;opacity:0;transition:opacity .12s ease;}
-  .m-btn:hover .state-layer{opacity:.08;}
-  .m-btn:active .state-layer{opacity:.12;}
-  .m-filled{background:var(--md-primary);color:var(--md-on-primary);}
-  .m-filled:hover{box-shadow:var(--el-1);}
-  .m-tonal{background:var(--md-secondary-container);color:var(--md-on-secondary-container);}
-  .m-outlined{background:transparent;color:var(--md-primary);border:1px solid var(--md-outline);}
-  .m-text{background:transparent;color:var(--md-primary);padding:10px 14px;}
-  .cta-link-btn{margin-left:-14px;transition:margin-left .28s cubic-bezier(.2,.8,.2,1);}
-  .cta-link-btn:hover, .cta-link-btn:focus-visible{margin-left:0;}
-  .m-fab{
-    width:56px;height:56px;padding:0;border-radius:var(--shape-lg);background:var(--md-primary-container);
-    color:var(--md-on-primary-container);box-shadow:var(--el-3);font-size:22px;justify-content:center;
-  }
-  .ripple{position:absolute;border-radius:50%;background:currentColor;opacity:.35;transform:scale(0);animation:ripple .55s ease-out;pointer-events:none;}
-  @keyframes ripple{to{transform:scale(2.6);opacity:0;}}
-
-  /* ---------- Text fields ---------- */
-  .field-row{display:flex;gap:20px;flex-wrap:wrap;}
-  .m-field{position:relative;width:260px;}
-  .m-field input, .m-field select{
-    width:100%;font-family:'Open Sans';font-size:15px;padding:20px 14px 8px;border-radius:var(--shape-xs) var(--shape-xs) 0 0;
-    border:none;border-bottom:1px solid var(--md-outline);background:var(--md-surface-variant);color:var(--md-on-surface);outline:none;
-    appearance:none;
-  }
-  .m-field input:focus, .m-field select:focus{border-bottom:2px solid var(--md-primary);padding-bottom:7px;}
-  .m-field label{
-    position:absolute;left:14px;top:14px;font-size:15px;color:var(--md-on-surface-variant);
-    transition:all .12s ease;pointer-events:none;font-family:'Open Sans';
-  }
-  .m-field input:focus + label, .m-field input:not(:placeholder-shown) + label,
-  .m-field select:focus ~ label, .m-field.filled select ~ label{
-    top:7px;font-size:11px;font-weight:600;color:var(--md-primary);
-  }
-  .m-field.outlined input{
-    background:transparent;border:1px solid var(--md-outline);border-radius:var(--shape-xs);padding:16px 14px;
-  }
-  .m-field.outlined input:focus{border:2px solid var(--md-primary);padding:15px 13px;}
-  .m-field.outlined label{background:var(--md-background);padding:0 4px;}
-
-  /* ---------- Cards ---------- */
-  .m-card-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;}
-  .m-card{
-    background:var(--md-surface);border-radius:var(--shape-lg);padding:22px;border:1px solid var(--md-outline-variant);
-    transition:box-shadow .15s ease, transform .15s ease;cursor:pointer;position:relative;overflow:hidden;
-  }
-  .m-card:hover{box-shadow:var(--el-2);transform:translateY(-2px);}
-  .m-card .tag{
-    display:inline-flex;align-items:center;font-family:'Montserrat';font-weight:700;font-size:11px;letter-spacing:.04em;
-    text-transform:uppercase;padding:4px 10px;border-radius:var(--shape-chip);margin-bottom:14px;
-  }
-  .m-card.a .tag{background:var(--md-primary-container);color:var(--md-on-primary-container);}
-  .m-card.b .tag{background:var(--md-secondary-container);color:var(--md-on-secondary-container);}
-  .m-card h3{font-size:17px;margin-bottom:6px;}
-  .m-card p{font-size:13.5px;color:var(--md-on-surface-variant);margin:0;}
-
-  /* Filled cards — solid brand color, for the one thing that should stand out on a page */
-  .m-card.primary,.m-card.secondary{border-color:transparent;color:#fff;}
-  .m-card.primary{background:var(--md-primary);}
-  .m-card.secondary{background:var(--md-secondary);}
-  .m-card.primary .tag,.m-card.secondary .tag{background:rgba(255,255,255,.22);color:#fff;}
-  .m-card.primary h3,.m-card.secondary h3{color:#fff;}
-  .m-card.primary p,.m-card.secondary p{color:rgba(255,255,255,.88);}
-
-  /* ---------- Chips ---------- */
-  .chip-row{display:flex;gap:10px;flex-wrap:wrap;}
-  .m-chip{
-    position:relative;overflow:hidden;font-family:'Open Sans';font-weight:600;font-size:13px;padding:8px 16px;border-radius:var(--shape-chip);
-    border:1px solid var(--md-outline);background:var(--md-surface);color:var(--md-on-surface);cursor:pointer;
-    display:inline-flex;align-items:center;gap:6px;transition:background .12s ease;
-  }
-  .m-chip:hover{background:var(--md-surface-variant);}
-  .m-chip.selected{background:var(--md-secondary-container);color:var(--md-on-secondary-container);border-color:transparent;}
-
-  /* Filled chips — solid brand color, for a chip that needs to stand out (vs. the neutral filter chips above) */
-  .m-chip.primary,.m-chip.secondary{border-color:transparent;color:#fff;}
-  .m-chip.primary{background:var(--md-primary);}
-  .m-chip.primary:hover{background:#b8001f;}
-  .m-chip.secondary{background:var(--md-secondary);}
-  .m-chip.secondary:hover{background:#00277d;}
-
-  /* ---------- Tabs ---------- */
-  .m-tabs{display:flex;gap:4px;border-bottom:1px solid var(--md-outline-variant);}
-  .m-tab{
-    font-family:'Montserrat';font-weight:600;font-size:13.5px;padding:14px 20px;color:var(--md-on-surface-variant);
-    border-bottom:2.5px solid transparent;cursor:pointer;
-  }
-  .m-tab.active{color:var(--md-primary);border-bottom-color:var(--md-primary);}
-  .m-tab-panel{display:none;padding:22px 2px;font-size:14px;color:var(--md-on-surface-variant);}
-  .m-tab-panel.active{display:block;}
-  .m-tab-panel strong{font-family:'Montserrat';color:var(--md-on-surface);}
-
-  /* ---------- Accordion ---------- */
-  .m-accordion{border-top:1px solid var(--md-outline-variant);}
-  .m-accordion-item{border-bottom:1px solid var(--md-outline-variant);}
-  .m-accordion-head{
-    display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 4px;cursor:pointer;
-    font-family:'Montserrat';font-weight:700;font-size:14.5px;color:var(--md-on-surface);
-  }
-  .m-accordion-head .chevron{
-    flex-shrink:0;width:22px;height:22px;border-radius:var(--shape-xs);background:var(--md-surface-variant);
-    display:flex;align-items:center;justify-content:center;transition:transform .2s ease;color:var(--md-on-surface-variant);font-size:11px;
-  }
-  .m-accordion-item.open .chevron{transform:rotate(180deg);background:var(--md-secondary-container);color:var(--md-on-secondary-container);}
-  .m-accordion-body{max-height:0;overflow:hidden;transition:max-height .22s ease;}
-  .m-accordion-body-inner{padding:0 4px 20px;font-size:13.8px;color:var(--md-on-surface-variant);line-height:1.6;}
-
-  /* ---------- Call to action ---------- */
-  .cta-band{
-    background:var(--md-primary);color:#fff;border-radius:var(--shape-xl);padding:34px 38px;
-    display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:20px;
-  }
-  .cta-band h3{color:#fff;font-size:20px;margin-bottom:6px;}
-  .cta-band p{margin:0;font-size:13.8px;opacity:.92;max-width:440px;}
-  .cta-band .m-btn{background:#fff;color:var(--md-primary);flex-shrink:0;}
-  .cta-card-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;}
-  .cta-card{
-    border:1.5px solid var(--md-outline);border-radius:var(--shape-lg);padding:26px;
-    display:flex;flex-direction:column;align-items:flex-start;gap:10px;
-  }
-  .cta-card .icon{
-    width:40px;height:40px;border-radius:var(--shape-sm);background:var(--md-secondary-container);
-    color:var(--md-on-secondary-container);display:flex;align-items:center;justify-content:center;
-    font-family:'Montserrat';font-weight:800;font-size:16px;margin-bottom:4px;
-  }
-  .cta-card h3{font-size:16px;}
-  .cta-card p{font-size:13.5px;color:var(--md-on-surface-variant);margin:0 0 8px 0;}
-
-  .closing-note{
-    background:var(--md-secondary-container);color:var(--md-on-secondary-container);border-radius:var(--shape-lg);
-    padding:24px 28px;font-size:14px;
-  }
-  .closing-note strong{font-family:'Montserrat';}
-
-  footer{padding:30px 0;background:var(--md-surface);border-top:1px solid var(--md-outline-variant);}
-  footer p{font-size:12.5px;color:var(--md-on-surface-variant);margin:0;}
+  .ds-table-note { font-size: var(--ou-text-sm); color: var(--ou-color-text-muted); margin-top: var(--ou-space-2); }
+  .ds-hero-steps { counter-reset: step; display: grid; gap: var(--ou-space-4); list-style: none; padding: 0; margin: var(--ou-space-5) 0 0; }
+  @media (min-width: 700px) { .ds-hero-steps { grid-template-columns: repeat(3, 1fr); } }
+  .ds-hero-steps li { counter-increment: step; margin: 0; padding: var(--ou-space-5); background: var(--ou-color-surface); border: 1px solid var(--ou-color-border); border-radius: var(--ou-radius-lg); }
+  .ds-hero-steps li::before { content: counter(step); display: grid; place-items: center; width: 2rem; height: 2rem; margin-bottom: var(--ou-space-3); font-family: var(--ou-font-display); font-weight: var(--ou-weight-extrabold); color: var(--ou-color-on-brand); background: var(--ou-color-brand); border-radius: var(--ou-radius-sm); }
+  .ds-hero-steps b { display: block; font-family: var(--ou-font-display); margin-bottom: var(--ou-space-1); }
+  .ds-demo-header .ou-header { position: static; }
+  .ds-demo-header .ou-header__toggle { display: none; }
+  .ds-demo-header .ou-header__nav { display: block; }
 </style>
 </head>
 <body>
 
-<div class="appbar">
-  <div class="appbar-inner">
-    <div class="appbar-mark">OU</div>
-    <div class="appbar-title">UI Components &amp; Style Guide</div>
-    <div class="appbar-right">
-      <div class="appbar-sub">OUHSD Communications &amp; Marketing</div>
-      <a class="appbar-back" href="index.html">← Hub</a>
+<a class="ou-skip-link" href="#main">Skip to main content</a>
+
+<header class="ou-header">
+  <div class="ou-container ou-header__inner">
+    <a class="ou-header__brand" href="index.html">
+      <img src="brand/logos/svg/ouhsd-logo-horizontal-color.svg" alt="Oxnard Union High School District">
+      <span><small>Communications and Marketing</small>Design System</span>
+    </a>
+    <div class="ou-header__end">
+      <a class="ou-btn ou-btn--text ou-btn--sm" href="design-system/index.html">Team guide</a>
+      <a class="ou-btn ou-btn--outline ou-btn--sm" href="index.html">Back to Hub</a>
     </div>
   </div>
-</div>
-
-<nav class="subnav">
-  <div class="subnav-inner">
-    <a href="#color">Color</a>
-    <a href="#type">Type scale</a>
-    <a href="#headings">Headings</a>
-    <a href="#elevation">Elevation</a>
-    <div class="grp"></div>
-    <a href="#lists">Lists</a>
-    <a href="#tables">Tables</a>
-    <a href="#quotes">Quotes</a>
-    <div class="grp"></div>
-    <a href="#buttons">Buttons</a>
-    <a href="#fields">Text fields</a>
-    <a href="#cards">Cards &amp; chips</a>
-    <a href="#tabs">Tabs</a>
-    <a href="#accordion">Accordion</a>
-    <a href="#cta">Call to action</a>
-  </div>
-</nav>
-
-<header class="hero wrap">
-  <div class="eyebrow">Design System Reference</div>
-  <h1>The building blocks behind every OUHSD page</h1>
-  <p>Color roles, type scale, and every element a page actually uses — headings, lists, tables, quotes, buttons, fields, cards, chips, tabs, and accordions — styled as one consistent system so anything new built for the district looks like it belongs. Everything interactive below is real — click a button, focus a field, open an accordion.</p>
 </header>
 
-<main class="wrap">
+<div class="ou-container ds-layout">
 
-  <section id="color">
-    <div class="section-kicker">Foundation</div>
-    <h2>Color roles</h2>
-    <p class="desc">Material assigns every color a job — not just "red" and "blue," but Primary, Primary Container, and their "on" (text/icon) pairs — so contrast is correct everywhere automatically.</p>
-    <div class="role-grid">
-      <div class="role-card"><div class="role-swatch" style="background:var(--md-primary);"><span style="color:#fff;">Primary</span></div><div class="role-meta"><div class="name">Primary</div><div class="hex">#E20031</div></div></div>
-      <div class="role-card"><div class="role-swatch" style="background:var(--md-primary-container);"><span style="color:var(--md-on-primary-container);">Primary Container</span></div><div class="role-meta"><div class="name">Primary Container</div><div class="hex">#FCE0E6</div></div></div>
-      <div class="role-card"><div class="role-swatch" style="background:var(--md-secondary);"><span style="color:var(--md-on-secondary);">Secondary</span></div><div class="role-meta"><div class="name">Secondary</div><div class="hex">#0033A1</div></div></div>
-      <div class="role-card"><div class="role-swatch" style="background:var(--md-secondary-container);"><span style="color:var(--md-on-secondary-container);">Secondary Container</span></div><div class="role-meta"><div class="name">Secondary Container</div><div class="hex">#E0E7F4</div></div></div>
-      <div class="role-card"><div class="role-swatch" style="background:var(--md-surface-variant);"><span style="color:var(--md-on-surface-variant);">Surface Variant</span></div><div class="role-meta"><div class="name">Surface Variant</div><div class="hex">#F4F4F5</div></div></div>
-      <div class="role-card"><div class="role-swatch" style="background:var(--md-surface);border-bottom:1px solid var(--md-outline-variant);"><span style="color:var(--md-on-surface);">Surface</span></div><div class="role-meta"><div class="name">Surface</div><div class="hex">#FFFFFF</div></div></div>
-    </div>
-  </section>
-
-  <section id="type">
-    <div class="section-kicker">Foundation</div>
-    <h2>Type scale</h2>
-    <p class="desc">A fixed ladder of sizes instead of picking font-sizes ad hoc — Montserrat carries Display/Headline/Title, Open Sans carries Body/Label, same pairing as today's brand guide.</p>
-    <div class="type-row"><div class="type-label">Display</div><div class="type-sample-display">Oxnard Union</div></div>
-    <div class="type-row"><div class="type-label">Headline</div><div class="type-sample-headline">Email Signature Generator</div></div>
-    <div class="type-row"><div class="type-label">Title</div><div class="type-sample-title">Your info</div></div>
-    <div class="type-row"><div class="type-label">Body</div><div class="type-sample-body">Fill in your info, add your photo, and copy a ready-to-paste signature.</div></div>
-    <div class="type-row"><div class="type-label">Label</div><div class="type-sample-label">Full Name</div></div>
-  </section>
-
-  <section id="headings">
-    <div class="section-kicker">Foundation</div>
-    <h2>Headings</h2>
-    <p class="desc">The same type scale, applied to real <code>&lt;h1&gt;</code>–<code>&lt;h6&gt;</code> tags in page content — so a Word doc pasted into a CMS or a long guidelines page nests correctly instead of everything defaulting to the same size.</p>
-    <div class="heading-row"><div class="h-tag">H1</div><h1 class="h-sample">Communications &amp; Marketing Hub</h1></div>
-    <div class="heading-row"><div class="h-tag">H2</div><h2 class="h-sample">Six areas, built out over time</h2></div>
-    <div class="heading-row"><div class="h-tag">H3</div><h3 class="h-sample">Why use this instead of a graphic image?</h3></div>
-    <div class="heading-row"><div class="h-tag">H4</div><h4 class="h-sample">Add it to Gmail</h4></div>
-    <div class="heading-row"><div class="h-tag">H5</div><h5 class="h-sample">If the photo doesn't show up after pasting</h5></div>
-    <div class="heading-row"><div class="h-tag">H6</div><h6 class="h-sample">Last updated August 2026</h6></div>
-  </section>
-
-  <section id="elevation">
-    <div class="section-kicker">Foundation</div>
-    <h2>Elevation</h2>
-    <p class="desc">Instead of a flat 1px border everywhere, surfaces sit at different heights — cards lift on hover, dialogs sit above pages, FABs float above everything.</p>
-    <div class="elev-row">
-      <div class="elev-tile elev-0">Level 0<span>Flat</span></div>
-      <div class="elev-tile elev-1">Level 1<span>Card</span></div>
-      <div class="elev-tile elev-2">Level 2<span>Hover</span></div>
-      <div class="elev-tile elev-3">Level 3<span>Menu</span></div>
-      <div class="elev-tile elev-4">Level 4<span>Dialog</span></div>
-    </div>
-  </section>
-
-  <section id="lists">
-    <div class="section-kicker">Content</div>
-    <h2>Lists</h2>
-    <p class="desc">Native <code>&lt;ul&gt;</code>/<code>&lt;ol&gt;</code> markup, just with brand-colored markers instead of default black bullets and numbers — keeps them accessible and copy/paste-friendly.</p>
-    <div class="list-row">
-      <div class="list-block">
-        <h4>Unordered</h4>
-        <ul class="m-ul">
-          <li>Brand &amp; Visual Identity</li>
-          <li>Tools &amp; Generators</li>
-          <li>School Site Branding
-            <ul class="m-ul">
-              <li>Logo lockups per site</li>
-              <li>Approved site color accents</li>
-            </ul>
-          </li>
-          <li>Website Content &amp; Structure</li>
+  <aside class="ds-side" aria-label="Design system sections">
+    <details id="side-details" open>
+      <summary>On this page</summary>
+      <nav>
+        <ul class="ou-sidenav">
+          <li><a href="#overview">Overview</a></li>
+          <li><a href="#quick-start">Quick start</a></li>
+          <li><a href="#principles">Principles</a></li>
+          <li class="ou-sidenav__heading"><span class="ou-eyebrow">Foundations</span></li>
+          <li><a href="#color">Color</a></li>
+          <li><a href="#type">Typography</a></li>
+          <li><a href="#space">Spacing and shape</a></li>
+          <li><a href="#elevation">Elevation and motion</a></li>
+          <li><a href="#layout">Layout</a></li>
+          <li><a href="#icons">Icons</a></li>
+          <li class="ou-sidenav__heading"><span class="ou-eyebrow">Components</span></li>
+          <li><a href="#buttons">Buttons</a></li>
+          <li><a href="#forms">Forms</a></li>
+          <li><a href="#feedback">Feedback</a></li>
+          <li><a href="#badges">Badges and chips</a></li>
+          <li><a href="#cards">Cards</a></li>
+          <li><a href="#tables">Tables</a></li>
+          <li><a href="#tabs">Tabs</a></li>
+          <li><a href="#accordion">Accordion</a></li>
+          <li><a href="#dialog">Dialog</a></li>
+          <li><a href="#navigation">Navigation</a></li>
+          <li><a href="#content">Content blocks</a></li>
+          <li class="ou-sidenav__heading"><span class="ou-eyebrow">Build</span></li>
+          <li><a href="#patterns">Page templates</a></li>
+          <li><a href="#themes">School themes</a></li>
+          <li><a href="#language">Content and language</a></li>
+          <li><a href="#accessibility">Accessibility</a></li>
+          <li><a href="#governance">Governance</a></li>
         </ul>
-      </div>
-      <div class="list-block">
-        <h4>Ordered</h4>
-        <ol class="m-ol">
-          <li>Fill in your name, title, and department.</li>
-          <li>Upload a photo (optional) — it's cropped to a circle automatically.</li>
-          <li>Click <strong>Copy signature</strong>.</li>
-          <li>Paste it into Gmail's signature settings and save.</li>
-        </ol>
-      </div>
-    </div>
-  </section>
+      </nav>
+    </details>
+  </aside>
 
-  <section id="tables">
-    <div class="section-kicker">Content</div>
-    <h2>Tables</h2>
-    <p class="desc">A filled header row, zebra striping, and a hover highlight — for anything tabular, like a department directory or a comparison chart.</p>
-    <div class="table-wrap">
-      <table class="m-table">
-        <thead>
-          <tr><th>Department</th><th>Division</th><th>Sample contact</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Human Resources</td><td>Human Resources</td><td class="muted">(805) 555-0114</td></tr>
-          <tr><td>Fiscal Services &amp; Payroll</td><td>Business Services</td><td class="muted">(805) 555-0128</td></tr>
-          <tr><td>Instructional Support Services</td><td>Educational Services</td><td class="muted">(805) 555-0142</td></tr>
-          <tr><td>Transportation</td><td>Business Services</td><td class="muted">(805) 555-0157</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
+  <main class="ds-main" id="main">
 
-  <section id="quotes">
-    <div class="section-kicker">Content</div>
-    <h2>Quotes &amp; pull quotes</h2>
-    <p class="desc">A standard blockquote for citing a source inline with body text, and a pull quote for lifting a line out to stand alone — the kind of treatment a newsletter or long-form page would use.</p>
-    <blockquote class="blockquote">
-      Consistency in our materials builds trust with every family we serve — a flyer, an email, and a school site should all feel like they came from the same district.
-      <span class="bq-cite">OUHSD Communications &amp; Marketing</span>
-    </blockquote>
-    <div class="pull-quote">
-      <span class="mark">"</span>
-      <p>One place, instead of a dozen old files.</p>
-      <cite>— From the Communications Hub mission statement</cite>
-    </div>
-  </section>
+    <!-- ============ OVERVIEW ============ -->
+    <section id="overview">
+      <p class="ou-eyebrow">Design System v1.0</p>
+      <h1 style="margin-top: var(--ou-space-2); max-width: 22ch;">One look and one set of rules for every OUHSD web app</h1>
+      <p class="ou-lead" style="margin-top: var(--ou-space-4);">This page is the reference for anyone building a web application for Oxnard Union High School District. Every example below is live, built from the same stylesheet your project will use, and every code block is copy-ready.</p>
+      <div class="ou-cluster" style="margin-top: var(--ou-space-5);">
+        <a class="ou-btn ou-btn--primary" href="#quick-start">Start building</a>
+        <a class="ou-btn ou-btn--outline" href="design-system/index.html">Read the team guide</a>
+        <a class="ou-btn ou-btn--text" href="design-system/DESIGN.md">DESIGN.md for AI tools</a>
+      </div>
+      <div class="ou-alert" style="margin-top: var(--ou-space-6); max-width: var(--ou-measure);">
+        <div><span class="ou-alert__title">What changed from the earlier style guide</span>
+        Blue now leads and red is reserved for the one action that needs attention. Corners are nearly square. Labels sit above fields instead of floating. Tabs, accordions, and chips are keyboard accessible. Every class now starts with <code>ou-</code> and every value comes from a design token.</div>
+      </div>
+    </section>
 
-  <section id="buttons">
-    <div class="section-kicker">Components</div>
-    <h2>Buttons</h2>
-    <p class="desc">Five weights for five levels of emphasis — click any of them, the ripple is real. Filled is the loudest action on a screen; text is the quietest.</p>
-    <div class="btn-row">
-      <button class="m-btn m-filled">Filled<span class="state-layer"></span></button>
-      <button class="m-btn m-tonal">Tonal<span class="state-layer"></span></button>
-      <button class="m-btn m-outlined">Outlined<span class="state-layer"></span></button>
-      <button class="m-btn m-text">Text button<span class="state-layer"></span></button>
-      <button class="m-btn m-fab" aria-label="Add">＋<span class="state-layer"></span></button>
-    </div>
-  </section>
-
-  <section id="fields">
-    <div class="section-kicker">Components</div>
-    <h2>Text fields</h2>
-    <p class="desc">Labels float up when a field is focused or filled, instead of disappearing like a plain placeholder — so people can always see what they're looking at.</p>
-    <div class="field-row">
-      <div class="m-field">
-        <input type="text" id="mfName" placeholder=" ">
-        <label for="mfName">Full name</label>
-      </div>
-      <div class="m-field outlined">
-        <input type="email" id="mfEmail" placeholder=" ">
-        <label for="mfEmail">Email</label>
-      </div>
-      <div class="m-field filled">
-        <select id="mfDept">
-          <option value="" selected>Select a department…</option>
-          <option>Learning Support Services</option>
-          <option>Fiscal Services &amp; Payroll</option>
-        </select>
-        <label for="mfDept">Department</label>
-      </div>
-    </div>
-  </section>
-
-  <section id="cards">
-    <div class="section-kicker">Components</div>
-    <h2>Cards &amp; chips</h2>
-    <p class="desc">Cards use container-tone tags instead of bare brand colors — softer, and it keeps the loud primary red reserved for real actions. Chips work well for filters, tags, or "Ask a question" style prompts. Below that, the filled versions in solid red and blue are the "stand out" option — reach for those only when something genuinely needs to win the most attention on a page.</p>
-    <div class="m-card-row" style="margin-bottom:20px;">
-      <div class="m-card a">
-        <span class="tag">Guidelines</span>
-        <h3>Brand Guidelines</h3>
-        <p>Logo usage, color, type, and the tagline — one reference for every district material.</p>
-      </div>
-      <div class="m-card b">
-        <span class="tag">Tool</span>
-        <h3>Email Signature Generator</h3>
-        <p>Build a ready-to-paste Gmail signature with your name, title, and photo.</p>
-      </div>
-    </div>
-    <div class="m-card-row" style="margin-bottom:26px;">
-      <div class="m-card primary">
-        <span class="tag">Featured</span>
-        <h3>Filled card — Primary</h3>
-        <p>Solid brand red, for the one action on a page that should get noticed first — a hero CTA or a featured item.</p>
-      </div>
-      <div class="m-card secondary">
-        <span class="tag">Alternate</span>
-        <h3>Filled card — Secondary</h3>
-        <p>Solid brand blue, for a second option that needs its own emphasis without competing with the primary one.</p>
-      </div>
-    </div>
-    <div class="chip-row">
-      <div class="m-chip selected">All</div>
-      <div class="m-chip">Business Services</div>
-      <div class="m-chip">Educational Services</div>
-      <div class="m-chip">Human Resources</div>
-      <div class="m-chip">Office of the Superintendent</div>
-      <div class="m-chip primary">Primary</div>
-      <div class="m-chip secondary">Secondary</div>
-    </div>
-  </section>
-
-  <section id="tabs">
-    <div class="section-kicker">Components</div>
-    <h2>Tabs</h2>
-    <p class="desc">A tab bar could replace the current top-nav links, or sit inside a page (e.g. switching between school sites once those pages exist). Click a tab — the panel below actually switches.</p>
-    <div class="m-tabs">
-      <div class="m-tab active" data-panel="tab-guidelines">Brand Guidelines</div>
-      <div class="m-tab" data-panel="tab-signature">Email Signature</div>
-      <div class="m-tab" data-panel="tab-sites">School Sites</div>
-    </div>
-    <div class="m-tab-panel active" id="tab-guidelines"><strong>Brand Guidelines</strong> — logos, clear space, color, type, tagline, and AI-prompting guidance in one reference.</div>
-    <div class="m-tab-panel" id="tab-signature"><strong>Email Signature Generator</strong> — staff build a ready-to-paste Gmail signature with name, title, department, and an optional photo.</div>
-    <div class="m-tab-panel" id="tab-sites"><strong>School Sites</strong> — placeholder for site-specific branding pages, coming next.</div>
-  </section>
-
-  <section id="accordion">
-    <div class="section-kicker">Components</div>
-    <h2>Accordion</h2>
-    <p class="desc">Good for FAQs or a long usage-rules list where most people only need one answer — collapsed by default so the page doesn't feel overwhelming. Click a question.</p>
-    <div class="m-accordion">
-      <div class="m-accordion-item open">
-        <div class="m-accordion-head"><span>Can I use the logo with the tagline on a flyer?</span><span class="chevron">▾</span></div>
-        <div class="m-accordion-body">
-          <div class="m-accordion-body-inner">Only if the piece is short-lived (an event, an award, a single campaign). The tagline changes over time with district goals, so anything meant to last — policy documents, signage, letterhead — should use the logo without it.</div>
+    <!-- ============ QUICK START ============ -->
+    <section id="quick-start">
+      <h2>Quick start</h2>
+      <p>Three steps. A team member or an AI assistant can finish them in a few minutes.</p>
+      <ol class="ds-hero-steps">
+        <li><b>Link the stylesheet</b>One file holds tokens, icons, and every component. Add it to the page head, with the two district fonts.</li>
+        <li><b>Give AI the rules</b>Copy <code>DESIGN.md</code> into your project. It tells any AI assistant exactly which classes and tokens to use.</li>
+        <li><b>Start from a template</b>Pick the closest page template (login, dashboard, form, or list) and change the content, not the styling.</li>
+      </ol>
+      <div class="ds-example" style="margin-top: var(--ou-space-5);">
+        <div class="ds-stage" style="padding: 0;">
+          <pre tabindex="0" aria-label="Code example" style="margin:0; padding: var(--ou-space-4); overflow-x:auto; font-size: var(--ou-text-sm); line-height:1.6; background: var(--ou-neutral-900); color:#E6E9EE;"><code style="background:none; padding:0; color:inherit;">&lt;link rel="preconnect" href="https://fonts.googleapis.com"&gt;
+&lt;link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&amp;family=Open+Sans:wght@400;600;700&amp;display=swap" rel="stylesheet"&gt;
+&lt;link rel="stylesheet" href="https://teolopez-ouhsd.github.io/communications/design-system/v1/ouhsd.css"&gt;
+&lt;script src="https://teolopez-ouhsd.github.io/communications/design-system/v1/ouhsd-ui.js" defer&gt;&lt;/script&gt;</code></pre>
         </div>
       </div>
-      <div class="m-accordion-item">
-        <div class="m-accordion-head"><span>What file do I use for a dark background?</span><span class="chevron">▾</span></div>
-        <div class="m-accordion-body">
-          <div class="m-accordion-body-inner">Use the reversed white logo file from the library, not the full-color version with a box behind it. Full color is built for light backgrounds only.</div>
-        </div>
-      </div>
-      <div class="m-accordion-item">
-        <div class="m-accordion-head"><span>Can I recolor the logo to match a flyer?</span><span class="chevron">▾</span></div>
-        <div class="m-accordion-body">
-          <div class="m-accordion-body-inner">No — only the approved full-color and all-white versions are ever used. Never apply a different brand's colors, a gradient, or a one-off hue.</div>
-        </div>
-      </div>
-    </div>
-  </section>
+      <p class="ds-table-note">The URL contains <code>v1</code>. Teams stay on v1 until they choose to move to a newer version, so a change to the system never breaks a live app.</p>
+    </section>
 
-  <section id="cta">
-    <div class="section-kicker">Components</div>
-    <h2>Call to action</h2>
-    <p class="desc">Two weights: a bold full-color band for the single most important action on a page, and quieter cards for a few actions side by side.</p>
-    <div class="cta-band">
-      <div>
-        <h3>Need a signature for your Gmail account?</h3>
-        <p>Build one in under a minute — your name, title, department, and photo, ready to paste.</p>
+    <!-- ============ PRINCIPLES ============ -->
+    <section id="principles">
+      <h2>Principles</h2>
+      <p>When a situation is not covered by a component or rule, decide by these six ideas.</p>
+      <div class="ou-grid" style="--ou-grid-min: 17rem; margin-top: var(--ou-space-5);">
+        <div class="ou-card ou-card--accent"><h3 class="ou-card__title">Blue leads, red asks</h3><p class="ou-card__body">Oxnard Blue is the strongest presence on every screen. Oxnard Red is a powerful accent, used once to draw attention or request action.</p></div>
+        <div class="ou-card ou-card--accent"><h3 class="ou-card__title">Quiet surfaces</h3><p class="ou-card__body">Soft neutrals let the brand colors work as accents. If a screen feels loud, remove color before adding any.</p></div>
+        <div class="ou-card ou-card--accent"><h3 class="ou-card__title">Hard-edged and plain</h3><p class="ou-card__body">Corners are only very slightly rounded. Shadows are subtle. Nothing bounces, glows, or decorates without a job to do.</p></div>
+        <div class="ou-card ou-card--accent"><h3 class="ou-card__title">Accessible by default</h3><p class="ou-card__body">Every component meets WCAG 2.1 AA. Using the system as written is how a team stays compliant.</p></div>
+        <div class="ou-card ou-card--accent"><h3 class="ou-card__title">Ready for two languages</h3><p class="ou-card__body">Families use these tools in English and Spanish. Layouts must survive text that is 30 percent longer.</p></div>
+        <div class="ou-card ou-card--accent"><h3 class="ou-card__title">Built for handoff</h3><p class="ou-card__body">Named tokens, plain class names, and written rules mean a team or an AI can follow the system without asking.</p></div>
       </div>
-      <a class="m-btn" href="email-signature-generator.html">Open the generator<span class="state-layer"></span></a>
-    </div>
-    <div class="cta-card-row">
-      <div class="cta-card">
-        <div class="icon">B</div>
-        <h3>Read the brand guide</h3>
-        <p>Logos, color, type, and tagline rules before you design anything new.</p>
-        <a class="m-btn m-text cta-link-btn" href="brand-guidelines.html">View guidelines →<span class="state-layer"></span></a>
+    </section>
+
+    <!-- ============ COLOR ============ -->
+    <section id="color">
+      <p class="ou-eyebrow">Foundations</p>
+      <h2>Color</h2>
+      <p>Colors have jobs, not names. Use the semantic token (<code>--ou-color-brand</code>), never the raw palette value (<code>--ou-blue-500</code>), so a theme or a future update changes everything at once. Contrast ratios below are calculated live from the real token values.</p>
+
+      <h3>Roles</h3>
+      <div class="ds-swatches" id="swatches" aria-live="polite"></div>
+
+      <h3>Approved text and background pairings</h3>
+      <p>Normal text needs 4.5:1 or better. Large text (24px, or 19px bold) and interface boundaries need 3:1 or better.</p>
+      <div class="ou-table-wrap" style="margin-top: var(--ou-space-4);">
+        <table class="ou-table ou-table--dense" id="pair-table">
+          <caption class="ou-visually-hidden">Contrast ratios for approved color pairings</caption>
+          <thead><tr><th scope="col">Pairing</th><th scope="col">Text token</th><th scope="col">Background token</th><th scope="col" class="ou-num">Ratio</th><th scope="col">Result</th></tr></thead>
+          <tbody></tbody>
+        </table>
       </div>
-      <div class="cta-card">
-        <div class="icon">?</div>
-        <h3>Ask a branding question</h3>
-        <p>Type a real scenario — parent emails, signage, vehicles — and get matched guidance.</p>
-        <a class="m-btn m-text cta-link-btn" href="brand-guidelines.html#ask">Ask now →<span class="state-layer"></span></a>
+
+      <div class="ds-rules">
+        <div class="ds-rule ds-rule--do"><p class="ds-rule__title">Use</p><ul>
+          <li>Blue for navigation, links, selected states, and the default button.</li>
+          <li>Red for the single most important action or alert-level attention on a screen.</li>
+          <li>Container tints (<code>-container</code>) behind dark text for soft emphasis.</li>
+          <li>An icon and words with every status color.</li>
+        </ul></div>
+        <div class="ds-rule ds-rule--dont"><p class="ds-rule__title">Avoid</p><ul>
+          <li>Red placed directly on blue, or blue directly on red. This is a brand rule.</li>
+          <li>Color as the only signal. About 1 in 12 boys and 1 in 200 girls have a color vision difference.</li>
+          <li>Hard-coded hex values. If a color is missing, ask for a token.</li>
+          <li>Gradients, glows, or one-off hues, including on school apps.</li>
+        </ul></div>
       </div>
+    </section>
+
+    <!-- ============ TYPE ============ -->
+    <section id="type">
+      <p class="ou-eyebrow">Foundations</p>
+      <h2>Typography</h2>
+      <p>Montserrat carries headings, buttons, and labels. Open Sans carries body text and form input. Body text never goes below 16px. Headings balance their own line breaks and paragraphs avoid single-word last lines, so text wrapping stays tidy without manual line breaks.</p>
+
+      <div class="ds-scale" style="margin-top: var(--ou-space-4);" id="type-scale"></div>
+
+      <h3>Heading hierarchy</h3>
+      <p>Use real heading tags in order. One <code>h1</code> per page, then <code>h2</code>, <code>h3</code>, never skipping a level for looks. Visual size follows the tag.</p>
+      <script type="text/html" class="ds-example">
+<div class="ou-stack">
+  <h1>Communications and Marketing Hub</h1>
+  <h2>Six areas, built out over time</h2>
+  <h3>Why use this instead of an image?</h3>
+  <h4>Add it to Gmail</h4>
+  <h5>If the photo does not show up</h5>
+  <h6>Last updated October 2026</h6>
+  <p class="ou-lead">Lead paragraph: one larger intro sentence under a page title.</p>
+  <p>Body paragraph in Open Sans at 16px with a comfortable 1.55 line height. Links look like <a href="#type">this one</a> and always keep their underline.</p>
+</div>
+      </script>
+    </section>
+
+    <!-- ============ SPACE & SHAPE ============ -->
+    <section id="space">
+      <p class="ou-eyebrow">Foundations</p>
+      <h2>Spacing and shape</h2>
+      <p>Spacing runs on a 4px base. Pick a step from the scale instead of typing a pixel value. Corners are hard-edged and only very slightly rounded: 2 to 4 pixels. Fully round shapes are limited to avatars, radio buttons, and spinners.</p>
+      <h3>Spacing scale</h3>
+      <div class="ds-scale" id="space-scale"></div>
+      <h3>Corner radius</h3>
+      <div class="ou-cluster" style="--ou-cluster-gap: var(--ou-space-6); margin-top: var(--ou-space-4);">
+        <div class="ou-stack ou-stack--sm"><div class="ds-shape" style="border-radius: var(--ou-radius-sm);"></div><p class="ds-scale__label"><b style="display:block; color: var(--ou-color-text); font-family: var(--ou-font-display);">Small, 2px</b><code>--ou-radius-sm</code><br>Badges, checkboxes</p></div>
+        <div class="ou-stack ou-stack--sm"><div class="ds-shape" style="border-radius: var(--ou-radius-md);"></div><p class="ds-scale__label"><b style="display:block; color: var(--ou-color-text); font-family: var(--ou-font-display);">Medium, 3px</b><code>--ou-radius-md</code><br>Buttons, inputs, chips</p></div>
+        <div class="ou-stack ou-stack--sm"><div class="ds-shape" style="border-radius: var(--ou-radius-lg);"></div><p class="ds-scale__label"><b style="display:block; color: var(--ou-color-text); font-family: var(--ou-font-display);">Large, 4px</b><code>--ou-radius-lg</code><br>Cards, dialogs, tables</p></div>
+      </div>
+    </section>
+
+    <!-- ============ ELEVATION & MOTION ============ -->
+    <section id="elevation">
+      <p class="ou-eyebrow">Foundations</p>
+      <h2>Elevation and motion</h2>
+      <p>Surfaces are flat by default and use a hairline border. Shadow appears only to show that something floats above the page or responds to a pointer.</p>
+      <div class="ou-cluster" style="--ou-cluster-gap: var(--ou-space-5); margin-top: var(--ou-space-5); padding: var(--ou-space-5); background: var(--ou-color-bg); border: 1px solid var(--ou-color-border); border-radius: var(--ou-radius-lg);">
+        <div class="ds-elev" style="box-shadow: var(--ou-shadow-0); border: 1px solid var(--ou-color-border);">Level 0, flat</div>
+        <div class="ds-elev" style="box-shadow: var(--ou-shadow-1);">Level 1, raised card</div>
+        <div class="ds-elev" style="box-shadow: var(--ou-shadow-2);">Level 2, hover</div>
+        <div class="ds-elev" style="box-shadow: var(--ou-shadow-3);">Level 3, menu</div>
+        <div class="ds-elev" style="box-shadow: var(--ou-shadow-4);">Level 4, dialog</div>
+      </div>
+      <h3>Motion</h3>
+      <p>Motion explains a change; it never decorates. Use <code>--ou-duration-fast</code> (120ms) for hover, <code>--ou-duration-base</code> (200ms) for opening and closing, and <code>--ou-duration-slow</code> (320ms) for large moves. All motion switches off for people who set "reduce motion" in their device.</p>
+    </section>
+
+    <!-- ============ LAYOUT ============ -->
+    <section id="layout">
+      <p class="ou-eyebrow">Foundations</p>
+      <h2>Layout</h2>
+      <p>Pages sit in a centered container up to 1200px wide with a fluid gutter. Compose layouts from a few primitives rather than writing custom CSS.</p>
+      <div class="ou-table-wrap" style="margin-top: var(--ou-space-4);">
+        <table class="ou-table ou-table--dense">
+          <caption class="ou-visually-hidden">Layout classes</caption>
+          <thead><tr><th scope="col">Class</th><th scope="col">What it does</th></tr></thead>
+          <tbody>
+            <tr><td><code>.ou-container</code></td><td>Centers content, caps width at 1200px, adds the gutter. Add <code>--narrow</code> for 760px forms and articles.</td></tr>
+            <tr><td><code>.ou-stack</code></td><td>Vertical spacing between children. Add <code>--sm</code> or <code>--lg</code>.</td></tr>
+            <tr><td><code>.ou-cluster</code></td><td>Row that wraps: button groups, tag lists, toolbars.</td></tr>
+            <tr><td><code>.ou-grid</code></td><td>Responsive card grid. Set the minimum column width with <code>--ou-grid-min</code>.</td></tr>
+            <tr><td><code>.ou-app-shell</code></td><td>Sidebar plus content. Collapses to one column below 840px.</td></tr>
+            <tr><td><code>.ou-section</code></td><td>Vertical page rhythm between large blocks.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3>Breakpoints</h3>
+      <div class="ou-table-wrap" style="margin-top: var(--ou-space-3);">
+        <table class="ou-table ou-table--dense">
+          <caption class="ou-visually-hidden">Breakpoints</caption>
+          <thead><tr><th scope="col">Name</th><th scope="col" class="ou-num">Min width</th><th scope="col">Typical change</th></tr></thead>
+          <tbody>
+            <tr><td>Phone</td><td class="ou-num">0</td><td>One column, stacked tables, menu button</td></tr>
+            <tr><td>sm</td><td class="ou-num">600px</td><td>Two-column forms, normal tables</td></tr>
+            <tr><td>md</td><td class="ou-num">840px</td><td>Header navigation shows, sidebar appears</td></tr>
+            <tr><td>lg</td><td class="ou-num">1100px</td><td>Wider grids</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="ds-table-note">Design phone first. Many families reach district tools on a phone, so every screen must work at 360px wide before anything else.</p>
+    </section>
+
+    <!-- ============ ICONS ============ -->
+    <section id="icons">
+      <p class="ou-eyebrow">Foundations</p>
+      <h2>Icons</h2>
+      <p>Icons are built into the stylesheet as CSS masks, so they take the color of their text and work on any domain with no extra files. Choose an icon to copy its markup. Decorative icons get <code>aria-hidden="true"</code>. An icon-only button needs an <code>aria-label</code>.</p>
+      <div class="ds-icons" id="icon-grid"></div>
+    </section>
+
+    <!-- ============ BUTTONS ============ -->
+    <section id="buttons">
+      <p class="ou-eyebrow">Components</p>
+      <h2>Buttons</h2>
+      <p>Use a <code>&lt;button&gt;</code> for actions that change something on the page, and an <code>&lt;a&gt;</code> styled as a button for moving to another page. Labels start with a verb: "Save changes", "Send message", "Enroll student".</p>
+
+      <h3>Emphasis levels</h3>
+      <script type="text/html" class="ds-example">
+<div class="ou-btn-group">
+  <button class="ou-btn ou-btn--primary" type="button">Primary</button>
+  <button class="ou-btn ou-btn--action" type="button">Action</button>
+  <button class="ou-btn ou-btn--tonal" type="button">Tonal</button>
+  <button class="ou-btn ou-btn--outline" type="button">Outline</button>
+  <button class="ou-btn ou-btn--text" type="button">Text</button>
+</div>
+      </script>
+      <div class="ds-rules">
+        <div class="ds-rule ds-rule--do"><p class="ds-rule__title">Use</p><ul>
+          <li><b>Primary</b> (blue) for the main action on most screens.</li>
+          <li><b>Action</b> (red) for the one step that needs attention, such as Submit or Pay. One per screen.</li>
+          <li><b>Tonal or outline</b> for secondary actions; <b>text</b> for Cancel and low-priority links.</li>
+        </ul></div>
+        <div class="ds-rule ds-rule--dont"><p class="ds-rule__title">Avoid</p><ul>
+          <li>Two red buttons on one screen. If everything is urgent, nothing is.</li>
+          <li>A red button on a blue band. Use the inverse buttons there.</li>
+          <li>Vague labels such as "Submit", "OK", or "Click here".</li>
+        </ul></div>
+      </div>
+
+      <h3>Sizes, icons, and states</h3>
+      <script type="text/html" class="ds-example">
+<div class="ou-stack">
+  <div class="ou-cluster">
+    <button class="ou-btn ou-btn--primary ou-btn--sm" type="button">Small</button>
+    <button class="ou-btn ou-btn--primary" type="button">Default</button>
+    <button class="ou-btn ou-btn--primary ou-btn--lg" type="button">Large</button>
+    <button class="ou-btn ou-btn--primary" type="button"><span class="ou-icon ou-icon--plus" aria-hidden="true"></span> Add student</button>
+    <button class="ou-btn ou-btn--tonal ou-btn--icon" type="button" aria-label="Edit record"><span class="ou-icon ou-icon--edit" aria-hidden="true"></span></button>
+  </div>
+  <div class="ou-cluster">
+    <button class="ou-btn ou-btn--primary" type="button" disabled>Disabled</button>
+    <button class="ou-btn ou-btn--primary" type="button" aria-busy="true">Saving</button>
+    <button class="ou-btn ou-btn--danger" type="button">Delete record</button>
+    <a class="ou-btn ou-btn--outline" href="#buttons">Link styled as button</a>
+  </div>
+</div>
+      </script>
+      <p class="ds-table-note">Hover and keyboard focus are live: press Tab to see the focus ring. A disabled button hides its reason from many users, so prefer leaving the button enabled and showing a clear message when something is missing.</p>
+
+      <h3>On a blue band</h3>
+      <script type="text/html" class="ds-example" data-bg="blue">
+<div class="ou-btn-group">
+  <button class="ou-btn ou-btn--inverse" type="button">Open the portal</button>
+  <button class="ou-btn ou-btn--inverse-outline" type="button">Learn more</button>
+</div>
+      </script>
+    </section>
+
+    <!-- ============ FORMS ============ -->
+    <section id="forms">
+      <p class="ou-eyebrow">Components</p>
+      <h2>Forms</h2>
+      <p>Labels always sit above the field and stay visible. Placeholders are for examples only, never for labels. Mark optional fields instead of required ones, since most fields are required.</p>
+
+      <h3>Text inputs</h3>
+      <script type="text/html" class="ds-example">
+<div class="ou-form-grid ou-form-grid--2">
+  <div class="ou-field">
+    <label class="ou-label" for="f-name">Full name</label>
+    <input class="ou-input" id="f-name" type="text" autocomplete="name">
+  </div>
+  <div class="ou-field">
+    <label class="ou-label" for="f-email">District email</label>
+    <input class="ou-input" id="f-email" type="email" autocomplete="email" aria-describedby="f-email-hint" placeholder="name@oxnardunion.org">
+    <span class="ou-hint" id="f-email-hint">Use the address you sign in with.</span>
+  </div>
+  <div class="ou-field">
+    <label class="ou-label" for="f-dept">Department</label>
+    <select class="ou-select" id="f-dept">
+      <option value="">Choose a department</option>
+      <option>Educational Services</option>
+      <option>Business Services</option>
+      <option>Human Resources</option>
+    </select>
+  </div>
+  <div class="ou-field">
+    <label class="ou-label" for="f-search">Search <span class="ou-label__note">(optional)</span></label>
+    <div class="ou-search"><input class="ou-input" id="f-search" type="search"></div>
+  </div>
+  <div class="ou-field" style="grid-column: 1 / -1;">
+    <label class="ou-label" for="f-msg">Message <span class="ou-label__note">(optional)</span></label>
+    <textarea class="ou-textarea" id="f-msg"></textarea>
+  </div>
+</div>
+      </script>
+
+      <h3>Error state</h3>
+      <p>Say what went wrong and how to fix it, next to the field, with an icon and words. Set <code>aria-invalid="true"</code> and link the message with <code>aria-describedby</code>. Keep what the person typed.</p>
+      <script type="text/html" class="ds-example">
+<div class="ou-stack">
+  <div class="ou-alert ou-alert--error" role="alert">
+    <div><span class="ou-alert__title">Fix 1 problem to continue</span><a href="#f-phone">Phone number is missing a digit</a></div>
+  </div>
+  <div class="ou-field ou-field--error" style="max-width: 20rem;">
+    <label class="ou-label" for="f-phone">Phone number</label>
+    <input class="ou-input" id="f-phone" type="tel" value="805 555 01" aria-invalid="true" aria-describedby="f-phone-err">
+    <span class="ou-error-text" id="f-phone-err">Enter all 10 digits, like 805 555 0114.</span>
+  </div>
+</div>
+      </script>
+
+      <h3>Choices</h3>
+      <script type="text/html" class="ds-example">
+<div class="ou-form-grid ou-form-grid--2">
+  <fieldset class="ou-fieldset">
+    <legend>Which school sites do you manage?</legend>
+    <label class="ou-check"><input type="checkbox" checked> <span>Pacifica High School</span></label>
+    <label class="ou-check"><input type="checkbox"> <span>Del Sol High School</span></label>
+    <label class="ou-check"><input type="checkbox"> <span>Channel Islands High School</span></label>
+  </fieldset>
+  <fieldset class="ou-fieldset">
+    <legend>Preferred language</legend>
+    <label class="ou-check"><input type="radio" name="f-lang" checked> <span>English</span></label>
+    <label class="ou-check"><input type="radio" name="f-lang"> <span>Español</span></label>
+    <label class="ou-check ou-switch"><input type="checkbox" role="switch" checked> <span>Send text reminders</span></label>
+  </fieldset>
+</div>
+      </script>
+
+      <div class="ds-rules">
+        <div class="ds-rule ds-rule--do"><p class="ds-rule__title">Use</p><ul>
+          <li>The right input type (<code>email</code>, <code>tel</code>, <code>date</code>) and an <code>autocomplete</code> value.</li>
+          <li>One column on phones. Two columns only for short related fields.</li>
+          <li>A summary alert at the top for long forms, linking to each problem.</li>
+        </ul></div>
+        <div class="ds-rule ds-rule--dont"><p class="ds-rule__title">Avoid</p><ul>
+          <li>Floating labels and placeholder-as-label. They disappear while people type.</li>
+          <li>Clearing a field after an error.</li>
+          <li>Red outline alone as the error signal. Always add the message.</li>
+        </ul></div>
+      </div>
+    </section>
+
+    <!-- ============ FEEDBACK ============ -->
+    <section id="feedback">
+      <p class="ou-eyebrow">Components</p>
+      <h2>Feedback</h2>
+      <p>Tell people what happened. Alerts sit in the page. Toasts confirm a quick action and then leave. Use <code>role="alert"</code> only for urgent errors, and <code>role="status"</code> for everything else.</p>
+      <script type="text/html" class="ds-example">
+<div class="ou-stack">
+  <div class="ou-alert" role="status"><div><span class="ou-alert__title">Report cards are not mailed this quarter</span>Families can view them online in ParentVUE.</div></div>
+  <div class="ou-alert ou-alert--success" role="status"><div><span class="ou-alert__title">Signature copied</span>Paste it into your Gmail settings.</div></div>
+  <div class="ou-alert ou-alert--warning" role="status"><div><span class="ou-alert__title">Registration closes Friday</span>Finish before 5:00 p.m. to keep your spot.</div></div>
+  <div class="ou-alert ou-alert--error" role="alert"><div><span class="ou-alert__title">We could not save your changes</span>Check your connection and try again.</div></div>
+</div>
+      </script>
+
+      <h3>Toast messages</h3>
+      <script type="text/html" class="ds-example">
+<div class="ou-cluster">
+  <button class="ou-btn ou-btn--tonal" type="button" onclick="OUHSD.toast('Changes saved.', { type: 'success' })">Success toast</button>
+  <button class="ou-btn ou-btn--tonal" type="button" onclick="OUHSD.toast('Report cards are ready to view.')">Info toast</button>
+  <button class="ou-btn ou-btn--tonal" type="button" onclick="OUHSD.toast('Could not reach the server.', { type: 'error' })">Error toast (stays)</button>
+</div>
+      </script>
+
+      <h3>Loading and empty states</h3>
+      <script type="text/html" class="ds-example">
+<div class="ou-grid" style="--ou-grid-min: 18rem;">
+  <div class="ou-stack">
+    <div class="ou-cluster"><span class="ou-spinner" role="status" aria-label="Loading"></span> <span class="ou-muted">Loading records</span></div>
+    <label class="ou-label" for="prog">Upload progress, 60 percent</label>
+    <progress class="ou-progress" id="prog" value="60" max="100"></progress>
+    <span class="ou-skeleton" style="height: 1rem; width: 80%;"></span>
+    <span class="ou-skeleton" style="height: 1rem; width: 55%;"></span>
+  </div>
+  <div class="ou-empty">
+    <span class="ou-icon ou-icon--search ou-empty__icon" aria-hidden="true"></span>
+    <h3>No results found</h3>
+    <p>Try a different school or clear a filter to see more records.</p>
+    <button class="ou-btn ou-btn--outline" type="button">Clear filters</button>
+  </div>
+</div>
+      </script>
+    </section>
+
+    <!-- ============ BADGES & CHIPS ============ -->
+    <section id="badges">
+      <p class="ou-eyebrow">Components</p>
+      <h2>Badges and chips</h2>
+      <p>Badges label a status or category and cannot be pressed. Chips are buttons that filter a list; they announce their on or off state to screen readers with <code>aria-pressed</code>.</p>
+      <script type="text/html" class="ds-example">
+<div class="ou-stack">
+  <div class="ou-cluster">
+    <span class="ou-badge">Draft</span>
+    <span class="ou-badge ou-badge--brand">Staff</span>
+    <span class="ou-badge ou-badge--success">Approved</span>
+    <span class="ou-badge ou-badge--warning">Needs review</span>
+    <span class="ou-badge ou-badge--error">Overdue</span>
+    <span class="ou-badge ou-badge--action">New</span>
+    <span class="ou-badge ou-badge--school">School</span>
+  </div>
+  <div class="ou-cluster" role="group" aria-label="Filter by division" data-ou-chip-group="single">
+    <button class="ou-chip" type="button" aria-pressed="true" data-ou-chip>All</button>
+    <button class="ou-chip" type="button" aria-pressed="false" data-ou-chip>Business Services</button>
+    <button class="ou-chip" type="button" aria-pressed="false" data-ou-chip>Educational Services</button>
+    <button class="ou-chip" type="button" aria-pressed="false" data-ou-chip>Human Resources</button>
+  </div>
+</div>
+      </script>
+    </section>
+
+    <!-- ============ CARDS ============ -->
+    <section id="cards">
+      <p class="ou-eyebrow">Components</p>
+      <h2>Cards</h2>
+      <p>A card groups one idea. Whole-card links use a single real link inside the title, stretched over the card, so keyboard and screen reader users meet one link, not a block of text. Use filled cards rarely; they win attention by costing it everywhere else.</p>
+      <script type="text/html" class="ds-example" data-bg="muted">
+<div class="ou-grid" style="--ou-grid-min: 15rem;">
+  <article class="ou-card">
+    <span class="ou-eyebrow ou-card__eyebrow">Guidelines</span>
+    <h3 class="ou-card__title">Brand guidelines</h3>
+    <p class="ou-card__body">Logo use, color, type, and the tagline in one reference.</p>
+  </article>
+  <article class="ou-card ou-card--accent ou-card--interactive">
+    <span class="ou-eyebrow ou-card__eyebrow">Tool</span>
+    <h3 class="ou-card__title"><a class="ou-card__link" href="#cards">Email signature generator</a></h3>
+    <p class="ou-card__body">Build a ready-to-paste Gmail signature with your name, title, and photo.</p>
+    <div class="ou-card__footer"><span class="ou-badge ou-badge--brand">Staff</span></div>
+  </article>
+  <article class="ou-card ou-card--brand">
+    <span class="ou-eyebrow ou-card__eyebrow">Featured</span>
+    <h3 class="ou-card__title">Filled brand card</h3>
+    <p class="ou-card__body">Solid blue for the one item that should win attention first.</p>
+  </article>
+</div>
+      </script>
+    </section>
+
+    <!-- ============ TABLES ============ -->
+    <section id="tables">
+      <p class="ou-eyebrow">Components</p>
+      <h2>Tables</h2>
+      <p>Use a table only for data that compares across rows and columns. Give it a caption, mark header cells with <code>scope</code>, and wrap it in <code>.ou-table-wrap</code> so wide tables scroll instead of breaking the page. On phones, add <code>ou-table--stack</code> and a <code>data-label</code> on each cell to turn rows into readable cards.</p>
+      <script type="text/html" class="ds-example" data-pad="none">
+<div class="ou-table-wrap" style="border: 0; border-radius: 0;">
+  <table class="ou-table ou-table--hover ou-table--stack">
+    <caption>Department directory (sample contacts)</caption>
+    <thead>
+      <tr>
+        <th scope="col" aria-sort="ascending"><button type="button">Department</button></th>
+        <th scope="col">Division</th>
+        <th scope="col" class="ou-num">Open requests</th>
+        <th scope="col">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><th scope="row" data-label="Department">Human Resources</th><td data-label="Division">Human Resources</td><td class="ou-num" data-label="Open requests">12</td><td data-label="Status"><span class="ou-badge ou-badge--success">On track</span></td></tr>
+      <tr><th scope="row" data-label="Department">Fiscal Services and Payroll</th><td data-label="Division">Business Services</td><td class="ou-num" data-label="Open requests">31</td><td data-label="Status"><span class="ou-badge ou-badge--warning">Needs review</span></td></tr>
+      <tr><th scope="row" data-label="Department">Instructional Support Services</th><td data-label="Division">Educational Services</td><td class="ou-num" data-label="Open requests">8</td><td data-label="Status"><span class="ou-badge ou-badge--success">On track</span></td></tr>
+      <tr><th scope="row" data-label="Department">Transportation</th><td data-label="Division">Business Services</td><td class="ou-num" data-label="Open requests">5</td><td data-label="Status"><span class="ou-badge ou-badge--error">Overdue</span></td></tr>
+    </tbody>
+  </table>
+</div>
+      </script>
+      <p class="ds-table-note">Sorting is up to the app. The system styles the arrows from <code>aria-sort</code> on the column header; your code sets that attribute to <code>ascending</code>, <code>descending</code>, or removes it.</p>
+    </section>
+
+    <!-- ============ TABS ============ -->
+    <section id="tabs">
+      <p class="ou-eyebrow">Components</p>
+      <h2>Tabs</h2>
+      <p>Tabs switch between views of related content on one page. Arrow keys move between tabs, and Home and End jump to the first and last. Do not use tabs for site navigation; use the navigation bar.</p>
+      <script type="text/html" class="ds-example">
+<div class="ou-tabs" role="tablist" aria-label="Brand resources">
+  <button class="ou-tab" role="tab" id="tab-1" aria-controls="panel-1" aria-selected="true">Brand guidelines</button>
+  <button class="ou-tab" role="tab" id="tab-2" aria-controls="panel-2" aria-selected="false" tabindex="-1">Email signature</button>
+  <button class="ou-tab" role="tab" id="tab-3" aria-controls="panel-3" aria-selected="false" tabindex="-1">School sites</button>
+</div>
+<div class="ou-tabpanel" role="tabpanel" id="panel-1" aria-labelledby="tab-1" tabindex="0">Logos, clear space, color, type, and the tagline in one reference.</div>
+<div class="ou-tabpanel" role="tabpanel" id="panel-2" aria-labelledby="tab-2" tabindex="0" hidden>Staff build a ready-to-paste Gmail signature with name, title, and photo.</div>
+<div class="ou-tabpanel" role="tabpanel" id="panel-3" aria-labelledby="tab-3" tabindex="0" hidden>Site-specific brand pages for each of the district's schools.</div>
+      </script>
+    </section>
+
+    <!-- ============ ACCORDION ============ -->
+    <section id="accordion">
+      <p class="ou-eyebrow">Components</p>
+      <h2>Accordion</h2>
+      <p>Built on the native <code>&lt;details&gt;</code> element, so it works with the keyboard, remembers nothing it should not, and needs no JavaScript. Give items the same <code>name</code> to open one at a time. Best for FAQs where most people need one answer.</p>
+      <script type="text/html" class="ds-example">
+<div>
+  <details class="ou-accordion" name="faq" open>
+    <summary>Can I use the logo with the tagline on a flyer?</summary>
+    <div class="ou-accordion__body">Only for short-lived pieces such as an event or a campaign. Anything meant to last should use the logo without the tagline.</div>
+  </details>
+  <details class="ou-accordion" name="faq">
+    <summary>What file do I use on a dark background?</summary>
+    <div class="ou-accordion__body">Use the all-white logo. The full-color logo is made for light backgrounds only.</div>
+  </details>
+  <details class="ou-accordion" name="faq">
+    <summary>Can I recolor the logo to match a flyer?</summary>
+    <div class="ou-accordion__body">No. Only the approved full-color and all-white versions are used.</div>
+  </details>
+</div>
+      </script>
+    </section>
+
+    <!-- ============ DIALOG ============ -->
+    <section id="dialog">
+      <p class="ou-eyebrow">Components</p>
+      <h2>Dialog</h2>
+      <p>A dialog interrupts the page, so use it only when a decision cannot wait: confirming a destructive action, or a short task that must finish first. It uses the native <code>&lt;dialog&gt;</code> element, which traps focus, closes on Escape, and returns focus to the button that opened it.</p>
+      <script type="text/html" class="ds-example">
+<button class="ou-btn ou-btn--outline" type="button" data-ou-open="#demo-dialog">Delete this record</button>
+<dialog class="ou-dialog" id="demo-dialog" aria-labelledby="demo-dialog-title">
+  <div class="ou-dialog__header">
+    <h2 id="demo-dialog-title" style="font-size: var(--ou-text-xl);">Delete this record?</h2>
+    <button class="ou-btn ou-btn--text ou-btn--icon ou-btn--sm" type="button" data-ou-close aria-label="Close dialog"><span class="ou-icon ou-icon--x" aria-hidden="true"></span></button>
+  </div>
+  <div class="ou-dialog__body"><p>This removes the record for everyone. You cannot undo it.</p></div>
+  <div class="ou-dialog__footer">
+    <button class="ou-btn ou-btn--text" type="button" data-ou-close>Keep record</button>
+    <button class="ou-btn ou-btn--danger" type="button" data-ou-close>Delete record</button>
+  </div>
+</dialog>
+      </script>
+      <p class="ds-table-note">Name the buttons for what they do ("Delete record", "Keep record") instead of "Yes" and "No".</p>
+    </section>
+
+    <!-- ============ NAVIGATION ============ -->
+    <section id="navigation">
+      <p class="ou-eyebrow">Components</p>
+      <h2>Navigation</h2>
+      <p>The header is white so the full-color logo always sits on a light background. A 4px stripe across the top carries the district blue, or a school's colors when a theme is applied. Include a skip link as the very first element on every page.</p>
+
+      <h3>Header</h3>
+      <script type="text/html" class="ds-example" data-pad="none">
+<div class="ds-demo-header">
+  <header class="ou-header">
+    <div class="ou-container ou-header__inner">
+      <a class="ou-header__brand" href="#navigation">
+        <img src="brand/logos/svg/ouhsd-logo-horizontal-color.svg" alt="Oxnard Union High School District">
+      </a>
+      <nav class="ou-header__nav" aria-label="Main">
+        <ul class="ou-nav">
+          <li><a href="#navigation" aria-current="page">Dashboard</a></li>
+          <li><a href="#navigation">Students</a></li>
+          <li><a href="#navigation">Reports</a></li>
+          <li><a href="#navigation">Help</a></li>
+        </ul>
+      </nav>
+      <div class="ou-header__end"><span class="ou-avatar" title="Teo Lopez">TL</span></div>
     </div>
-  </section>
+  </header>
+</div>
+      </script>
+      <p class="ds-table-note">Below 840px the navigation collapses behind a Menu button. The templates include the full responsive version.</p>
 
-  <section id="note" style="border-top:none;padding-top:0;">
-    <div class="closing-note">
-      <strong>Building something new for OUHSD?</strong> Start from these components instead of one-off styling — the brand guidelines page, the email signature generator, and this hub's landing page are all built on the same color roles, type scale, and button/field/card/chip patterns shown above.
+      <h3>Breadcrumb, pagination, and side navigation</h3>
+      <script type="text/html" class="ds-example">
+<div class="ou-grid" style="--ou-grid-min: 17rem;">
+  <div class="ou-stack">
+    <nav class="ou-breadcrumb" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="#navigation">Home</a></li>
+        <li><a href="#navigation">Students</a></li>
+        <li><span aria-current="page">Maria Lopez</span></li>
+      </ol>
+    </nav>
+    <nav class="ou-pagination" aria-label="Pagination">
+      <ul>
+        <li><a href="#navigation" aria-label="Previous page"><span class="ou-icon ou-icon--chevron-left" aria-hidden="true"></span></a></li>
+        <li><a href="#navigation" aria-label="Page 1">1</a></li>
+        <li><a href="#navigation" aria-current="page" aria-label="Page 2, current page">2</a></li>
+        <li><a href="#navigation" aria-label="Page 3">3</a></li>
+        <li><a href="#navigation" aria-label="Next page"><span class="ou-icon ou-icon--chevron-right" aria-hidden="true"></span></a></li>
+      </ul>
+    </nav>
+  </div>
+  <nav aria-label="Section">
+    <ul class="ou-sidenav">
+      <li><a href="#navigation" aria-current="page"><span class="ou-icon ou-icon--home" aria-hidden="true"></span> Overview</a></li>
+      <li><a href="#navigation"><span class="ou-icon ou-icon--user" aria-hidden="true"></span> Students</a></li>
+      <li><a href="#navigation"><span class="ou-icon ou-icon--calendar" aria-hidden="true"></span> Calendar</a></li>
+    </ul>
+  </nav>
+</div>
+      </script>
+    </section>
+
+    <!-- ============ CONTENT BLOCKS ============ -->
+    <section id="content">
+      <p class="ou-eyebrow">Components</p>
+      <h2>Content blocks</h2>
+      <p>Lists, quotes, definition lists, stats, and calls to action for the content between components.</p>
+      <script type="text/html" class="ds-example">
+<div class="ou-grid" style="--ou-grid-min: 16rem;">
+  <div>
+    <h3 style="margin-bottom: var(--ou-space-3); font-size: var(--ou-text-lg);">Steps</h3>
+    <ol>
+      <li>Fill in your name, title, and department.</li>
+      <li>Upload a photo (optional).</li>
+      <li>Select <strong>Copy signature</strong>.</li>
+    </ol>
+  </div>
+  <dl class="ou-dl" style="grid-template-columns: 1fr;">
+    <dt>School</dt><dd>Pacifica High School</dd>
+    <dt>Mascot</dt><dd>Tritons</dd>
+    <dt>Enrolled</dt><dd>Fall 2026</dd>
+  </dl>
+  <div class="ou-cluster" style="--ou-cluster-gap: var(--ou-space-6); align-items: flex-start;">
+    <div class="ou-stat"><span class="ou-stat__value">13</span><span class="ou-stat__label">Schools</span></div>
+    <div class="ou-stat"><span class="ou-stat__value">2</span><span class="ou-stat__label">Languages</span></div>
+  </div>
+</div>
+      </script>
+      <script type="text/html" class="ds-example">
+<div class="ou-stack ou-stack--lg">
+  <blockquote class="ou-quote">
+    Consistency in our materials builds trust with every family we serve.
+    <cite>OUHSD Communications and Marketing</cite>
+  </blockquote>
+  <figure class="ou-pullquote" style="margin-inline: auto;">
+    <p>One place, instead of a dozen old files.</p>
+    <cite>From the Communications Hub mission statement</cite>
+  </figure>
+  <div class="ou-cta">
+    <div>
+      <h3>Need an email signature?</h3>
+      <p>Build one in under a minute with your name, title, and photo.</p>
     </div>
-  </section>
+    <a class="ou-btn ou-btn--inverse" href="email-signature-generator.html">Open the generator</a>
+  </div>
+</div>
+      </script>
+    </section>
 
-</main>
+    <!-- ============ PATTERNS ============ -->
+    <section id="patterns">
+      <p class="ou-eyebrow">Build</p>
+      <h2>Page templates</h2>
+      <p>Four complete starting pages. Copy the closest one, then change content only. Each is a single HTML file that links the published system, so it works as-is.</p>
+      <div class="ou-grid" style="--ou-grid-min: 15rem; margin-top: var(--ou-space-5);">
+        <article class="ou-card ou-card--interactive"><span class="ou-eyebrow ou-card__eyebrow">Template</span><h3 class="ou-card__title"><a class="ou-card__link" href="design-system/templates/login.html">Sign in</a></h3><p class="ou-card__body">Google Workspace sign-in with a help panel and clear error handling.</p></article>
+        <article class="ou-card ou-card--interactive"><span class="ou-eyebrow ou-card__eyebrow">Template</span><h3 class="ou-card__title"><a class="ou-card__link" href="design-system/templates/dashboard.html">Dashboard</a></h3><p class="ou-card__body">Header, side navigation, key numbers, alerts, and a recent activity table.</p></article>
+        <article class="ou-card ou-card--interactive"><span class="ou-eyebrow ou-card__eyebrow">Template</span><h3 class="ou-card__title"><a class="ou-card__link" href="design-system/templates/form.html">Form page</a></h3><p class="ou-card__body">A multi-section form with validation, an error summary, and a confirmation step.</p></article>
+        <article class="ou-card ou-card--interactive"><span class="ou-eyebrow ou-card__eyebrow">Template</span><h3 class="ou-card__title"><a class="ou-card__link" href="design-system/templates/list-detail.html">List and detail</a></h3><p class="ou-card__body">Searchable, filterable table with a detail dialog and pagination.</p></article>
+      </div>
+    </section>
 
-<footer>
-  <div class="wrap"><p>Oxnard Union High School District — UI Components &amp; Style Guide.</p></div>
+    <!-- ============ THEMES ============ -->
+    <section id="themes">
+      <p class="ou-eyebrow">Build</p>
+      <h2>School themes</h2>
+      <p>A school-specific app keeps the district system and swaps only the school accent: add one stylesheet and one attribute. The header stripe, accent cards, and school badges pick up the school colors. Action red, link blue, focus rings, and status colors never change, so every app behaves the same way.</p>
+      <script type="text/html" class="ds-example">
+<link rel="stylesheet" href="https://teolopez-ouhsd.github.io/communications/design-system/v1/themes/pacifica.css">
+<html lang="en" data-school="pacifica">
+      </script>
+      <div class="ou-grid" style="--ou-grid-min: 15rem; margin-top: var(--ou-space-5);" id="theme-previews"></div>
+      <p class="ds-table-note">Three themes ship in v1: Pacifica, Del Sol, and Channel Islands. To add a school, copy <code>themes/_template.css</code>, fill in the colors from that school's brand guide, and check the contrast rules listed in the file.</p>
+    </section>
+
+    <!-- ============ LANGUAGE ============ -->
+    <section id="language">
+      <p class="ou-eyebrow">Guidance</p>
+      <h2>Content and language</h2>
+      <p>Good interface writing is short, specific, and kind. These rules apply to every label, message, and button.</p>
+      <div class="ds-rules">
+        <div class="ds-rule ds-rule--do"><p class="ds-rule__title">Write like this</p><ul>
+          <li>Plain words at about an 8th-grade reading level. Say "use", not "utilize".</li>
+          <li>Buttons start with a verb and name the result: "Send message".</li>
+          <li>Errors say what happened and how to fix it: "Enter all 10 digits."</li>
+          <li>Sentence case everywhere. Capitalize only names and the first word.</li>
+          <li>Speak to the person: "Your request was sent."</li>
+        </ul></div>
+        <div class="ds-rule ds-rule--dont"><p class="ds-rule__title">Not like this</p><ul>
+          <li>Jargon and acronyms without explanation.</li>
+          <li>Blame: "You entered an invalid value."</li>
+          <li>Exclamation points, except for rare celebrations.</li>
+          <li>Text inside images. It cannot be translated or read aloud.</li>
+          <li>"Click here" as link text.</li>
+        </ul></div>
+      </div>
+
+      <h3>English and Spanish</h3>
+      <ul class="ou-stack ou-stack--sm" style="max-width: var(--ou-measure);">
+        <li>Build every screen to work in both languages from day one. Put the <code>lang</code> attribute on the page, and on any phrase in the other language.</li>
+        <li>Allow about 30 percent more room for Spanish. Never fix a button or label to its English width, and never cut text off with an ellipsis.</li>
+        <li>District and school names are never translated. Write "Oxnard Union High School District" and "Pacifica High School" in both languages.</li>
+        <li>The general term "high school" becomes <b>preparatoria</b>, not "secundaria".</li>
+        <li>Enrolling a student is <b>inscribir</b> (inscripción). Signing up for classes is <b>registrarse</b> (registro de clases). Keep the two ideas apart.</li>
+        <li>Have a fluent Spanish speaker review the final copy. Machine translation is a draft, not a finish.</li>
+      </ul>
+    </section>
+
+    <!-- ============ ACCESSIBILITY ============ -->
+    <section id="accessibility">
+      <p class="ou-eyebrow">Guidance</p>
+      <h2>Accessibility</h2>
+      <p>District web applications must meet WCAG 2.1 Level AA. The components already do the hard parts; your job is to use them as written and run these checks before launch.</p>
+      <div class="ou-table-wrap" style="margin-top: var(--ou-space-4);">
+        <table class="ou-table ou-table--dense ou-table--stack">
+          <caption class="ou-visually-hidden">Accessibility checks</caption>
+          <thead><tr><th scope="col">Check</th><th scope="col">How to test</th></tr></thead>
+          <tbody>
+            <tr><th scope="row" data-label="Check">Keyboard only</th><td data-label="How to test">Put the mouse away. Tab through the page. Every control works, the order makes sense, and the focus ring is always visible.</td></tr>
+            <tr><th scope="row" data-label="Check">Zoom and reflow</th><td data-label="How to test">Zoom the browser to 200 percent and resize to 360px wide. Nothing is cut off and nothing scrolls sideways except data tables.</td></tr>
+            <tr><th scope="row" data-label="Check">Headings and landmarks</th><td data-label="How to test">One <code>h1</code>, levels in order, one <code>main</code>, a skip link first, navigation labeled.</td></tr>
+            <tr><th scope="row" data-label="Check">Labels and errors</th><td data-label="How to test">Every field has a visible label. Every error is in words, next to the field, and tied to it with <code>aria-describedby</code>.</td></tr>
+            <tr><th scope="row" data-label="Check">Images</th><td data-label="How to test">Meaningful images have alt text that says what they show. Decorative images use <code>alt=""</code>.</td></tr>
+            <tr><th scope="row" data-label="Check">Screen reader</th><td data-label="How to test">Complete the main task with VoiceOver (Mac, iPhone) or NVDA (Windows) with your screen off.</td></tr>
+            <tr><th scope="row" data-label="Check">Automated scan</th><td data-label="How to test">Run axe DevTools or Lighthouse. Fix every issue it reports. A clean scan catches about a third of problems, so it supports the manual checks and never replaces them.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ============ GOVERNANCE ============ -->
+    <section id="governance">
+      <p class="ou-eyebrow">Guidance</p>
+      <h2>Governance</h2>
+      <p>The system works only if everyone uses the same one. These lightweight rules keep it stable without needing Communications in every project.</p>
+
+      <h3>Ready to ship checklist</h3>
+      <p>The team lead confirms each item before a new app goes live.</p>
+      <div class="ou-card" style="margin-top: var(--ou-space-4); max-width: var(--ou-measure);">
+        <label class="ou-check"><input type="checkbox"> <span>Links the published <code>ouhsd.css</code> at a versioned URL</span></label>
+        <label class="ou-check"><input type="checkbox"> <span>Uses only tokens and <code>ou-</code> classes, with no custom colors or font sizes</span></label>
+        <label class="ou-check"><input type="checkbox"> <span>Starts from a district page template</span></label>
+        <label class="ou-check"><input type="checkbox"> <span>One red action button per screen at most</span></label>
+        <label class="ou-check"><input type="checkbox"> <span>Passes the keyboard, zoom, and screen reader checks</span></label>
+        <label class="ou-check"><input type="checkbox"> <span>Works at 360px wide and in English and Spanish</span></label>
+        <label class="ou-check"><input type="checkbox"> <span>Uses approved logo files and the district footer</span></label>
+      </div>
+
+      <h3>Versions and changes</h3>
+      <ul class="ou-stack ou-stack--sm" style="max-width: var(--ou-measure);">
+        <li><b>Patch</b> (1.0.1): fixes that change nothing visible. Teams get them automatically.</li>
+        <li><b>Minor</b> (1.1.0): new components or tokens. Existing apps are unaffected.</li>
+        <li><b>Major</b> (2.0.0): anything that changes how existing markup looks. Published at a new <code>v2</code> URL; teams move when ready.</li>
+      </ul>
+      <p style="margin-top: var(--ou-space-4);">Need something the system lacks? Ask Communications and Marketing before building a one-off. If the need is real, it becomes a component for everyone.</p>
+
+      <h3>Planned for v1.1</h3>
+      <p>Dropdown menu, combobox, date picker, stepper, tooltip, selectable data table, and an optional dark mode. Until then, use the closest existing component and ask before inventing a new one.</p>
+    </section>
+
+  </main>
+</div>
+
+<footer class="ou-footer ou-on-dark">
+  <div class="ou-container">
+    <div class="ou-cluster ou-cluster--between">
+      <img src="brand/logos/svg/ouhsd-logo-horizontal-white.svg" alt="Oxnard Union High School District" style="height: 2.5rem;">
+      <a href="index.html">Communications and Marketing Hub</a>
+    </div>
+    <p class="ou-footer__legal">Oxnard Union High School District. Design System v1.0. Maintained by Communications and Marketing.</p>
+  </div>
 </footer>
 
+<script src="design-system/v1/ouhsd-ui.js" defer></script>
 <script>
-  document.querySelectorAll('.m-btn, .m-card, .m-chip').forEach(el=>{
-    el.addEventListener('click', function(e){
-      const rect = this.getBoundingClientRect();
-      const ripple = document.createElement('span');
-      const size = Math.max(rect.width, rect.height);
-      ripple.className = 'ripple';
-      ripple.style.width = ripple.style.height = size + 'px';
-      ripple.style.left = (e.clientX - rect.left - size/2) + 'px';
-      ripple.style.top = (e.clientY - rect.top - size/2) + 'px';
-      this.style.position = this.style.position || 'relative';
-      this.appendChild(ripple);
-      setTimeout(()=>ripple.remove(), 600);
-    });
-  });
-  document.querySelectorAll('.m-chip').forEach(chip=>{
-    chip.addEventListener('click', function(){
-      document.querySelectorAll('.m-chip').forEach(c=>c.classList.remove('selected'));
-      this.classList.add('selected');
-    });
-  });
-  document.querySelectorAll('.m-tab').forEach(tab=>{
-    tab.addEventListener('click', function(){
-      const scope = this.closest('.m-tabs').parentElement;
-      scope.querySelectorAll('.m-tab').forEach(t=>t.classList.remove('active'));
-      this.classList.add('active');
-      const target = this.getAttribute('data-panel');
-      if(target){
-        scope.querySelectorAll('.m-tab-panel').forEach(p=>p.classList.remove('active'));
-        const panel = scope.querySelector('#' + target);
-        if(panel) panel.classList.add('active');
-      }
-    });
+(function () {
+  'use strict';
+
+  /* ---------- Color utilities ---------- */
+  function tokenRgb(token) {
+    var probe = document.createElement('span');
+    probe.style.color = 'var(' + token + ')';
+    probe.style.display = 'none';
+    document.body.appendChild(probe);
+    var rgb = getComputedStyle(probe).color;
+    document.body.removeChild(probe);
+    var m = rgb.match(/\d+(\.\d+)?/g).slice(0, 3).map(Number);
+    return m;
+  }
+  function hex(rgb) { return '#' + rgb.map(function (n) { return Math.round(n).toString(16).padStart(2, '0'); }).join('').toUpperCase(); }
+  function lum(rgb) {
+    var c = rgb.map(function (v) { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); });
+    return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
+  }
+  function ratio(a, b) {
+    var la = lum(a), lb = lum(b);
+    if (la < lb) { var t = la; la = lb; lb = t; }
+    return (la + 0.05) / (lb + 0.05);
+  }
+
+  /* ---------- Color role swatches ---------- */
+  var roles = [
+    ['Brand', '--ou-color-brand', '--ou-color-on-brand'],
+    ['Brand container', '--ou-color-brand-container', '--ou-color-on-brand-container'],
+    ['Brand deep', '--ou-color-brand-deep', '--ou-color-on-brand'],
+    ['Action', '--ou-color-action', '--ou-color-on-action'],
+    ['Action container', '--ou-color-action-container', '--ou-color-on-action-container'],
+    ['Surface', '--ou-color-surface', '--ou-color-text'],
+    ['Background', '--ou-color-bg', '--ou-color-text'],
+    ['Surface muted', '--ou-color-surface-muted', '--ou-color-text'],
+    ['Text', '--ou-color-text', '--ou-color-surface'],
+    ['Text muted', '--ou-color-text-muted', '--ou-color-surface'],
+    ['Success', '--ou-color-success', '--ou-color-surface'],
+    ['Warning', '--ou-color-warning', '--ou-color-surface'],
+    ['Error', '--ou-color-error', '--ou-color-surface']
+  ];
+  var sw = document.getElementById('swatches');
+  roles.forEach(function (r) {
+    var bg = tokenRgb(r[1]), fg = tokenRgb(r[2]), cr = ratio(bg, fg);
+    var el = document.createElement('div');
+    el.className = 'ds-swatch';
+    el.innerHTML = '<div class="ds-swatch__chip" style="background:var(' + r[1] + '); color:var(' + r[2] + '); box-shadow: inset 0 0 0 1px var(--ou-color-border);"><span>Aa</span><span class="ou-nowrap" style="font-size:var(--ou-text-xs);">' + cr.toFixed(1) + ':1</span></div>' +
+      '<div class="ds-swatch__meta"><b>' + r[0] + '</b><code>' + r[1] + '</code><code>' + hex(bg) + '</code></div>';
+    sw.appendChild(el);
   });
 
-  // ---- Accordion ----
-  function setAccordionHeight(item, open){
-    const body = item.querySelector('.m-accordion-body');
-    if(open){
-      item.classList.add('open');
-      body.style.maxHeight = body.scrollHeight + 'px';
-    }else{
-      item.classList.remove('open');
-      body.style.maxHeight = '0px';
-    }
+  /* ---------- Pairing table ---------- */
+  var pairs = [
+    ['Body text on page', '--ou-color-text', '--ou-color-bg', 4.5],
+    ['Body text on card', '--ou-color-text', '--ou-color-surface', 4.5],
+    ['Muted text on card', '--ou-color-text-muted', '--ou-color-surface', 4.5],
+    ['Muted text on page', '--ou-color-text-muted', '--ou-color-bg', 4.5],
+    ['Muted text on table header', '--ou-color-text-muted', '--ou-color-surface-muted', 4.5],
+    ['Link on card', '--ou-color-link', '--ou-color-surface', 4.5],
+    ['Link on page', '--ou-color-link', '--ou-color-bg', 4.5],
+    ['Primary button text', '--ou-color-on-brand', '--ou-color-brand', 4.5],
+    ['Action button text', '--ou-color-on-action', '--ou-color-action', 4.5],
+    ['Tonal button text', '--ou-color-on-brand-container', '--ou-color-brand-container', 4.5],
+    ['Action container text', '--ou-color-on-action-container', '--ou-color-action-container', 4.5],
+    ['Text on brand deep (footer)', '--ou-color-on-brand', '--ou-color-brand-deep', 4.5],
+    ['Success text on container', '--ou-color-success', '--ou-color-success-container', 4.5],
+    ['Warning text on container', '--ou-color-warning', '--ou-color-warning-container', 4.5],
+    ['Error text on container', '--ou-color-error', '--ou-color-error-container', 4.5],
+    ['Input border on card (3:1)', '--ou-color-border-strong', '--ou-color-surface', 3],
+    ['Input border on page (3:1)', '--ou-color-border-strong', '--ou-color-bg', 3],
+    ['Focus ring on card (3:1)', '--ou-color-focus', '--ou-color-surface', 3]
+  ];
+  var tb = document.querySelector('#pair-table tbody');
+  pairs.forEach(function (p) {
+    var cr = ratio(tokenRgb(p[1]), tokenRgb(p[2]));
+    var ok = cr >= p[3];
+    var tr = document.createElement('tr');
+    tr.innerHTML = '<th scope="row">' + p[0] + '</th><td><code>' + p[1] + '</code></td><td><code>' + p[2] + '</code></td><td class="ou-num">' + cr.toFixed(2) + ':1</td><td><span class="ou-badge ' + (ok ? 'ou-badge--success' : 'ou-badge--error') + '">' + (ok ? 'Passes AA' : 'Fails') + '</span></td>';
+    tb.appendChild(tr);
+  });
+
+  /* ---------- Type scale ---------- */
+  var types = [
+    ['5xl', '--ou-text-5xl', 'Display, hero only', 'var(--ou-font-display)', 800, 'Oxnard Union'],
+    ['4xl', '--ou-text-4xl', 'Landing page title', 'var(--ou-font-display)', 800, 'Oxnard Union'],
+    ['3xl', '--ou-text-3xl', 'h1, page title', 'var(--ou-font-display)', 700],
+    ['2xl', '--ou-text-2xl', 'h2, section', 'var(--ou-font-display)', 700],
+    ['xl', '--ou-text-xl', 'h3, subsection', 'var(--ou-font-display)', 700],
+    ['lg', '--ou-text-lg', 'h4, lead paragraph', 'var(--ou-font-display)', 700],
+    ['md', '--ou-text-md', 'Body text, minimum', 'var(--ou-font-body)', 400],
+    ['sm', '--ou-text-sm', 'Labels, tables, help', 'var(--ou-font-body)', 600],
+    ['xs', '--ou-text-xs', 'Captions, legal', 'var(--ou-font-body)', 600]
+  ];
+  var ts = document.getElementById('type-scale');
+  types.forEach(function (t) {
+    var px = parseFloat(getComputedStyle(document.documentElement).fontSize) * parseFloat(getComputedStyle(document.documentElement).getPropertyValue(t[1]));
+    var row = document.createElement('div');
+    row.className = 'ds-scale__row';
+    row.innerHTML = '<div class="ds-scale__label"><b>' + t[0] + ' (' + Math.round(px) + 'px)</b><code>' + t[1] + '</code><br>' + t[2] + '</div><div style="font-family:' + t[3] + '; font-weight:' + t[4] + '; font-size:var(' + t[1] + '); line-height:1.2; letter-spacing:-0.01em;">' + (t[5] || 'Oxnard Union High School District') + '</div>';
+    ts.appendChild(row);
+  });
+
+  /* ---------- Spacing scale ---------- */
+  var sp = document.getElementById('space-scale');
+  [1, 2, 3, 4, 5, 6, 7, 8, 9].forEach(function (n) {
+    var token = '--ou-space-' + n;
+    var px = Math.round(parseFloat(getComputedStyle(document.documentElement).getPropertyValue(token)) * 16);
+    var row = document.createElement('div');
+    row.className = 'ds-scale__row';
+    row.innerHTML = '<div class="ds-scale__label"><b>Space ' + n + ' (' + px + 'px)</b><code>' + token + '</code></div><div><div class="ds-space-bar" style="width:var(' + token + ');"></div></div>';
+    sp.appendChild(row);
+  });
+
+  /* ---------- Icons ---------- */
+  var icons = ['check', 'x', 'info', 'alert', 'warning', 'success', 'chevron-down', 'chevron-up', 'chevron-right', 'chevron-left', 'arrow-right', 'search', 'menu', 'user', 'calendar', 'download', 'external', 'plus', 'edit', 'trash', 'mail', 'phone', 'home', 'globe', 'lock', 'filter', 'sort'];
+  var ig = document.getElementById('icon-grid');
+  icons.forEach(function (n) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'ds-icon';
+    b.setAttribute('data-ou-copy-text', '<span class="ou-icon ou-icon--' + n + '" aria-hidden="true"></span>');
+    b.setAttribute('data-ou-copied', 'Copied markup for ' + n);
+    b.innerHTML = '<span class="ou-icon ou-icon--' + n + '" aria-hidden="true"></span><span>' + n + '</span>';
+    b.setAttribute('aria-label', 'Copy markup for ' + n + ' icon');
+    ig.appendChild(b);
+  });
+
+  /* ---------- Theme previews ---------- */
+  var themes = [
+    ['Pacifica', 'pacifica', 'linear-gradient(90deg, #006747 0 60%, #CC8A00 60% 85%, #A2AAAD 85% 100%)', '#006747', '#FFFFFF', '#E0EDE9', '#004D35'],
+    ['Del Sol', 'del-sol', 'linear-gradient(90deg, #FF671F 0 60%, #FFB81C 60% 100%)', '#FF671F', '#14161B', '#FFEDE4', '#6E2C0D'],
+    ['Channel Islands', 'channel-islands', 'linear-gradient(90deg, #003DA5 0 60%, #F2A900 60% 85%, #0072CE 85% 100%)', '#003DA5', '#FFFFFF', '#E0E8F4', '#00266A']
+  ];
+  var tp = document.getElementById('theme-previews');
+  themes.forEach(function (t) {
+    var d = document.createElement('div');
+    d.className = 'ou-card';
+    d.style.padding = '0';
+    d.style.overflow = 'hidden';
+    d.innerHTML = '<div style="height:4px; background:' + t[2] + ';"></div><div style="padding:var(--ou-space-4); display:grid; gap:var(--ou-space-3);"><h3 class="ou-card__title">' + t[0] + '</h3><div class="ou-cluster"><span class="ou-badge" style="background:' + t[5] + '; color:' + t[6] + ';">School badge</span><span class="ou-badge" style="background:' + t[3] + '; color:' + t[4] + ';">Primary fill</span></div><p class="ds-ratio"><code style="background:none;padding:0;">data-school="' + t[1] + '"</code></p></div>';
+    tp.appendChild(d);
+  });
+
+  /* ---------- Live examples: render the HTML and show its source ---------- */
+  function dedent(s) {
+    var lines = s.replace(/^\n+|\s+$/g, '').split('\n');
+    var min = Infinity;
+    lines.forEach(function (l) { if (l.trim()) min = Math.min(min, l.match(/^\s*/)[0].length); });
+    return lines.map(function (l) { return l.slice(isFinite(min) ? min : 0); }).join('\n');
   }
-  document.querySelectorAll('.m-accordion-item').forEach(item=>{
-    setAccordionHeight(item, item.classList.contains('open'));
-    item.querySelector('.m-accordion-head').addEventListener('click', ()=>{
-      const willOpen = !item.classList.contains('open');
-      setAccordionHeight(item, willOpen);
+  document.querySelectorAll('script.ds-example').forEach(function (s) {
+    var src = dedent(s.textContent);
+    var isSnippetOnly = /^<link|^<html/.test(src);
+    var wrap = document.createElement('div');
+    wrap.className = 'ds-example';
+    if (!isSnippetOnly) {
+      var stage = document.createElement('div');
+      stage.className = 'ds-stage';
+      if (s.dataset.bg) stage.setAttribute('data-bg', s.dataset.bg);
+      if (s.dataset.pad) stage.setAttribute('data-pad', s.dataset.pad);
+      stage.innerHTML = src;
+      wrap.appendChild(stage);
+    }
+    var det = document.createElement('details');
+    det.className = 'ds-code';
+    if (isSnippetOnly) det.open = true;
+    var sum = document.createElement('summary');
+    sum.textContent = isSnippetOnly ? 'Code' : 'View code';
+    var bar = document.createElement('div');
+    bar.className = 'ds-code__bar';
+    var copy = document.createElement('button');
+    copy.type = 'button';
+    copy.className = 'ou-btn ou-btn--inverse-outline ou-btn--sm';
+    copy.innerHTML = '<span class="ou-icon ou-icon--check" aria-hidden="true" style="display:none"></span>Copy code';
+    copy.addEventListener('click', function () {
+      if (navigator.clipboard) navigator.clipboard.writeText(src).then(function () { OUHSD.toast('Code copied', { type: 'success', duration: 2000 }); });
     });
+    bar.appendChild(copy);
+    var pre = document.createElement('pre');
+    pre.tabIndex = 0;
+    pre.setAttribute('aria-label', 'Code example');
+    var code = document.createElement('code');
+    code.textContent = src;
+    pre.appendChild(code);
+    det.appendChild(sum);
+    det.appendChild(bar);
+    det.appendChild(pre);
+    wrap.appendChild(det);
+    s.replaceWith(wrap);
   });
-  window.addEventListener('resize', ()=>{
-    document.querySelectorAll('.m-accordion-item.open').forEach(item=> setAccordionHeight(item, true));
-  });
+
+  /* ---------- Sidebar: open on desktop, collapsible on phones ---------- */
+  var details = document.getElementById('side-details');
+  var mq = window.matchMedia('(min-width: 960px)');
+  function syncSide() { details.open = mq.matches; }
+  syncSide();
+  if (mq.addEventListener) mq.addEventListener('change', syncSide);
+  details.querySelectorAll('a').forEach(function (a) { a.addEventListener('click', function () { if (!mq.matches) details.open = false; }); });
+
+  /* ---------- Highlight current section in sidebar ---------- */
+  var links = Array.prototype.slice.call(document.querySelectorAll('.ds-side a'));
+  var map = {};
+  links.forEach(function (a) { map[a.getAttribute('href').slice(1)] = a; });
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting && map[e.target.id]) {
+          links.forEach(function (a) { a.removeAttribute('aria-current'); });
+          map[e.target.id].setAttribute('aria-current', 'location');
+        }
+      });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+    document.querySelectorAll('.ds-main > section[id]').forEach(function (s) { io.observe(s); });
+  }
+})();
 </script>
 </body>
 </html>
